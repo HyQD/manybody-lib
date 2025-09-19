@@ -118,9 +118,15 @@ We use the following parametrization of the CISD ket and bra wavefunction
 where the left expansion coefficients $\tilde{C}$ are related to the right coefficients $C$ by
 \begin{align}
     \tilde{C}_0 &= C_0^*, \\
-    \tilde{C}^i_a &= 2 C^{a *}_i,
-    \tilde{C}^{ij}_{ab} = \left(4C^{ab}_{ij}-2C^{ab}_{ji} \right)^*.
+    \tilde{C}^i_a &= 2 C^{a *}_i, \\
+    \tilde{C}^{ij}_{ab} &= \left(4C^{ab}_{ij}-2C^{ab}_{ji} \right)^*,
 \end{align}
+and the doubles coefficients satisfy the symmetry relation
+\begin{align}
+    C^{ab}_{ij} &= C^{ba}_{ji}, \\
+    \tilde{C}^{ij}_{ab} &= \tilde{C}^{ji}_{ba}.
+\end{align}
+
 The norm/overlap of the bra and ket states is given by
 \begin{equation}
     \braket{\tilde{\Psi}|\Psi} = \tilde{C}_0 C_0 + \sum_{ai} \tilde{C}^i_a C^a_i + \frac{1}{2} \sum_{abij} \tilde{C}^{ij}_{ab} C^{ab}_{ij},
@@ -152,6 +158,11 @@ and the CCSD energy functional is given by
 \begin{equation}
     \mathcal{H} = \braket{\tilde{\Psi}|\hat{H}|\Psi}.
 \end{equation}
+Similar to CISD, the doubles amplitudes satisfy the symmetry relation
+\begin{align}
+    \tau^{ab}_{ij} &= \tau^{ba}_{ji}, \\
+    \lambda^{ij}_{ab} &= \lambda^{ji}_{ba}.
+\end{align}
 
 The CCSD-amplitudes $(\lambda, \tau)$ (for the ground state) are determined by solving the (non-linear) amplitude equations
 \begin{align}
