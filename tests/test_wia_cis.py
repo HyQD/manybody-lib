@@ -1,6 +1,6 @@
 import numpy as np
 import pytest
-from cis_functions import (
+from manybody_lib.closed_shell.cis.cis_functions import (
     compute_L,
     compute_norm,
     compute_rho_pq,
