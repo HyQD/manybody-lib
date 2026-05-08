@@ -1,10 +1,5 @@
 import sys
 import types
-from pathlib import Path
-
-# Make cis_functions and cisd_functions importable
-sys.path.insert(0, str(Path(__file__).parent.parent / "src" / "closed_shell" / "cis"))
-sys.path.insert(0, str(Path(__file__).parent.parent / "src" / "closed_shell" / "cisd"))
 
 # Provide a minimal stub for the 'utils' module (Counter is only used in CI_step)
 utils_stub = types.ModuleType("utils")
