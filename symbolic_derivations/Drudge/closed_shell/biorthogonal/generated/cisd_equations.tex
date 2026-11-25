@@ -1,0 +1,116 @@
+% Closed-shell CISD in the HJO biorthogonal basis
+% Column symmetry: C^{ab}_{ij}=C^{ba}_{ji}, \widetilde{C}^{ij}_{ab}=\widetilde{C}^{ji}_{ba}.
+% For a Hermitian bra: \widetilde{C}_{0}=C_{0}^{*}, \widetilde{C}^{i}_{a}=2(C^{a}_{i})^{*}, \widetilde{C}^{ij}_{ab}=\left(4C^{ab}_{ij}-2C^{ab}_{ji}\right)^{*}.
+% No normalization denominator has been applied.
+
+\subsubsection{Norm}
+\begin{align*}
+\langle\widetilde{\Psi}\vert\Psi\rangle &= C_{0} \widetilde{C}_{0}   + \frac{1}{2} C^{ab}_{ij}  \widetilde{C}^{ij}_{ab}   + C^{a}_{i}  \widetilde{C}^{i}_{a}
+\end{align*}
+
+\subsubsection{Right sigma vector}
+\begin{align*}
+\sigma_{0} &= C_{0} E_{\mathrm{ref}}   + C^{ab}_{ij}  L^{ij}_{ab}   + 2 C^{a}_{i}  f^{i}_{a} \\
+\sigma^{a}_{i} &= C_{0} f^{a}_{i}  \\
+  &\quad  + E_{\mathrm{ref}} C^{a}_{i}  \\
+  &\quad  + C^{bc}_{ij}  L^{aj}_{bc}  \\
+  &\quad  + C^{b}_{i}  f^{a}_{b}  \\
+  &\quad - C^{ab}_{jk}  L^{jk}_{ib}  \\
+  &\quad - f^{j}_{b}  C^{ab}_{ji}  \\
+  &\quad  + C^{b}_{j}  L^{aj}_{ib}  \\
+  &\quad  + 2 f^{j}_{b}  C^{ab}_{ij}  \\
+  &\quad - C^{a}_{j}  f^{j}_{i} \\
+\sigma^{ab}_{ij} &= C^{ab}_{kl}  u^{kl}_{ij}  \\
+  &\quad  + C_{0} u^{ab}_{ij}  \\
+  &\quad  + E_{\mathrm{ref}} C^{ab}_{ij}  \\
+  &\quad  + C^{cd}_{ij}  u^{ab}_{cd} \\
+  &\quad + \mathcal{P}^{ab}_{ij}\Bigl[ C^{a}_{i}  f^{b}_{j}  \\
+  &\quad  + C^{c}_{i}  u^{ab}_{cj}  \\
+  &\quad  + f^{b}_{c}  C^{ac}_{ij}  \\
+  &\quad - C^{a}_{k}  u^{bk}_{ji}  \\
+  &\quad - f^{k}_{j}  C^{ab}_{ik}  \\
+  &\quad  + C^{ac}_{ik}  L^{bk}_{jc}  \\
+  &\quad - C^{ac}_{ki}  u^{bk}_{jc}  \\
+  &\quad - C^{ac}_{kj}  u^{bk}_{ci} \Bigr]
+\end{align*}
+
+\subsubsection{Left sigma vector}
+\begin{align*}
+\widetilde{\sigma}_{0} &= \widetilde{C}_{0} E_{\mathrm{ref}}   + \frac{1}{2} \widetilde{C}^{ij}_{ab}  u^{ab}_{ij}   + \widetilde{C}^{i}_{a}  f^{a}_{i} \\
+\widetilde{\sigma}^{i}_{a} &= E_{\mathrm{ref}} \widetilde{C}^{i}_{a}  \\
+  &\quad  + 2 \widetilde{C}_{0} f^{i}_{a}  \\
+  &\quad  + \widetilde{C}^{ij}_{bc}  u^{bc}_{aj}  \\
+  &\quad  + \widetilde{C}^{i}_{b}  f^{b}_{a}  \\
+  &\quad  + f^{b}_{j}  \widetilde{C}^{ij}_{ab}  \\
+  &\quad  + \widetilde{C}^{j}_{b}  L^{ib}_{aj}  \\
+  &\quad - \widetilde{C}^{j}_{a}  f^{i}_{j}  \\
+  &\quad - \widetilde{C}^{jk}_{ab}  u^{ib}_{jk} \\
+\widetilde{\sigma}^{ij}_{ab} &= E_{\mathrm{ref}} \widetilde{C}^{ij}_{ab}  \\
+  &\quad  + 2 \widetilde{C}_{0} L^{ij}_{ab}  \\
+  &\quad  + \widetilde{C}^{kl}_{ab}  u^{ij}_{kl}  \\
+  &\quad  + \widetilde{C}^{ij}_{cd}  u^{cd}_{ab} \\
+  &\quad + \mathcal{P}^{ij}_{ab}\Bigl[ - \widetilde{C}^{i}_{b}  f^{j}_{a}  \\
+  &\quad  + 2 \widetilde{C}^{i}_{a}  f^{j}_{b}  \\
+  &\quad  + f^{c}_{b}  \widetilde{C}^{ij}_{ac}  \\
+  &\quad  + \widetilde{C}^{i}_{c}  L^{cj}_{ab}  \\
+  &\quad - f^{j}_{k}  \widetilde{C}^{ik}_{ab}  \\
+  &\quad - \widetilde{C}^{k}_{a}  L^{ij}_{kb}  \\
+  &\quad  + \widetilde{C}^{ik}_{ac}  L^{cj}_{kb}  \\
+  &\quad - \widetilde{C}^{ik}_{bc}  u^{cj}_{ka}  \\
+  &\quad - \widetilde{C}^{ik}_{cb}  u^{cj}_{ak} \Bigr]
+\end{align*}
+
+\subsubsection{One-body reduced density matrix}
+\begin{align*}
+\gamma^{j}_{i} &= 2 C_{0} \widetilde{C}_{0} \delta_{i j}  \\
+  &\quad  + 2 \delta_{i j} C^{a}_{k}  \widetilde{C}^{k}_{a}  \\
+  &\quad - C^{ab}_{ik}  \widetilde{C}^{kj}_{ba}  \\
+  &\quad  + \delta_{i j} C^{ab}_{kl}  \widetilde{C}^{kl}_{ab}  \\
+  &\quad - C^{a}_{i}  \widetilde{C}^{j}_{a} \\
+\gamma^{a}_{i} &= 2 \widetilde{C}_{0} C^{a}_{i}  - \widetilde{C}^{j}_{b}  C^{ab}_{ji}   + 2 \widetilde{C}^{j}_{b}  C^{ab}_{ij} \\
+\gamma^{i}_{a} &= C_{0} \widetilde{C}^{i}_{a}   + C^{b}_{j}  \widetilde{C}^{ij}_{ab} \\
+\gamma^{b}_{a} &= C^{bc}_{ij}  \widetilde{C}^{ij}_{ac}   + C^{b}_{i}  \widetilde{C}^{i}_{a}
+\end{align*}
+
+\subsubsection{Two-body reduced density matrix}
+\begin{align*}
+\Gamma^{kl}_{ij} &= -  2 C_{0} \widetilde{C}_{0} \delta_{i l} \delta_{j k}  \\
+  &\quad  + 4 C_{0} \widetilde{C}_{0} \delta_{i k} \delta_{j l}  \\
+  &\quad -  \delta_{i l} \delta_{j k} C^{ab}_{i_{0}i_{1}}  \widetilde{C}^{i_{0}i_{1}}_{ab}  \\
+  &\quad  + 2 \delta_{i k} \delta_{j l} C^{ab}_{i_{0}i_{1}}  \widetilde{C}^{i_{0}i_{1}}_{ab}  \\
+  &\quad -  2 \delta_{i l} \delta_{j k} C^{a}_{i_{0}}  \widetilde{C}^{i_{0}}_{a}  \\
+  &\quad  + 4 \delta_{i k} \delta_{j l} C^{a}_{i_{0}}  \widetilde{C}^{i_{0}}_{a}  \\
+  &\quad  + C^{ab}_{ij}  \widetilde{C}^{kl}_{ab} \\
+  &\quad + \mathcal{P}^{kl}_{ij}\Bigl[ \delta_{i l} C^{ab}_{i_{0}j}  \widetilde{C}^{i_{0}k}_{ab}  \\
+  &\quad -  2 \delta_{i k} C^{ab}_{i_{0}j}  \widetilde{C}^{i_{0}l}_{ab}  \\
+  &\quad  + \delta_{i l} C^{a}_{j}  \widetilde{C}^{k}_{a}  \\
+  &\quad -  2 \delta_{i k} C^{a}_{j}  \widetilde{C}^{l}_{a} \Bigr] \\
+\Gamma^{ak}_{ij} &= -  2 \widetilde{C}_{0} \delta_{i k} C^{a}_{j}  \\
+  &\quad  + 4 \widetilde{C}_{0} \delta_{j k} C^{a}_{i}  \\
+  &\quad  + \delta_{i k} \widetilde{C}^{l}_{b}  C^{ab}_{lj}  \\
+  &\quad -  2 \delta_{i k} \widetilde{C}^{l}_{b}  C^{ab}_{jl}  \\
+  &\quad -  2 \delta_{j k} \widetilde{C}^{l}_{b}  C^{ab}_{li}  \\
+  &\quad  + 4 \delta_{j k} \widetilde{C}^{l}_{b}  C^{ab}_{il}  \\
+  &\quad  + \widetilde{C}^{k}_{b}  C^{ab}_{ji}  \\
+  &\quad - 2 \widetilde{C}^{k}_{b}  C^{ab}_{ij} \\
+\Gamma^{jk}_{ai} &= -  \delta_{i j} C^{b}_{l}  \widetilde{C}^{lk}_{ba}  \\
+  &\quad  + 2 \delta_{i k} C^{b}_{l}  \widetilde{C}^{lj}_{ba}  \\
+  &\quad -  C_{0} \delta_{i j} \widetilde{C}^{k}_{a}  \\
+  &\quad  + 2 C_{0} \delta_{i k} \widetilde{C}^{j}_{a}  \\
+  &\quad - C^{b}_{i}  \widetilde{C}^{jk}_{ab} \\
+\Gamma^{ab}_{ij} &= -  2 \widetilde{C}_{0} C^{ab}_{ji}   + 4 \widetilde{C}_{0} C^{ab}_{ij} \\
+\Gamma^{ij}_{ab} &= C_{0} \widetilde{C}^{ij}_{ab} \\
+\Gamma^{bj}_{ai} &= - C^{b}_{i}  \widetilde{C}^{j}_{a}  \\
+  &\quad  + 2 \delta_{i j} C^{bc}_{kl}  \widetilde{C}^{kl}_{ac}  \\
+  &\quad  + 2 \delta_{i j} C^{b}_{k}  \widetilde{C}^{k}_{a}  \\
+  &\quad - C^{bc}_{ik}  \widetilde{C}^{kj}_{ca}  \\
+  &\quad - C^{bc}_{ki}  \widetilde{C}^{kj}_{ac} \\
+\Gamma^{bj}_{ia} &= 2 C^{b}_{i}  \widetilde{C}^{j}_{a}  \\
+  &\quad -  \delta_{i j} C^{bc}_{kl}  \widetilde{C}^{kl}_{ac}  \\
+  &\quad -  \delta_{i j} C^{b}_{k}  \widetilde{C}^{k}_{a}  \\
+  &\quad - C^{bc}_{ki}  \widetilde{C}^{kj}_{ca}  \\
+  &\quad  + 2 C^{bc}_{ik}  \widetilde{C}^{kj}_{ca} \\
+\Gamma^{bc}_{ai} &= - \widetilde{C}^{j}_{a}  C^{bc}_{ij}   + 2 \widetilde{C}^{j}_{a}  C^{bc}_{ji} \\
+\Gamma^{ci}_{ab} &= C^{c}_{j}  \widetilde{C}^{ij}_{ba} \\
+\Gamma^{cd}_{ab} &= C^{cd}_{ij}  \widetilde{C}^{ij}_{ab}
+\end{align*}

@@ -1,0 +1,50 @@
+% Closed-shell CIS in the HJO biorthogonal basis
+% For a Hermitian bra: \widetilde{C}_{0}=C_{0}^{*}, \widetilde{C}^{i}_{a}=2(C^{a}_{i})^{*}.
+% No normalization denominator has been applied.
+
+\subsubsection{Norm}
+\begin{align*}
+\langle\widetilde{\Psi}\vert\Psi\rangle &= C_{0} \widetilde{C}_{0}   + C^{a}_{i}  \widetilde{C}^{i}_{a}
+\end{align*}
+
+\subsubsection{Right sigma vector}
+\begin{align*}
+\sigma_{0} &= C_{0} E_{\mathrm{ref}}   + 2 C^{a}_{i}  f^{i}_{a} \\
+\sigma^{a}_{i} &= C_{0} f^{a}_{i}  \\
+  &\quad  + E_{\mathrm{ref}} C^{a}_{i}  \\
+  &\quad  + C^{b}_{i}  f^{a}_{b}  \\
+  &\quad  + C^{b}_{j}  L^{aj}_{ib}  \\
+  &\quad - C^{a}_{j}  f^{j}_{i}
+\end{align*}
+
+\subsubsection{Left sigma vector}
+\begin{align*}
+\widetilde{\sigma}_{0} &= \widetilde{C}_{0} E_{\mathrm{ref}}   + \widetilde{C}^{i}_{a}  f^{a}_{i} \\
+\widetilde{\sigma}^{i}_{a} &= E_{\mathrm{ref}} \widetilde{C}^{i}_{a}  \\
+  &\quad  + 2 \widetilde{C}_{0} f^{i}_{a}  \\
+  &\quad  + \widetilde{C}^{i}_{b}  f^{b}_{a}  \\
+  &\quad  + \widetilde{C}^{j}_{b}  L^{ib}_{aj}  \\
+  &\quad - \widetilde{C}^{j}_{a}  f^{i}_{j}
+\end{align*}
+
+\subsubsection{One-body reduced density matrix}
+\begin{align*}
+\gamma^{j}_{i} &= 2 C_{0} \widetilde{C}_{0} \delta_{i j}   + 2 \delta_{i j} C^{a}_{k}  \widetilde{C}^{k}_{a}  - C^{a}_{i}  \widetilde{C}^{j}_{a} \\
+\gamma^{a}_{i} &= 2 \widetilde{C}_{0} C^{a}_{i} \\
+\gamma^{i}_{a} &= C_{0} \widetilde{C}^{i}_{a} \\
+\gamma^{b}_{a} &= C^{b}_{i}  \widetilde{C}^{i}_{a}
+\end{align*}
+
+\subsubsection{Two-body reduced density matrix}
+\begin{align*}
+\Gamma^{kl}_{ij} &= -  2 C_{0} \widetilde{C}_{0} \delta_{i l} \delta_{j k}  \\
+  &\quad  + 4 C_{0} \widetilde{C}_{0} \delta_{i k} \delta_{j l}  \\
+  &\quad -  2 \delta_{i l} \delta_{j k} C^{a}_{i_{0}}  \widetilde{C}^{i_{0}}_{a}  \\
+  &\quad  + 4 \delta_{i k} \delta_{j l} C^{a}_{i_{0}}  \widetilde{C}^{i_{0}}_{a} \\
+  &\quad + \mathcal{P}^{kl}_{ij}\Bigl[ \delta_{i l} C^{a}_{j}  \widetilde{C}^{k}_{a}  \\
+  &\quad -  2 \delta_{i k} C^{a}_{j}  \widetilde{C}^{l}_{a} \Bigr] \\
+\Gamma^{ak}_{ij} &= -  2 \widetilde{C}_{0} \delta_{i k} C^{a}_{j}   + 4 \widetilde{C}_{0} \delta_{j k} C^{a}_{i} \\
+\Gamma^{jk}_{ai} &= -  C_{0} \delta_{i j} \widetilde{C}^{k}_{a}   + 2 C_{0} \delta_{i k} \widetilde{C}^{j}_{a} \\
+\Gamma^{bj}_{ai} &= - C^{b}_{i}  \widetilde{C}^{j}_{a}   + 2 \delta_{i j} C^{b}_{k}  \widetilde{C}^{k}_{a} \\
+\Gamma^{bj}_{ia} &= 2 C^{b}_{i}  \widetilde{C}^{j}_{a}  -  \delta_{i j} C^{b}_{k}  \widetilde{C}^{k}_{a}
+\end{align*}

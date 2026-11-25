@@ -1,0 +1,338 @@
+\documentclass[10pt]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage[margin=0.75in]{geometry}
+\usepackage{microtype}
+\usepackage[hidelinks]{hyperref}
+
+\allowdisplaybreaks[4]
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.5em}
+\raggedbottom
+
+\newcommand{\Eref}{E_{\mathrm{ref}}}
+\newcommand{\vac}{\Phi_0}
+\newcommand{\tC}{\widetilde{C}}
+\newcommand{\tPhi}{\widetilde{\Phi}}
+\newcommand{\tPsi}{\widetilde{\Psi}}
+\newcommand{\tsigma}{\widetilde{\sigma}}
+
+\title{Closed-Shell Configuration-Interaction Expressions\\
+       in the HJO Biorthogonal Framework}
+\author{}
+\date{25 November 2026}
+
+\begin{document}
+
+\maketitle
+\begingroup
+\small
+\tableofcontents
+\endgroup
+
+\section{Definitions and conventions}
+
+\subsection{Indices and summation convention}
+
+Indices $i,j,k,l,\ldots$ denote spatial orbitals that are doubly occupied in
+the closed-shell reference determinant $\lvert\vac\rangle$;
+$a,b,c,d,\ldots$ denote virtual spatial orbitals; and
+$p,q,r,s,\ldots$ denote general spatial orbitals. Repeated internal indices
+are summed. The orbitals are orthonormal, but they are not assumed to be
+canonical.
+
+Spin labels are denoted by $\sigma,\tau\in\{\alpha,\beta\}$. Creation and
+annihilation operators obey the usual fermionic anticommutation relations.
+Normal ordering with respect to $\lvert\vac\rangle$ is denoted by braces.
+
+\subsection{Spin-free excitation operators}
+
+The unitary-group generator is
+\begin{equation}
+ E_{pq}
+ =\sum_{\sigma}a_{p\sigma}^{\dagger}a_{q\sigma}.
+\end{equation}
+It satisfies
+\begin{equation}
+ [E_{pq},E_{rs}]
+ =\delta_{qr}E_{ps}-\delta_{ps}E_{rq}.
+\end{equation}
+The spin-free two-electron excitation operator is
+\begin{align}
+ e_{pqrs}
+ &\equiv E_{pr}E_{qs}-\delta_{rq}E_{ps}
+ \\
+ &=\sum_{\sigma\tau}
+   a_{p\sigma}^{\dagger}a_{q\tau}^{\dagger}
+   a_{s\tau}a_{r\sigma}.
+\end{align}
+Consequently,
+\begin{equation}
+ e_{pqrs}=e_{qpsr}.
+\end{equation}
+
+\subsection{One- and two-electron integrals}
+
+The one-electron matrix elements are
+\begin{equation}
+ h^{p}_{q}
+ =\int\!\mathrm{d}\mathbf r\,
+   \phi_p^{*}(\mathbf r)\,\hat h\,\phi_q(\mathbf r).
+\end{equation}
+The two-electron integrals use physicists' ordering,
+\begin{equation}
+ u^{pq}_{rs}
+ =\iint\!\mathrm{d}\mathbf r_1\,\mathrm{d}\mathbf r_2\,
+   \phi_p^{*}(\mathbf r_1)\phi_q^{*}(\mathbf r_2)
+   \hat w(1,2)
+   \phi_r(\mathbf r_1)\phi_s(\mathbf r_2).
+\end{equation}
+For a symmetric two-particle interaction,
+\begin{equation}
+ u^{pq}_{rs}=u^{qp}_{sr},
+ \qquad
+ u^{pq}_{rs}=\bigl(u^{rs}_{pq}\bigr)^{*}.
+\end{equation}
+The spatial-orbital integrals $u^{pq}_{rs}$ are \emph{not}
+antisymmetrized. Coulomb and exchange contributions therefore occur
+explicitly. The sigma-vector expressions below use the abbreviation
+\begin{equation}
+ L^{pq}_{rs}\equiv 2u^{pq}_{rs}-u^{pq}_{sr}.
+\end{equation}
+
+The closed-shell reference Fock matrix and reference energy are
+\begin{align}
+ f^{p}_{q}
+ &=h^{p}_{q}
+   +\sum_i\left(2u^{pi}_{qi}-u^{pi}_{iq}\right),
+ \\
+ \Eref
+ &=2\sum_i h^{i}_{i}
+   +2\sum_{ij}u^{ij}_{ij}
+   -\sum_{ij}u^{ij}_{ji}.
+\end{align}
+
+\subsection{Hamiltonian}
+
+The spin-free electronic Hamiltonian is
+\begin{equation}
+ H
+ =\sum_{pq}h^{p}_{q}E_{pq}
+  +\frac12\sum_{pqrs}u^{pq}_{rs}e_{pqrs}.
+\end{equation}
+Normal ordering with respect to the closed-shell reference gives
+\begin{equation}
+ H
+ =\Eref
+  +\sum_{pq}f^{p}_{q}\{E_{pq}\}
+  +\frac12\sum_{pqrs}u^{pq}_{rs}\{e_{pqrs}\}.
+\end{equation}
+
+\subsection{HJO excitation and projection operators}
+
+The right excitation operators used for singles and redundant doubles are
+\begin{align}
+ X_i^a&=E_{ai},
+ &
+ X_{ij}^{ab}&=E_{ai}E_{bj}.
+\end{align}
+The HJO biorthogonal projection operators are
+\begin{align}
+ Y_a^i
+ &=\frac12E_{ia},
+ \\
+ Y_{ab}^{ij}
+ &=\frac13E_{jb}E_{ia}+\frac16E_{ib}E_{ja}.
+\end{align}
+They define
+\begin{align}
+ \lvert\Phi_i^a\rangle
+ &=X_i^a\lvert\vac\rangle,
+ &
+ \langle\tPhi_i^a\rvert
+ &=\langle\vac\rvert Y_a^i,
+ \\
+ \lvert\Phi_{ij}^{ab}\rangle
+ &=X_{ij}^{ab}\lvert\vac\rangle,
+ &
+ \langle\tPhi_{ij}^{ab}\rvert
+ &=\langle\vac\rvert Y_{ab}^{ij}.
+\end{align}
+The singles are biorthonormal. The doubles retain the column redundancy
+\begin{equation}
+ C_{ij}^{ab}=C_{ji}^{ba},
+ \qquad
+ \tC_{ab}^{ij}=\tC_{ba}^{ji}.
+\end{equation}
+It is convenient to define the simultaneous column symmetrizer
+\begin{equation}
+ \mathcal P_{pq}^{rs}A_{pq}^{rs}
+ \equiv A_{pq}^{rs}+A_{qp}^{sr}.
+\end{equation}
+For example,
+\begin{equation}
+ \mathcal P_{ij}^{ab}A_{ij}^{ab}
+ =A_{ij}^{ab}+A_{ji}^{ba}.
+\end{equation}
+The symmetrizer exchanges both columns; it does not exchange only the upper
+or only the lower pair. It is unnormalized and therefore satisfies
+\begin{equation}
+ \left(\mathcal P_{pq}^{rs}\right)^2
+ =2\mathcal P_{pq}^{rs}.
+\end{equation}
+When it precedes brackets, it acts on every factor and every free index in the
+entire bracketed expression. Terms that are already invariant under the
+simultaneous exchange are written explicitly rather than placed inside
+$\mathcal P$, avoiding an unintended factor of two.
+No diagonal normalization factor such as
+$(1+\delta_{ab}\delta_{ij})^{-1}$ is introduced.
+
+\subsection{Left and right CI states}
+
+The most general state needed below is
+\begin{align}
+ \lvert\Psi\rangle
+ &=\left(
+   C_0+C_i^aX_i^a+\frac12C_{ij}^{ab}X_{ij}^{ab}
+   \right)\lvert\vac\rangle,
+ \\
+ \langle\tPsi\rvert
+ &=\langle\vac\rvert\left(
+   \tC_0+\tC_a^iY_a^i+\frac12\tC_{ab}^{ij}Y_{ab}^{ij}
+   \right).
+\end{align}
+The left coefficients are kept algebraically independent. When
+$\langle\tPsi\rvert=\langle\Psi\rvert$, they are obtained from the right
+coefficients through
+\begin{align}
+ \tC_0&=C_0^{*},
+ &
+ \tC_a^i&=2(C_i^a)^{*},
+ \\
+ \tC_{ab}^{ij}
+ &=\left(4C_{ij}^{ab}-2C_{ji}^{ab}\right)^{*}.
+\end{align}
+
+\subsection{Sigma vectors and reduced density matrices}
+
+The right sigma-vector components are
+\begin{align}
+ \sigma_0
+ &=\langle\vac\rvert H\lvert\Psi\rangle,
+ \\
+ \sigma_i^a
+ &=\langle\tPhi_i^a\rvert H\lvert\Psi\rangle,
+ \\
+ \sigma_{ij}^{ab}
+ &=\langle\tPhi_{ij}^{ab}\rvert H\lvert\Psi\rangle.
+\end{align}
+The corresponding left action is
+\begin{align}
+ \tsigma_0
+ &=\langle\tPsi\rvert H\lvert\vac\rangle,
+ \\
+ \tsigma_a^i
+ &=\langle\tPsi\rvert H\lvert\Phi_i^a\rangle,
+ \\
+ \tsigma_{ab}^{ij}
+ &=\langle\tPsi\rvert H\lvert\Phi_{ij}^{ab}\rangle.
+\end{align}
+
+The spin-summed one- and two-body reduced density matrices are
+\begin{align}
+ \gamma_p^q
+ &\equiv\langle\tPsi\rvert E_{pq}\lvert\Psi\rangle,
+ \\
+ \Gamma_{pq}^{rs}
+ &\equiv\langle\tPsi\rvert e_{pqrs}\lvert\Psi\rangle.
+\end{align}
+The expressions below are not divided by
+$\langle\tPsi\vert\Psi\rangle$. Thus normalization drift remains visible,
+as required for applications such as real-time propagation. Only nonzero RDM
+blocks are displayed. Two-body blocks related by
+$e_{pqrs}=e_{qpsr}$ are represented only once.
+
+\section{Derived algebraic expressions}
+
+\subsection{Configuration-interaction singles (CIS)}
+
+For CIS, $C_{ij}^{ab}=\tC_{ab}^{ij}=0$:
+\begin{align}
+ \lvert\Psi_{\mathrm{CIS}}\rangle
+ &=\left(C_0+C_i^aX_i^a\right)\lvert\vac\rangle,
+ \\
+ \langle\tPsi_{\mathrm{CIS}}\rvert
+ &=\langle\vac\rvert\left(\tC_0+\tC_a^iY_a^i\right).
+\end{align}
+For a Hermitian bra, $\tC_a^i=2(C_i^a)^*$.
+
+\input{generated/cis_equations.tex}
+
+\clearpage
+\subsection{Configuration-interaction doubles (CID)}
+
+For CID, $C_i^a=\tC_a^i=0$:
+\begin{align}
+ \lvert\Psi_{\mathrm{CID}}\rangle
+ &=\left(C_0+\frac12C_{ij}^{ab}X_{ij}^{ab}\right)
+   \lvert\vac\rangle,
+ \\
+ \langle\tPsi_{\mathrm{CID}}\rvert
+ &=\langle\vac\rvert\left(
+   \tC_0+\frac12\tC_{ab}^{ij}Y_{ab}^{ij}
+   \right).
+\end{align}
+For a Hermitian bra,
+$\tC_{ab}^{ij}=(4C_{ij}^{ab}-2C_{ji}^{ab})^*$.
+
+\input{generated/cid_equations.tex}
+
+\clearpage
+\subsection{Configuration-interaction singles and doubles (CISD)}
+
+The CISD states contain both excitation ranks:
+\begin{align}
+ \lvert\Psi_{\mathrm{CISD}}\rangle
+ &=\left(
+   C_0+C_i^aX_i^a+\frac12C_{ij}^{ab}X_{ij}^{ab}
+   \right)\lvert\vac\rangle,
+ \\
+ \langle\tPsi_{\mathrm{CISD}}\rvert
+ &=\langle\vac\rvert\left(
+   \tC_0+\tC_a^iY_a^i+\frac12\tC_{ab}^{ij}Y_{ab}^{ij}
+   \right).
+\end{align}
+For a Hermitian bra, both left-amplitude transformations given in
+Section~1.6 are applied.
+
+\begingroup
+\setlength{\jot}{1pt}
+\input{generated/cisd_equations.tex}
+\endgroup
+
+\clearpage
+\appendix
+\section{Reproducibility}
+
+The equation fragments included by this document are generated directly from
+the validated Drudge scripts. Drudge first produces fully expanded tensors.
+A symbolic presentation pass then factors exact Coulomb-exchange pairs through
+$L_{rs}^{pq}$ and groups distinct simultaneous column-exchange pairs under
+$\mathcal P_{pq}^{rs}$. It re-expands both abbreviations and requires the
+difference from the original Drudge tensor to simplify to zero. Neither
+abbreviation is introduced by textual manipulation of the LaTeX during normal
+generation.
+
+From this directory, regenerate the fragments with
+\begin{verbatim}
+conda run --no-capture-output -n drudge python generate_latex_fragments.py
+\end{verbatim}
+and compile the document with
+\begin{verbatim}
+latexmk -pdf -interaction=nonstopmode -halt-on-error \
+  closed_shell_ci_expressions.tex
+\end{verbatim}
+
+\end{document}

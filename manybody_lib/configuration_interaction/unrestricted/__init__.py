@@ -1,0 +1,1 @@
+"""Unrestricted configuration-interaction methods."""

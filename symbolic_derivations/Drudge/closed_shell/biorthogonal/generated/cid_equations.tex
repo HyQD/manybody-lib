@@ -1,0 +1,59 @@
+% Closed-shell CID in the HJO biorthogonal basis
+% Column symmetry: C^{ab}_{ij}=C^{ba}_{ji}, \widetilde{C}^{ij}_{ab}=\widetilde{C}^{ji}_{ba}.
+% For a Hermitian bra: \widetilde{C}_{0}=C_{0}^{*}, \widetilde{C}^{ij}_{ab}=\left(4C^{ab}_{ij}-2C^{ab}_{ji}\right)^{*}.
+% No normalization denominator has been applied.
+
+\subsubsection{Norm}
+\begin{align*}
+\langle\widetilde{\Psi}\vert\Psi\rangle &= C_{0} \widetilde{C}_{0}   + \frac{1}{2} C^{ab}_{ij}  \widetilde{C}^{ij}_{ab}
+\end{align*}
+
+\subsubsection{Right sigma vector}
+\begin{align*}
+\sigma_{0} &= C_{0} E_{\mathrm{ref}}   + C^{ab}_{ij}  L^{ij}_{ab} \\
+\sigma^{ab}_{ij} &= C^{ab}_{kl}  u^{kl}_{ij}  \\
+  &\quad  + C_{0} u^{ab}_{ij}  \\
+  &\quad  + E_{\mathrm{ref}} C^{ab}_{ij}  \\
+  &\quad  + C^{cd}_{ij}  u^{ab}_{cd} \\
+  &\quad + \mathcal{P}^{ab}_{ij}\Bigl[ f^{b}_{c}  C^{ac}_{ij}  \\
+  &\quad - f^{k}_{j}  C^{ab}_{ik}  \\
+  &\quad  + C^{ac}_{ik}  L^{bk}_{jc}  \\
+  &\quad - C^{ac}_{ki}  u^{bk}_{jc}  \\
+  &\quad - C^{ac}_{kj}  u^{bk}_{ci} \Bigr]
+\end{align*}
+
+\subsubsection{Left sigma vector}
+\begin{align*}
+\widetilde{\sigma}_{0} &= \widetilde{C}_{0} E_{\mathrm{ref}}   + \frac{1}{2} \widetilde{C}^{ij}_{ab}  u^{ab}_{ij} \\
+\widetilde{\sigma}^{ij}_{ab} &= E_{\mathrm{ref}} \widetilde{C}^{ij}_{ab}  \\
+  &\quad  + 2 \widetilde{C}_{0} L^{ij}_{ab}  \\
+  &\quad  + \widetilde{C}^{kl}_{ab}  u^{ij}_{kl}  \\
+  &\quad  + \widetilde{C}^{ij}_{cd}  u^{cd}_{ab} \\
+  &\quad + \mathcal{P}^{ij}_{ab}\Bigl[ f^{c}_{b}  \widetilde{C}^{ij}_{ac}  \\
+  &\quad - f^{j}_{k}  \widetilde{C}^{ik}_{ab}  \\
+  &\quad  + \widetilde{C}^{ik}_{ac}  L^{cj}_{kb}  \\
+  &\quad - \widetilde{C}^{ik}_{bc}  u^{cj}_{ka}  \\
+  &\quad - \widetilde{C}^{ik}_{cb}  u^{cj}_{ak} \Bigr]
+\end{align*}
+
+\subsubsection{One-body reduced density matrix}
+\begin{align*}
+\gamma^{j}_{i} &= 2 C_{0} \widetilde{C}_{0} \delta_{i j}  - C^{ab}_{ik}  \widetilde{C}^{kj}_{ba}   + \delta_{i j} C^{ab}_{kl}  \widetilde{C}^{kl}_{ab} \\
+\gamma^{b}_{a} &= C^{bc}_{ij}  \widetilde{C}^{ij}_{ac}
+\end{align*}
+
+\subsubsection{Two-body reduced density matrix}
+\begin{align*}
+\Gamma^{kl}_{ij} &= -  2 C_{0} \widetilde{C}_{0} \delta_{i l} \delta_{j k}  \\
+  &\quad  + 4 C_{0} \widetilde{C}_{0} \delta_{i k} \delta_{j l}  \\
+  &\quad -  \delta_{i l} \delta_{j k} C^{ab}_{i_{0}i_{1}}  \widetilde{C}^{i_{0}i_{1}}_{ab}  \\
+  &\quad  + 2 \delta_{i k} \delta_{j l} C^{ab}_{i_{0}i_{1}}  \widetilde{C}^{i_{0}i_{1}}_{ab}  \\
+  &\quad  + C^{ab}_{ij}  \widetilde{C}^{kl}_{ab} \\
+  &\quad + \mathcal{P}^{kl}_{ij}\Bigl[ \delta_{i l} C^{ab}_{i_{0}j}  \widetilde{C}^{i_{0}k}_{ab}  \\
+  &\quad -  2 \delta_{i k} C^{ab}_{i_{0}j}  \widetilde{C}^{i_{0}l}_{ab} \Bigr] \\
+\Gamma^{ab}_{ij} &= -  2 \widetilde{C}_{0} C^{ab}_{ji}   + 4 \widetilde{C}_{0} C^{ab}_{ij} \\
+\Gamma^{ij}_{ab} &= C_{0} \widetilde{C}^{ij}_{ab} \\
+\Gamma^{bj}_{ai} &= 2 \delta_{i j} C^{bc}_{kl}  \widetilde{C}^{kl}_{ac}  - C^{bc}_{ik}  \widetilde{C}^{kj}_{ca}  - C^{bc}_{ki}  \widetilde{C}^{kj}_{ac} \\
+\Gamma^{bj}_{ia} &= -  \delta_{i j} C^{bc}_{kl}  \widetilde{C}^{kl}_{ac}  - C^{bc}_{ki}  \widetilde{C}^{kj}_{ca}   + 2 C^{bc}_{ik}  \widetilde{C}^{kj}_{ca} \\
+\Gamma^{cd}_{ab} &= C^{cd}_{ij}  \widetilde{C}^{ij}_{ab}
+\end{align*}

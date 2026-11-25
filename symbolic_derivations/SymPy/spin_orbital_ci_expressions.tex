@@ -1,0 +1,750 @@
+\documentclass[11pt]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage[margin=0.85in]{geometry}
+\usepackage{microtype}
+
+\allowdisplaybreaks[3]
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.55em}
+
+\newcommand{\Eref}{E_{\mathrm{ref}}}
+\newcommand{\cre}[1]{a_{#1}^{\dagger}}
+\newcommand{\ann}[1]{a_{#1}}
+\newcommand{\vac}{\Phi_0}
+
+\title{Spin-Orbital CI Sigma Vectors and Reduced Density Matrices}
+\author{}
+\date{}
+
+\begin{document}
+
+\maketitle
+\begingroup
+\small
+\tableofcontents
+\endgroup
+
+\section{Definitions and conventions}
+
+\subsection{Indices and summation convention}
+
+Indices $i,j,k,l,m,n,\ldots$ denote occupied spin orbitals,
+$a,b,c,d,e,f,\ldots$ denote virtual spin orbitals, and
+$p,q,r,s,\ldots$ denote general spin orbitals.  Repeated internal indices
+are summed.  All orbitals are orthonormal.
+
+The reference determinant is $\lvert\vac\rangle$.  Normal ordering with
+respect to this determinant is denoted by braces, $\{\cdots\}$.
+
+\subsection{One- and two-electron integrals}
+
+The one-electron matrix elements are
+\begin{equation}
+ h_{pq}
+ = \langle p\lvert \hat{h}\rvert q\rangle,
+\end{equation}
+where $\hat{h}$ contains the kinetic energy and external one-particle
+potential.
+
+In physicists' notation, the two-electron integrals are
+\begin{equation}
+ \langle pq\lvert rs\rangle
+ = \int \! \mathrm{d}x_1\,\mathrm{d}x_2\,
+   \chi_p^{*}(x_1)\chi_q^{*}(x_2)
+   \frac{1}{r_{12}}
+   \chi_r(x_1)\chi_s(x_2).
+\end{equation}
+Their antisymmetrized form is
+\begin{equation}
+ u_{pqrs}
+ \equiv \langle pq\Vert rs\rangle
+ = \langle pq\lvert rs\rangle-\langle pq\lvert sr\rangle,
+\end{equation}
+with
+\begin{equation}
+ u_{pqrs}=-u_{qprs}=-u_{pqsr}=u_{qpsr}.
+\end{equation}
+
+The reference Fock matrix is
+\begin{equation}
+ f^{p}{}_{q}
+ \equiv f_{pq}
+ = h_{pq}+\sum_i u_{piqi},
+\end{equation}
+and the reference energy is
+\begin{equation}
+ \Eref
+ = \sum_i h_{ii}+\frac{1}{2}\sum_{ij}u_{ijij}.
+\end{equation}
+The placement $f^{p}{}_{q}$ emphasizes the one-body tensor structure;
+the compact notation $f_{pq}$ is used in the equations below.
+
+\subsection{Hamiltonian}
+
+The electronic Hamiltonian is
+\begin{equation}
+ \hat{H}
+ = \sum_{pq}h_{pq}\cre{p}\ann{q}
+ + \frac{1}{4}\sum_{pqrs}u_{pqrs}
+   \cre{p}\cre{q}\ann{s}\ann{r}.
+\end{equation}
+Normal ordering with respect to $\lvert\vac\rangle$ gives
+\begin{equation}
+ \hat{H}
+ = \Eref
+ + \sum_{pq} f_{pq}\{\cre{p}\ann{q}\}
+ + \frac{1}{4}\sum_{pqrs}u_{pqrs}
+   \{\cre{p}\cre{q}\ann{s}\ann{r}\}.
+\end{equation}
+No canonical-orbital assumption is made.
+
+\subsection{CI operators and permutation operators}
+
+The single-, double-, and triple-excitation operators are
+\begin{align}
+ C_1
+ &= \sum_{ai}c_i^a\cre{a}\ann{i},
+ \\
+ C_2
+ &= \frac{1}{4}\sum_{abij}c_{ij}^{ab}
+    \cre{a}\cre{b}\ann{j}\ann{i},
+ \\
+ C_3
+ &= \frac{1}{36}\sum_{abcijk}c_{ijk}^{abc}
+    \cre{a}\cre{b}\cre{c}\ann{k}\ann{j}\ann{i}.
+\end{align}
+The doubles amplitudes satisfy
+\begin{equation}
+ c_{ij}^{ab}=-c_{ji}^{ab}=-c_{ij}^{ba}=c_{ji}^{ba}.
+\end{equation}
+The triples amplitudes are completely antisymmetric under permutations within
+the virtual triple $(a,b,c)$ and independently within the occupied triple
+$(i,j,k)$.
+
+Permutation operators are defined by
+\begin{equation}
+ P(pq)X_{pq}=X_{pq}-X_{qp}.
+\end{equation}
+Every permutation operator below acts on the complete product immediately
+to its right.  Products such as $P(ab)P(ij)$ apply both antisymmetrizers.
+
+For triples, slash-separated groups indicate equivalent external lines.  The
+grouped operators used for CIDT are
+\begin{align}
+ P(k/ij)
+ &= 1-P_{ki}-P_{kj},
+ &
+ P(c/ab)
+ &= 1-P_{ca}-P_{cb},
+ \\
+ P(k/ij\mid c/ab)
+ &= P(k/ij)P(c/ab).
+\end{align}
+The complete occupied-index antisymmetrizer acts as
+\begin{equation}
+ P(ijk)X_{ijk}
+ =X_{ijk}-X_{jik}-X_{kji}-X_{ikj}+X_{jki}+X_{kij}.
+\end{equation}
+Consequently,
+\begin{equation}
+ P(ijk\mid a/bc)=P(ijk)P(a/bc),
+ \qquad
+ P(a/bc)=1-P_{ab}-P_{ac},
+\end{equation}
+which contains $6\times3=18$ signed actions before intrinsic tensor
+antisymmetry is used.
+
+\subsection{Sigma vectors and reduced density matrices}
+
+For a CI wavefunction $\lvert\Psi\rangle$, the sigma-vector components are
+\begin{align}
+ \sigma_0
+ &= \langle\vac\lvert\hat{H}\rvert\Psi\rangle,
+ \\
+ \sigma_i^a
+ &= \langle\Phi_i^a\lvert\hat{H}\rvert\Psi\rangle,
+ \\
+ \sigma_{ij}^{ab}
+ &= \langle\Phi_{ij}^{ab}\lvert\hat{H}\rvert\Psi\rangle,
+ \\
+ \sigma_{ijk}^{abc}
+ &= \langle\Phi_{ijk}^{abc}\lvert\hat{H}\rvert\Psi\rangle.
+\end{align}
+
+The one- and two-body reduced density matrices use the stacked-index
+convention
+\begin{align}
+ \gamma^q_p
+ &\equiv
+ \langle\Psi\lvert\cre{p}\ann{q}\rvert\Psi\rangle,
+ \\
+ \Gamma^{rs}_{pq}
+ &\equiv
+ \langle\Psi\lvert
+ \cre{p}\cre{q}\ann{s}\ann{r}
+ \rvert\Psi\rangle.
+\end{align}
+The bra amplitudes are complex conjugated explicitly.  The RDMs are not
+divided by $\langle\Psi\vert\Psi\rangle$ and no normalization identity is
+inserted.  Thus norm drift remains visible in time-dependent propagation.
+Only nonzero RDM blocks are displayed.
+
+
+\section{Algebraic expressions}
+
+\subsection{Configuration-interaction singles (CIS)}
+
+The CIS wavefunction is
+\begin{equation}
+ \lvert\Psi_{\mathrm{CIS}}\rangle
+ = (c_0+C_1)\lvert\vac\rangle.
+\end{equation}
+
+\subsubsection{Sigma vectors}
+
+\begin{align}
+ \sigma_0
+ &= \Eref c_0+c_j^b f_{jb},
+ \\
+ \sigma_i^a
+ &= \Eref c_i^a+c_0f_{ai}+c_i^b f_{ab}
+    +c_j^b u_{ajib}-c_j^a f_{ji}.
+\end{align}
+
+\subsubsection{One-body reduced density matrix}
+
+\begin{align}
+ \gamma^j_i
+ &= c_0(c_0)^*\delta_{ij}
+    +c_k^c(c_k^c)^*\delta_{ij}
+    -c_i^c(c_j^c)^*,
+ \\
+ \gamma^a_i
+ &= c_i^a(c_0)^*,
+ &
+ \gamma^i_a
+ &= c_0(c_i^a)^*,
+ \\
+ \gamma^b_a
+ &= c_k^b(c_k^a)^*.
+\end{align}
+
+\subsubsection{Two-body reduced density matrix}
+
+\begin{align}
+ \Gamma^{kl}_{ij}
+ &= -P(ij)c_0(c_0)^*\delta_{il}\delta_{jk}
+    +P(ij)c_m^e(c_m^e)^*\delta_{ik}\delta_{jl}
+ \notag\\
+ &\quad
+    -P(ij)P(kl)c_j^e(c_l^e)^*\delta_{ik},
+ \\
+ \Gamma^{kc}_{ij}
+ &= P(ij)c_j^c(c_0)^*\delta_{ik},
+ \\
+ \Gamma^{kl}_{ia}
+ &= P(kl)c_0(c_l^a)^*\delta_{ik},
+ \\
+ \Gamma^{kc}_{ia}
+ &= c_m^c(c_m^a)^*\delta_{ik}-c_i^c(c_k^a)^*.
+\end{align}
+
+
+\subsection{Configuration-interaction doubles (CID)}
+
+The CID wavefunction is
+\begin{equation}
+ \lvert\Psi_{\mathrm{CID}}\rangle
+ = (c_0+C_2)\lvert\vac\rangle.
+\end{equation}
+
+\subsubsection{Sigma vectors}
+
+\begin{align}
+ \sigma_0
+ &= \Eref c_0+\frac{1}{4}c_{kl}^{cd}u_{klcd},
+ \\
+ \sigma_{ij}^{ab}
+ &= \Eref c_{ij}^{ab}+c_0u_{abij}
+    -P(ij)f_{kj}c_{ik}^{ab}
+    +P(ab)f_{bc}c_{ij}^{ac}
+ \notag\\
+ &\quad
+    +\frac{1}{2}c_{ij}^{cd}u_{abcd}
+    +P(ab)P(ij)c_{ik}^{ac}u_{bkjc}
+    +\frac{1}{2}c_{kl}^{ab}u_{klij}.
+\end{align}
+
+\subsubsection{One-body reduced density matrix}
+
+\begin{align}
+ \gamma^j_i
+ &= c_0(c_0)^*\delta_{ij}
+    +\frac{1}{4}(c_{kl}^{cd})^*\delta_{ij}c_{kl}^{cd}
+    -\frac{1}{2}(c_{jk}^{cd})^*c_{ik}^{cd},
+ \\
+ \gamma^b_a
+ &= \frac{1}{2}(c_{kl}^{ac})^*c_{kl}^{bc}.
+\end{align}
+
+\subsubsection{Two-body reduced density matrix}
+
+\begin{align}
+ \Gamma^{kl}_{ij}
+ &= P(ij)c_0(c_0)^*\delta_{ik}\delta_{jl}
+    +\frac{1}{4}P(ij)(c_{mn}^{ef})^*
+       \delta_{ik}\delta_{jl}c_{mn}^{ef}
+ \notag\\
+ &\quad
+    +\frac{1}{2}(c_{kl}^{ef})^*c_{ij}^{ef}
+    +\frac{1}{2}P(ij)P(kl)(c_{lm}^{ef})^*
+       \delta_{jk}c_{im}^{ef},
+ \\
+ \Gamma^{cd}_{ij}
+ &= (c_0)^*c_{ij}^{cd},
+ \\
+ \Gamma^{kc}_{ia}
+ &= \frac{1}{2}(c_{mn}^{ae})^*\delta_{ik}c_{mn}^{ce}
+    -(c_{km}^{ae})^*c_{im}^{ce},
+ \\
+ \Gamma^{kl}_{ab}
+ &= c_0(c_{kl}^{ab})^*,
+ \\
+ \Gamma^{cd}_{ab}
+ &= \frac{1}{2}(c_{mn}^{ab})^*c_{mn}^{cd}.
+\end{align}
+
+
+\clearpage
+\subsection{Configuration-interaction singles and doubles (CISD)}
+
+The CISD wavefunction is
+\begin{equation}
+ \lvert\Psi_{\mathrm{CISD}}\rangle
+ = (c_0+C_1+C_2)\lvert\vac\rangle.
+\end{equation}
+
+\subsubsection{Sigma vectors}
+
+\begin{align}
+ \sigma_0
+ &= \Eref c_0+c_k^c f_{kc}
+    +\frac{1}{4}c_{kl}^{cd}u_{klcd},
+ \\
+ \sigma_i^a
+ &= \Eref c_i^a+c_0f_{ai}+c_i^c f_{ac}
+    +c_k^c u_{akic}-c_k^a f_{ki}
+ \notag\\
+ &\quad
+    +f_{kc}c_{ik}^{ac}
+    +\frac{1}{2}c_{ik}^{cd}u_{akcd}
+    -\frac{1}{2}c_{kl}^{ac}u_{klic},
+ \\
+ \sigma_{ij}^{ab}
+ &= \Eref c_{ij}^{ab}+c_0u_{abij}
+    +P(ij)c_j^c u_{abic}
+    +P(ab)P(ij)c_i^a f_{bj}
+ \notag\\
+ &\quad
+    -P(ab)c_k^b u_{akij}
+    -P(ij)f_{kj}c_{ik}^{ab}
+    +P(ab)f_{bc}c_{ij}^{ac}
+ \notag\\
+ &\quad
+    +\frac{1}{2}c_{ij}^{cd}u_{abcd}
+    +P(ab)P(ij)c_{ik}^{ac}u_{bkjc}
+    +\frac{1}{2}c_{kl}^{ab}u_{klij}.
+\end{align}
+
+\subsubsection{One-body reduced density matrix}
+
+\begin{align}
+ \gamma^j_i
+ &= c_0(c_0)^*\delta_{ij}
+    +c_k^c(c_k^c)^*\delta_{ij}
+    -c_i^c(c_j^c)^*
+ \notag\\
+ &\quad
+    +\frac{1}{4}(c_{kl}^{cd})^*\delta_{ij}c_{kl}^{cd}
+    -\frac{1}{2}(c_{jk}^{cd})^*c_{ik}^{cd},
+ \\
+ \gamma^a_i
+ &= c_i^a(c_0)^*+(c_k^c)^*c_{ik}^{ac},
+ \\
+ \gamma^i_a
+ &= c_0(c_i^a)^*+c_k^c(c_{ik}^{ac})^*,
+ \\
+ \gamma^b_a
+ &= c_k^b(c_k^a)^*
+    +\frac{1}{2}(c_{kl}^{ac})^*c_{kl}^{bc}.
+\end{align}
+
+\subsubsection{Two-body reduced density matrix}
+
+\begingroup
+\small
+\begin{align}
+ \Gamma^{kl}_{ij}
+ &= -P(ij)c_0(c_0)^*\delta_{il}\delta_{jk}
+    +P(ij)c_m^e(c_m^e)^*\delta_{ik}\delta_{jl}
+ \notag\\
+ &\quad
+    -P(ij)P(kl)c_j^e(c_l^e)^*\delta_{ik}
+    +\frac{1}{4}P(ij)(c_{mn}^{ef})^*
+       \delta_{ik}\delta_{jl}c_{mn}^{ef}
+ \notag\\
+ &\quad
+    +\frac{1}{2}(c_{kl}^{ef})^*c_{ij}^{ef}
+    +\frac{1}{2}P(ij)P(kl)(c_{lm}^{ef})^*
+       \delta_{jk}c_{im}^{ef},
+ \\
+ \Gamma^{kc}_{ij}
+ &= P(ij)c_j^c(c_0)^*\delta_{ik}
+    -P(ij)(c_m^e)^*\delta_{jk}c_{im}^{ce}
+    +(c_k^e)^*c_{ij}^{ce},
+ \\
+ \Gamma^{cd}_{ij}
+ &= (c_0)^*c_{ij}^{cd},
+ \\
+ \Gamma^{kl}_{ia}
+ &= P(kl)c_0(c_l^a)^*\delta_{ik}
+    +P(kl)c_m^e(c_{lm}^{ae})^*\delta_{ik}
+    +c_i^e(c_{kl}^{ae})^*,
+ \\
+ \Gamma^{kc}_{ia}
+ &= c_m^c(c_m^a)^*\delta_{ik}
+    -c_i^c(c_k^a)^*
+    +\frac{1}{2}(c_{mn}^{ae})^*\delta_{ik}c_{mn}^{ce}
+ \notag\\
+ &\quad
+    -(c_{km}^{ae})^*c_{im}^{ce},
+ \\
+ \Gamma^{cd}_{ia}
+ &= (c_m^a)^*c_{im}^{cd},
+ \\
+ \Gamma^{kl}_{ab}
+ &= c_0(c_{kl}^{ab})^*,
+ \\
+ \Gamma^{kc}_{ab}
+ &= c_m^c(c_{km}^{ab})^*,
+ \\
+ \Gamma^{cd}_{ab}
+ &= \frac{1}{2}(c_{mn}^{ab})^*c_{mn}^{cd}.
+\end{align}
+\endgroup
+
+
+\clearpage
+\subsection{Configuration-interaction doubles and triples (CIDT)}
+
+The CIDT wavefunction considered here deliberately excludes singles:
+\begin{equation}
+ \lvert\Psi_{\mathrm{CIDT}}\rangle
+ = (c_0+C_2+C_3)\lvert\vac\rangle.
+\end{equation}
+
+\subsubsection{Sigma vectors}
+
+\begin{align}
+ \sigma_0
+ &= \Eref c_0+\frac{1}{4}c_{mn}^{ef}u_{mnef},
+ \\
+ \sigma_{ij}^{ab}
+ &= \Eref c_{ij}^{ab}+c_0u_{abij}
+    +f_{me}c_{ijm}^{abe}
+    -P(ij)f_{mj}c_{im}^{ab}
+    +P(ab)f_{be}c_{ij}^{ae}
+ \notag\\
+ &\quad
+    +\frac{1}{2}c_{ij}^{ef}u_{abef}
+    +P(ab)P(ij)c_{im}^{ae}u_{bmje}
+    +\frac{1}{2}c_{mn}^{ab}u_{mnij}
+ \notag\\
+ &\quad
+    +\frac{1}{2}P(ab)c_{ijm}^{aef}u_{bmef}
+    -\frac{1}{2}P(ij)c_{imn}^{abe}u_{mnje},
+ \\
+ \sigma_{ijk}^{abc}
+ &= \Eref c_{ijk}^{abc}
+    -P(k/ij)f_{mk}c_{ijm}^{abc}
+    +P(c/ab)f_{ce}c_{ijk}^{abe}
+ \notag\\
+ &\quad
+    +P(k/ij\mid c/ab)f_{ck}c_{ij}^{ab}
+    +P(k/ij\mid c/ab)c_{km}^{ab}u_{cmij}
+ \notag\\
+ &\quad
+    -P(k/ij\mid c/ab)c_{ij}^{ce}u_{abke}
+    +P(k/ij\mid c/ab)c_{ijm}^{abe}u_{cmke}
+ \notag\\
+ &\quad
+    +\frac{1}{2}P(k/ij)c_{kmn}^{abc}u_{mnij}
+    +\frac{1}{2}P(c/ab)c_{ijk}^{cef}u_{abef}.
+\end{align}
+
+\subsubsection{One-body reduced density matrix}
+
+\begin{align}
+ \gamma^j_i
+ &= c_0(c_0)^*\delta_{ij}
+    +\frac{1}{4}(c_{mn}^{ef})^*\delta_{ij}c_{mn}^{ef}
+    -\frac{1}{2}(c_{jm}^{ef})^*c_{im}^{ef}
+ \notag\\
+ &\quad
+    +\frac{1}{36}(c_{mno}^{efg})^*\delta_{ij}c_{mno}^{efg}
+    -\frac{1}{12}(c_{jmn}^{efg})^*c_{imn}^{efg},
+ \\
+ \gamma^a_i
+ &= \frac{1}{4}(c_{mn}^{ef})^*c_{imn}^{aef},
+ \\
+ \gamma^i_a
+ &= \frac{1}{4}(c_{imn}^{aef})^*c_{mn}^{ef},
+ \\
+ \gamma^b_a
+ &= \frac{1}{2}(c_{mn}^{ae})^*c_{mn}^{be}
+    +\frac{1}{12}(c_{mno}^{aef})^*c_{mno}^{bef}.
+\end{align}
+
+\clearpage
+\subsubsection{Two-body reduced density matrix}
+
+\begingroup
+\small
+\begin{align}
+ \Gamma^{kl}_{ij}
+ &= -P(ij)c_0(c_0)^*\delta_{il}\delta_{jk}
+    +\frac{1}{4}P(ij)(c_{mn}^{ef})^*
+       \delta_{ik}\delta_{jl}c_{mn}^{ef}
+ \notag\\
+ &\quad
+    +\frac{1}{2}(c_{kl}^{ef})^*c_{ij}^{ef}
+    +\frac{1}{2}P(ij)P(kl)(c_{lm}^{ef})^*
+       \delta_{jk}c_{im}^{ef}
+ \notag\\
+ &\quad
+    +\frac{1}{36}P(ij)(c_{mno}^{efg})^*
+       \delta_{ik}\delta_{jl}c_{mno}^{efg}
+    +\frac{1}{6}(c_{klm}^{efg})^*c_{ijm}^{efg}
+ \notag\\
+ &\quad
+    +\frac{1}{12}P(ij)P(kl)(c_{lmn}^{efg})^*
+       \delta_{jk}c_{imn}^{efg},
+ \\
+ \Gamma^{kc}_{ij}
+ &= -\frac{1}{4}P(ij)(c_{mn}^{ef})^*
+       \delta_{jk}c_{imn}^{cef}
+    +\frac{1}{2}(c_{km}^{ef})^*c_{ijm}^{cef},
+ \\
+ \Gamma^{cd}_{ij}
+ &= (c_0)^*c_{ij}^{cd},
+ \\
+ \Gamma^{kl}_{ia}
+ &= \frac{1}{2}(c_{klm}^{aef})^*c_{im}^{ef}
+    +\frac{1}{4}P(kl)(c_{lmn}^{aef})^*\delta_{ik}c_{mn}^{ef},
+ \\
+ \Gamma^{kc}_{ia}
+ &= \frac{1}{2}(c_{mn}^{ae})^*\delta_{ik}c_{mn}^{ce}
+    -(c_{km}^{ae})^*c_{im}^{ce}
+ \notag\\
+ &\quad
+    +\frac{1}{12}(c_{mno}^{aef})^*\delta_{ik}c_{mno}^{cef}
+    -\frac{1}{4}(c_{kmn}^{aef})^*c_{imn}^{cef},
+ \\
+ \Gamma^{cd}_{ia}
+ &= \frac{1}{2}(c_{mn}^{ae})^*c_{imn}^{cde},
+ \\
+ \Gamma^{kl}_{ab}
+ &= c_0(c_{kl}^{ab})^*,
+ \\
+ \Gamma^{kc}_{ab}
+ &= \frac{1}{2}(c_{kmn}^{abe})^*c_{mn}^{ce},
+ \\
+ \Gamma^{cd}_{ab}
+ &= \frac{1}{2}(c_{mn}^{ab})^*c_{mn}^{cd}
+    +\frac{1}{6}(c_{mno}^{abe})^*c_{mno}^{cde}.
+\end{align}
+\endgroup
+
+\clearpage
+\subsection{Configuration-interaction singles, doubles, and triples (CISDT)}
+
+The CISDT wavefunction is
+\begin{equation}
+ \lvert\Psi_{\mathrm{CISDT}}\rangle
+ = (c_0+C_1+C_2+C_3)\lvert\Phi_0\rangle .
+\end{equation}
+As for the preceding methods, the density matrices below are the raw bilinear
+expectation values; the normalization relation is not used explicitly.
+
+\subsubsection{Sigma vectors}
+
+\begingroup
+\small
+\begin{align}
+ \sigma_0
+ &= E_{\mathrm{ref}}c_0+c_m^e f_{me}
+    +\frac{1}{4}c_{mn}^{ef}u_{mnef},
+ \\
+ \sigma_i^a
+ &= E_{\mathrm{ref}}c_i^a+c_0f_{ai}+c_i^e f_{ae}
+    +c_m^e u_{amie}-c_m^a f_{mi}
+ \notag\\
+ &\quad
+    +f_{me}c_{im}^{ae}
+    +\frac{1}{2}c_{im}^{ef}u_{amef}
+    -\frac{1}{2}c_{mn}^{ae}u_{mnie}
+    +\frac{1}{4}c_{imn}^{aef}u_{mnef},
+ \\
+ \sigma_{ij}^{ab}
+ &= E_{\mathrm{ref}}c_{ij}^{ab}+c_0u_{abij}
+    +P(ij)c_j^e u_{abie}+P(ab)P(ij)c_i^a f_{bj}
+    -P(ab)c_m^b u_{amij}
+ \notag\\
+ &\quad
+    +f_{me}c_{ijm}^{abe}-P(ij)f_{mj}c_{im}^{ab}
+    +P(ab)f_{be}c_{ij}^{ae}
+    +\frac{1}{2}c_{ij}^{ef}u_{abef}
+ \notag\\
+ &\quad
+    +P(ab)P(ij)c_{im}^{ae}u_{bmje}
+    +\frac{1}{2}c_{mn}^{ab}u_{mnij}
+    +\frac{1}{2}P(ab)c_{ijm}^{aef}u_{bmef}
+ \notag\\
+ &\quad
+    -\frac{1}{2}P(ij)c_{imn}^{abe}u_{mnje},
+ \\
+ \sigma_{ijk}^{abc}
+ &= E_{\mathrm{ref}}c_{ijk}^{abc}
+    -P(k/ij)f_{mk}c_{ijm}^{abc}
+    +P(c/ab)f_{ce}c_{ijk}^{abe}
+ \notag\\
+ &\quad
+    +P(k/ij\mid c/ab)c_k^c u_{abij}
+    +P(k/ij\mid c/ab)f_{ck}c_{ij}^{ab}
+ \notag\\
+ &\quad
+    +P(k/ij\mid c/ab)c_{km}^{ab}u_{cmij}
+    -P(k/ij\mid c/ab)c_{ij}^{ce}u_{abke}
+ \notag\\
+ &\quad
+    +P(k/ij\mid c/ab)c_{ijm}^{abe}u_{cmke}
+    +\frac{1}{2}P(k/ij)c_{kmn}^{abc}u_{mnij}
+ \notag\\
+ &\quad
+    +\frac{1}{2}P(c/ab)c_{ijk}^{cef}u_{abef}.
+\end{align}
+\endgroup
+
+\subsubsection{One-body reduced density matrix}
+
+\begingroup
+\small
+\begin{align}
+ \gamma_i^j
+ &= c_0(c_0)^*\delta_{ij}
+    +c_m^e(c_m^e)^*\delta_{ij}
+    -c_i^e(c_j^e)^*
+ \notag\\
+ &\quad
+    +\frac{1}{4}(c_{mn}^{ef})^*\delta_{ij}c_{mn}^{ef}
+    -\frac{1}{2}(c_{jm}^{ef})^*c_{im}^{ef}
+ \notag\\
+ &\quad
+    +\frac{1}{36}(c_{mno}^{efg})^*\delta_{ij}c_{mno}^{efg}
+    -\frac{1}{12}(c_{jmn}^{efg})^*c_{imn}^{efg},
+ \\
+ \gamma_i^a
+ &= c_i^a(c_0)^*+(c_m^e)^*c_{im}^{ae}
+    +\frac{1}{4}(c_{mn}^{ef})^*c_{imn}^{aef},
+ \\
+ \gamma_a^i
+ &= c_0(c_i^a)^*+c_m^e(c_{im}^{ae})^*
+    +\frac{1}{4}(c_{imn}^{aef})^*c_{mn}^{ef},
+ \\
+ \gamma_a^b
+ &= c_m^b(c_m^a)^*
+    +\frac{1}{2}(c_{mn}^{ae})^*c_{mn}^{be}
+    +\frac{1}{12}(c_{mno}^{aef})^*c_{mno}^{bef}.
+\end{align}
+\endgroup
+
+\clearpage
+\subsubsection{Two-body reduced density matrix}
+
+\begingroup
+\small
+\begin{align}
+ \Gamma^{kl}_{ij}
+ &= -P(ij)c_0(c_0)^*\delta_{il}\delta_{jk}
+    +P(ij)c_m^e(c_m^e)^*\delta_{ik}\delta_{jl}
+ \notag\\
+ &\quad
+    -P(ij)P(kl)c_j^e(c_l^e)^*\delta_{ik}
+    -\frac{1}{4}P(ij)(c_{mn}^{ef})^*
+       \delta_{il}\delta_{jk}c_{mn}^{ef}
+ \notag\\
+ &\quad
+    +\frac{1}{2}(c_{kl}^{ef})^*c_{ij}^{ef}
+    +\frac{1}{2}P(ij)P(kl)(c_{lm}^{ef})^*
+       \delta_{jk}c_{im}^{ef}
+ \notag\\
+ &\quad
+    +\frac{1}{36}P(ij)(c_{mno}^{efg})^*
+       \delta_{ik}\delta_{jl}c_{mno}^{efg}
+    +\frac{1}{6}(c_{klm}^{efg})^*c_{ijm}^{efg}
+ \notag\\
+ &\quad
+    +\frac{1}{12}P(ij)P(kl)(c_{lmn}^{efg})^*
+       \delta_{jk}c_{imn}^{efg},
+ \\
+ \Gamma^{kc}_{ij}
+ &= P(ij)c_j^c(c_0)^*\delta_{ik}
+    -P(ij)(c_m^e)^*\delta_{jk}c_{im}^{ce}
+    +(c_k^e)^*c_{ij}^{ce}
+ \notag\\
+ &\quad
+    -\frac{1}{4}P(ij)(c_{mn}^{ef})^*\delta_{jk}c_{imn}^{cef}
+    +\frac{1}{2}(c_{km}^{ef})^*c_{ijm}^{cef},
+ \\
+ \Gamma^{cd}_{ij}
+ &= (c_0)^*c_{ij}^{cd}+(c_m^e)^*c_{ijm}^{cde},
+ \\
+ \Gamma^{kl}_{ia}
+ &= P(kl)c_0(c_l^a)^*\delta_{ik}
+    +P(kl)c_m^e(c_{lm}^{ae})^*\delta_{ik}
+    +c_i^e(c_{kl}^{ae})^*
+ \notag\\
+ &\quad
+    +\frac{1}{2}(c_{klm}^{aef})^*c_{im}^{ef}
+    +\frac{1}{4}P(kl)(c_{lmn}^{aef})^*\delta_{ik}c_{mn}^{ef},
+ \\
+ \Gamma^{kc}_{ia}
+ &= c_m^c(c_m^a)^*\delta_{ik}-c_i^c(c_k^a)^*
+    +\frac{1}{2}(c_{mn}^{ae})^*\delta_{ik}c_{mn}^{ce}
+ \notag\\
+ &\quad
+    -(c_{km}^{ae})^*c_{im}^{ce}
+    +\frac{1}{12}(c_{mno}^{aef})^*\delta_{ik}c_{mno}^{cef}
+    -\frac{1}{4}(c_{kmn}^{aef})^*c_{imn}^{cef},
+ \\
+ \Gamma^{cd}_{ia}
+ &= (c_m^a)^*c_{im}^{cd}
+    +\frac{1}{2}(c_{mn}^{ae})^*c_{imn}^{cde},
+ \\
+ \Gamma^{kl}_{ab}
+ &= c_0(c_{kl}^{ab})^*+c_m^e(c_{klm}^{abe})^*,
+ \\
+ \Gamma^{kc}_{ab}
+ &= c_m^c(c_{km}^{ab})^*
+    +\frac{1}{2}(c_{kmn}^{abe})^*c_{mn}^{ce},
+ \\
+ \Gamma^{cd}_{ab}
+ &= \frac{1}{2}(c_{mn}^{ab})^*c_{mn}^{cd}
+    +\frac{1}{6}(c_{mno}^{abe})^*c_{mno}^{cde}.
+\end{align}
+\endgroup
+
+\end{document}
