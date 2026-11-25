@@ -35,6 +35,21 @@ from manybody_lib.configuration_interaction.closed_shell.cid import (
 from manybody_lib.configuration_interaction.closed_shell.cid import (
     compute_two_rdm as cid_two_rdm,
 )
+from manybody_lib.configuration_interaction.closed_shell.cisd import (
+    compute_hermitian_left as cisd_left,
+)
+from manybody_lib.configuration_interaction.closed_shell.cisd import (
+    compute_norm as cisd_norm,
+)
+from manybody_lib.configuration_interaction.closed_shell.cisd import (
+    compute_one_rdm as cisd_one_rdm,
+)
+from manybody_lib.configuration_interaction.closed_shell.cisd import (
+    compute_sigma as cisd_sigma,
+)
+from manybody_lib.configuration_interaction.closed_shell.cisd import (
+    compute_two_rdm as cisd_two_rdm,
+)
 
 
 def _complex_random(rng: np.random.Generator, shape: tuple[int, ...]) -> np.ndarray:
@@ -88,7 +103,7 @@ def _assert_closed_shell_rdm_invariants(
     )
 
 
-@pytest.mark.parametrize("method", ["cis", "cid"])
+@pytest.mark.parametrize("method", ["cis", "cid", "cisd"])
 def test_closed_shell_rdm_invariants(method: str) -> None:
     rng = np.random.default_rng(1031)
     nocc, nvir = 3, 4
@@ -99,18 +114,26 @@ def test_closed_shell_rdm_invariants(method: str) -> None:
         norm = cis_norm(c0, amplitudes)
         gamma = cis_one_rdm(c0, amplitudes)
         gamma2 = cis_two_rdm(c0, amplitudes)
-    else:
+    elif method == "cid":
         amplitudes = _column_symmetric_doubles(
             _complex_random(rng, (nvir, nvir, nocc, nocc))
         )
         norm = cid_norm(c0, amplitudes)
         gamma = cid_one_rdm(c0, amplitudes)
         gamma2 = cid_two_rdm(c0, amplitudes)
+    else:
+        singles = _complex_random(rng, (nvir, nocc))
+        doubles = _column_symmetric_doubles(
+            _complex_random(rng, (nvir, nvir, nocc, nocc))
+        )
+        norm = cisd_norm(c0, singles, doubles)
+        gamma = cisd_one_rdm(c0, singles, doubles)
+        gamma2 = cisd_two_rdm(c0, singles, doubles)
 
     _assert_closed_shell_rdm_invariants(gamma, gamma2, norm, 2 * nocc)
 
 
-@pytest.mark.parametrize("method", ["cis", "cid"])
+@pytest.mark.parametrize("method", ["cis", "cid", "cisd"])
 def test_closed_shell_sigma_energy_closure(method: str) -> None:
     rng = np.random.default_rng(1129)
     nocc, nvir = 3, 4
@@ -126,7 +149,7 @@ def test_closed_shell_sigma_energy_closure(method: str) -> None:
         )
         gamma = cis_one_rdm(c0, amplitudes, left0, left)
         gamma2 = cis_two_rdm(c0, amplitudes, left0, left)
-    else:
+    elif method == "cid":
         amplitudes = _column_symmetric_doubles(
             _complex_random(rng, (nvir, nvir, nocc, nocc))
         )
@@ -137,6 +160,22 @@ def test_closed_shell_sigma_energy_closure(method: str) -> None:
         )
         gamma = cid_one_rdm(c0, amplitudes, left0, left)
         gamma2 = cid_two_rdm(c0, amplitudes, left0, left)
+    else:
+        singles = _complex_random(rng, (nvir, nocc))
+        doubles = _column_symmetric_doubles(
+            _complex_random(rng, (nvir, nvir, nocc, nocc))
+        )
+        left0, left1, left2 = cisd_left(c0, singles, doubles)
+        sigma0, sigma1, sigma2 = cisd_sigma(
+            e_ref, f, u, c0, singles, doubles, o, v
+        )
+        energy_sigma = left0 * sigma0
+        energy_sigma += np.einsum("ia,ai->", left1, sigma1, optimize=True)
+        energy_sigma += 0.5 * np.einsum(
+            "ijab,abij->", left2, sigma2, optimize=True
+        )
+        gamma = cisd_one_rdm(c0, singles, doubles, left0, left1, left2)
+        gamma2 = cisd_two_rdm(c0, singles, doubles, left0, left1, left2)
 
     energy_rdm = np.einsum("pq,pq->", h, gamma, optimize=True)
     energy_rdm += 0.5 * np.einsum(
@@ -194,3 +233,78 @@ def test_independent_left_amplitudes_are_supported() -> None:
 
     with pytest.raises(ValueError, match="supplied together"):
         cis_one_rdm(c0, c1, left_c0=left0)
+
+
+def test_closed_shell_cisd_reduces_to_cis_and_cid() -> None:
+    rng = np.random.default_rng(1373)
+    nocc, nvir = 2, 3
+    e_ref, f, u, _, o, v = _hermitian_spatial_system(rng, nocc, nvir)
+    c0 = np.complex128(-0.4 + 0.2j)
+    singles = _complex_random(rng, (nvir, nocc))
+    doubles = _column_symmetric_doubles(
+        _complex_random(rng, (nvir, nvir, nocc, nocc))
+    )
+    zero1 = np.zeros_like(singles)
+    zero2 = np.zeros_like(doubles)
+
+    cisd0, cisd1, _ = cisd_sigma(e_ref, f, u, c0, singles, zero2, o, v)
+    cis0, cis1 = cis_sigma(e_ref, f, u, c0, singles, o, v)
+    np.testing.assert_allclose(cisd0, cis0, atol=3e-11)
+    np.testing.assert_allclose(cisd1, cis1, atol=3e-11)
+    np.testing.assert_allclose(
+        cisd_one_rdm(c0, singles, zero2), cis_one_rdm(c0, singles), atol=3e-11
+    )
+    np.testing.assert_allclose(
+        cisd_two_rdm(c0, singles, zero2), cis_two_rdm(c0, singles), atol=3e-11
+    )
+
+    cisd0, _, cisd2 = cisd_sigma(e_ref, f, u, c0, zero1, doubles, o, v)
+    cid0, cid2 = cid_sigma(e_ref, f, u, c0, doubles, o, v)
+    np.testing.assert_allclose(cisd0, cid0, atol=3e-11)
+    np.testing.assert_allclose(cisd2, cid2, atol=3e-11)
+    np.testing.assert_allclose(
+        cisd_one_rdm(c0, zero1, doubles), cid_one_rdm(c0, doubles), atol=3e-11
+    )
+    np.testing.assert_allclose(
+        cisd_two_rdm(c0, zero1, doubles), cid_two_rdm(c0, doubles), atol=3e-11
+    )
+
+
+def test_closed_shell_cisd_supports_independent_left_state() -> None:
+    rng = np.random.default_rng(1427)
+    nocc, nvir = 2, 3
+    e_ref, f, u, h, o, v = _hermitian_spatial_system(rng, nocc, nvir)
+    c0 = np.complex128(0.3 - 0.8j)
+    c1 = _complex_random(rng, (nvir, nocc))
+    c2 = _column_symmetric_doubles(
+        _complex_random(rng, (nvir, nvir, nocc, nocc))
+    )
+    left0 = np.complex128(-0.2 + 0.5j)
+    left1 = _complex_random(rng, (nocc, nvir))
+    raw_left2 = _complex_random(rng, (nocc, nocc, nvir, nvir))
+    left2 = 0.5 * (raw_left2 + raw_left2.transpose(1, 0, 3, 2))
+
+    norm = cisd_norm(c0, c1, c2, left0, left1, left2)
+    gamma = cisd_one_rdm(c0, c1, c2, left0, left1, left2)
+    gamma2 = cisd_two_rdm(c0, c1, c2, left0, left1, left2)
+    np.testing.assert_allclose(np.trace(gamma), 2 * nocc * norm, atol=5e-11)
+    np.testing.assert_allclose(
+        np.einsum("pqrq->pr", gamma2, optimize=True),
+        (2 * nocc - 1) * gamma,
+        atol=5e-11,
+    )
+
+    sigma0, sigma1, sigma2 = cisd_sigma(e_ref, f, u, c0, c1, c2, o, v)
+    energy_sigma = left0 * sigma0
+    energy_sigma += np.einsum("ia,ai->", left1, sigma1, optimize=True)
+    energy_sigma += 0.5 * np.einsum(
+        "ijab,abij->", left2, sigma2, optimize=True
+    )
+    energy_rdm = np.einsum("pq,pq->", h, gamma, optimize=True)
+    energy_rdm += 0.5 * np.einsum(
+        "pqrs,pqrs->", u, gamma2, optimize=True
+    )
+    np.testing.assert_allclose(energy_sigma, energy_rdm, atol=8e-10)
+
+    with pytest.raises(ValueError, match="supplied together"):
+        cisd_one_rdm(c0, c1, c2, left_c0=left0)

@@ -29,6 +29,18 @@ from manybody_lib.configuration_interaction.spin_orbital.cid import (
 from manybody_lib.configuration_interaction.spin_orbital.cid import (
     compute_two_rdm as cid_two_rdm,
 )
+from manybody_lib.configuration_interaction.spin_orbital.cisd import (
+    compute_norm as cisd_norm,
+)
+from manybody_lib.configuration_interaction.spin_orbital.cisd import (
+    compute_one_rdm as cisd_one_rdm,
+)
+from manybody_lib.configuration_interaction.spin_orbital.cisd import (
+    compute_sigma as cisd_sigma,
+)
+from manybody_lib.configuration_interaction.spin_orbital.cisd import (
+    compute_two_rdm as cisd_two_rdm,
+)
 
 
 def _complex_random(rng: np.random.Generator, shape: tuple[int, ...]) -> np.ndarray:
@@ -85,7 +97,7 @@ def _assert_spin_rdm_invariants(
     )
 
 
-@pytest.mark.parametrize("method", ["cis", "cid"])
+@pytest.mark.parametrize("method", ["cis", "cid", "cisd"])
 def test_spin_orbital_rdm_invariants(method: str) -> None:
     rng = np.random.default_rng(714)
     nocc, nvir = 3, 4
@@ -96,18 +108,26 @@ def test_spin_orbital_rdm_invariants(method: str) -> None:
         norm = cis_norm(c0, amplitudes)
         gamma = cis_one_rdm(c0, amplitudes)
         gamma2 = cis_two_rdm(c0, amplitudes)
-    else:
+    elif method == "cid":
         amplitudes = _antisymmetric_doubles(
             _complex_random(rng, (nvir, nvir, nocc, nocc))
         )
         norm = cid_norm(c0, amplitudes)
         gamma = cid_one_rdm(c0, amplitudes)
         gamma2 = cid_two_rdm(c0, amplitudes)
+    else:
+        singles = _complex_random(rng, (nvir, nocc))
+        doubles = _antisymmetric_doubles(
+            _complex_random(rng, (nvir, nvir, nocc, nocc))
+        )
+        norm = cisd_norm(c0, singles, doubles)
+        gamma = cisd_one_rdm(c0, singles, doubles)
+        gamma2 = cisd_two_rdm(c0, singles, doubles)
 
     _assert_spin_rdm_invariants(gamma, gamma2, norm, nocc)
 
 
-@pytest.mark.parametrize("method", ["cis", "cid"])
+@pytest.mark.parametrize("method", ["cis", "cid", "cisd"])
 def test_spin_orbital_sigma_energy_closure(method: str) -> None:
     rng = np.random.default_rng(812)
     nocc, nvir = 3, 4
@@ -122,7 +142,7 @@ def test_spin_orbital_sigma_energy_closure(method: str) -> None:
         )
         gamma = cis_one_rdm(c0, amplitudes)
         gamma2 = cis_two_rdm(c0, amplitudes)
-    else:
+    elif method == "cid":
         amplitudes = _antisymmetric_doubles(
             _complex_random(rng, (nvir, nvir, nocc, nocc))
         )
@@ -132,6 +152,23 @@ def test_spin_orbital_sigma_energy_closure(method: str) -> None:
         )
         gamma = cid_one_rdm(c0, amplitudes)
         gamma2 = cid_two_rdm(c0, amplitudes)
+    else:
+        singles = _complex_random(rng, (nvir, nocc))
+        doubles = _antisymmetric_doubles(
+            _complex_random(rng, (nvir, nvir, nocc, nocc))
+        )
+        sigma0, sigma1, sigma2 = cisd_sigma(
+            e_ref, f, u, c0, singles, doubles, o, v
+        )
+        energy_sigma = np.conjugate(c0) * sigma0
+        energy_sigma += np.einsum(
+            "ai,ai->", singles.conj(), sigma1, optimize=True
+        )
+        energy_sigma += 0.25 * np.einsum(
+            "abij,abij->", doubles.conj(), sigma2, optimize=True
+        )
+        gamma = cisd_one_rdm(c0, singles, doubles)
+        gamma2 = cisd_two_rdm(c0, singles, doubles)
 
     energy_rdm = np.einsum("pq,pq->", h, gamma, optimize=True)
     energy_rdm += 0.25 * np.einsum(
@@ -167,3 +204,38 @@ def test_spin_orbital_sigma_is_complex_linear(method: str) -> None:
     if method == "cid":
         np.testing.assert_allclose(sigma, -sigma.swapaxes(0, 1), atol=2e-11)
         np.testing.assert_allclose(sigma, -sigma.swapaxes(2, 3), atol=2e-11)
+
+
+def test_spin_orbital_cisd_reduces_to_cis_and_cid() -> None:
+    rng = np.random.default_rng(991)
+    nocc, nvir = 2, 3
+    e_ref, f, u, _, o, v = _hermitian_spin_orbital_system(rng, nocc, nvir)
+    c0 = np.complex128(0.1 - 0.7j)
+    singles = _complex_random(rng, (nvir, nocc))
+    doubles = _antisymmetric_doubles(
+        _complex_random(rng, (nvir, nvir, nocc, nocc))
+    )
+    zero1 = np.zeros_like(singles)
+    zero2 = np.zeros_like(doubles)
+
+    cisd0, cisd1, cisd2 = cisd_sigma(e_ref, f, u, c0, singles, zero2, o, v)
+    cis0, cis1 = cis_sigma(e_ref, f, u, c0, singles, o, v)
+    np.testing.assert_allclose(cisd0, cis0, atol=2e-11)
+    np.testing.assert_allclose(cisd1, cis1, atol=2e-11)
+    np.testing.assert_allclose(
+        cisd_one_rdm(c0, singles, zero2), cis_one_rdm(c0, singles), atol=2e-11
+    )
+    np.testing.assert_allclose(
+        cisd_two_rdm(c0, singles, zero2), cis_two_rdm(c0, singles), atol=2e-11
+    )
+
+    cisd0, _, cisd2 = cisd_sigma(e_ref, f, u, c0, zero1, doubles, o, v)
+    cid0, cid2 = cid_sigma(e_ref, f, u, c0, doubles, o, v)
+    np.testing.assert_allclose(cisd0, cid0, atol=2e-11)
+    np.testing.assert_allclose(cisd2, cid2, atol=2e-11)
+    np.testing.assert_allclose(
+        cisd_one_rdm(c0, zero1, doubles), cid_one_rdm(c0, doubles), atol=2e-11
+    )
+    np.testing.assert_allclose(
+        cisd_two_rdm(c0, zero1, doubles), cid_two_rdm(c0, doubles), atol=2e-11
+    )

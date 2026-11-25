@@ -29,6 +29,18 @@ from manybody_lib.configuration_interaction.closed_shell.cid import (
 from manybody_lib.configuration_interaction.closed_shell.cid import (
     compute_two_rdm as closed_cid_two_rdm,
 )
+from manybody_lib.configuration_interaction.closed_shell.cisd import (
+    compute_norm as closed_cisd_norm,
+)
+from manybody_lib.configuration_interaction.closed_shell.cisd import (
+    compute_one_rdm as closed_cisd_one_rdm,
+)
+from manybody_lib.configuration_interaction.closed_shell.cisd import (
+    compute_sigma as closed_cisd_sigma,
+)
+from manybody_lib.configuration_interaction.closed_shell.cisd import (
+    compute_two_rdm as closed_cisd_two_rdm,
+)
 from manybody_lib.configuration_interaction.spin_orbital.cis import (
     compute_norm as spin_cis_norm,
 )
@@ -52,6 +64,18 @@ from manybody_lib.configuration_interaction.spin_orbital.cid import (
 )
 from manybody_lib.configuration_interaction.spin_orbital.cid import (
     compute_two_rdm as spin_cid_two_rdm,
+)
+from manybody_lib.configuration_interaction.spin_orbital.cisd import (
+    compute_norm as spin_cisd_norm,
+)
+from manybody_lib.configuration_interaction.spin_orbital.cisd import (
+    compute_one_rdm as spin_cisd_one_rdm,
+)
+from manybody_lib.configuration_interaction.spin_orbital.cisd import (
+    compute_sigma as spin_cisd_sigma,
+)
+from manybody_lib.configuration_interaction.spin_orbital.cisd import (
+    compute_two_rdm as spin_cisd_two_rdm,
 )
 
 pyscf = pytest.importorskip("pyscf")
@@ -221,7 +245,7 @@ def _spin_trace_two_rdm(gamma2: np.ndarray) -> np.ndarray:
 
 
 @pytest.mark.integration
-@pytest.mark.parametrize("method", ["cis", "cid"])
+@pytest.mark.parametrize("method", ["cis", "cid", "cisd"])
 def test_pyscf_spin_and_closed_shell_agree(
     rhf_integrals: tuple[complex, np.ndarray, np.ndarray, int], method: str
 ) -> None:
@@ -254,7 +278,7 @@ def test_pyscf_spin_and_closed_shell_agree(
         spin_gamma = spin_cis_one_rdm(c0, spin)
         closed_gamma2 = closed_cis_two_rdm(c0, closed)
         spin_gamma2 = spin_cis_two_rdm(c0, spin)
-    else:
+    elif method == "cid":
         raw = rng.standard_normal((nvir, nvir, nocc, nocc))
         raw = raw + 1j * rng.standard_normal(raw.shape)
         closed = 0.5 * (raw + raw.transpose(1, 0, 3, 2))
@@ -272,10 +296,40 @@ def test_pyscf_spin_and_closed_shell_agree(
         spin_gamma = spin_cid_one_rdm(c0, spin)
         closed_gamma2 = closed_cid_two_rdm(c0, closed)
         spin_gamma2 = spin_cid_two_rdm(c0, spin)
+    else:
+        closed1 = rng.standard_normal((nvir, nocc))
+        closed1 = closed1 + 1j * rng.standard_normal(closed1.shape)
+        raw = rng.standard_normal((nvir, nvir, nocc, nocc))
+        raw = raw + 1j * rng.standard_normal(raw.shape)
+        closed2 = 0.5 * (raw + raw.transpose(1, 0, 3, 2))
+        spin1 = _map_singles_to_spin(closed1)
+        spin2 = _map_doubles_to_spin(closed2)
+        closed_sigma0, closed_sigma1, closed_sigma2 = closed_cisd_sigma(
+            e_ref, closed_f, u, c0, closed1, closed2, o, v
+        )
+        spin_sigma0, spin_sigma1, spin_sigma2 = spin_cisd_sigma(
+            spin_e_ref, spin_f, spin_u, c0, spin1, spin2, o_spin, v_spin
+        )
+        closed_sigma = (closed_sigma1, closed_sigma2)
+        spin_sigma = (spin_sigma1, spin_sigma2)
+        expected_spin_sigma = (
+            _map_singles_to_spin(closed_sigma1),
+            _map_doubles_to_spin(closed_sigma2),
+        )
+        closed_norm = closed_cisd_norm(c0, closed1, closed2)
+        spin_norm = spin_cisd_norm(c0, spin1, spin2)
+        closed_gamma = closed_cisd_one_rdm(c0, closed1, closed2)
+        spin_gamma = spin_cisd_one_rdm(c0, spin1, spin2)
+        closed_gamma2 = closed_cisd_two_rdm(c0, closed1, closed2)
+        spin_gamma2 = spin_cisd_two_rdm(c0, spin1, spin2)
 
     np.testing.assert_allclose(spin_norm, closed_norm, atol=3e-10)
     np.testing.assert_allclose(spin_sigma0, closed_sigma0, atol=3e-10)
-    np.testing.assert_allclose(spin_sigma, expected_spin_sigma, atol=5e-10)
+    if method == "cisd":
+        for actual, expected in zip(spin_sigma, expected_spin_sigma, strict=True):
+            np.testing.assert_allclose(actual, expected, atol=5e-10)
+    else:
+        np.testing.assert_allclose(spin_sigma, expected_spin_sigma, atol=5e-10)
     np.testing.assert_allclose(
         _spin_trace_one_rdm(spin_gamma), closed_gamma, atol=3e-10
     )
