@@ -1,6 +1,6 @@
 # Closed-shell symbolic algebra implementation plan
 
-**Status:** active; Milestones 0--2 completed
+**Status:** active; Milestones 0--3 completed
 
 **Date:** 2026-11-26
 
@@ -605,7 +605,7 @@ Completion record:
   pre-existing legacy CI docstring escape warnings remain outside this
   milestone's scope.
 
-### Milestone 3: CIS, CID, and CISD sigma vectors
+### Milestone 3: CIS, CID, and CISD sigma vectors (completed 2026-11-26)
 
 Deliverables:
 
@@ -621,6 +621,35 @@ Exit criteria:
 - numerical agreement with the existing closed-shell implementations for
   random complex tensors;
 - spin-orbital/closed-shell agreement for a restricted reference.
+
+Completion record:
+
+- CI right states are represented as immutable reference, singles, and
+  redundant-doubles rank sectors with the HJO factors `1`, `1`, and `1/2` and
+  simultaneous doubles-column symmetry;
+- the HJO projectors implement `Y_1 = E_{ia}/2` and
+  `Y_2 = E_{jb}E_{ia}/3 + E_{ib}E_{ja}/6`; their exact metrics reduce to the
+  direct singles delta product and the direct-plus-column-swapped doubles
+  delta products;
+- the Hamiltonian builder resolves every general spatial sum into occupied
+  and virtual blocks, eliminates `h` through the documented Fock definition,
+  and subtracts its derived reference expectation so the final operator is
+  exactly `E_ref + H_N`;
+- the right sigma generator produces canonical rank components with term
+  counts `(2, 6)` for CIS, `(3, 16)` for CID, and `(4, 12, 22)` for CISD;
+- every CIS, CID, and CISD right-sigma term agrees exactly with the frozen
+  expanded Drudge fixtures after common canonicalization;
+- random complex numerical evaluation of the generated equations agrees with
+  the existing closed-shell kernels and, after restricted spin expansion,
+  with the spin-orbital kernels for all three truncations;
+- verified column-permutation presentation reduces the displayed CID doubles
+  expression from 16 to 10 terms and CISD doubles from 22 to 13 terms, with
+  exact automatic re-expansion checks;
+- `symbolic_derivations/closed_shell/generate_ci.py` prints complete expanded
+  or permutation-factored LaTeX `align` environments for any or all methods;
+- the complete repository suite passes with 78 tests.  The same three
+  pre-existing legacy CI docstring escape warnings remain outside this
+  milestone's scope.
 
 ### Milestone 4: CI norms and RDMs
 
