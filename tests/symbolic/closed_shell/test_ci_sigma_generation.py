@@ -2,14 +2,10 @@
 
 from __future__ import annotations
 
-from fractions import Fraction
 import itertools
-import json
-from pathlib import Path
 
 import numpy as np
 import pytest
-from sympy import Indexed, IndexedBase, KroneckerDelta, Mul, Symbol, sympify
 
 from manybody_lib.configuration_interaction.closed_shell.cis import (
     compute_sigma as closed_cis_sigma,
@@ -53,98 +49,7 @@ from manybody_lib.symbolic.closed_shell.manifolds.hjo import (
     REFERENCE_COEFFICIENT,
     SINGLES_AMPLITUDE,
 )
-
-
-FIXTURES = Path(__file__).with_name("fixtures")
-_OCCUPIED_NAMES = frozenset("ijklmn")
-_VIRTUAL_NAMES = frozenset("abcdefgh")
-
-
-def _fixture_index(name: str, sum_spaces: dict[str, str]):
-    if name in sum_spaces:
-        space = sum_spaces[name]
-        if space == "O":
-            return occupied(name, dummy=True)
-        if space == "V":
-            return virtual(name, dummy=True)
-        raise ValueError(f"unknown fixture range {space!r}")
-    if name[0] in _OCCUPIED_NAMES:
-        return occupied(name)
-    if name[0] in _VIRTUAL_NAMES:
-        return virtual(name)
-    raise ValueError(f"cannot infer the orbital space of {name!r}")
-
-
-def _fixture_expression(record: dict) -> Expression:
-    indexed_bases = {
-        name: IndexedBase(name)
-        for name in ("C", "f", "u")
-    }
-    local_symbols = {
-        **indexed_bases,
-        "C0": Symbol("C0"),
-        "Eref": Symbol("Eref"),
-        "KroneckerDelta": KroneckerDelta,
-    }
-    terms = []
-    for fixture_term in record["terms"]:
-        sum_spaces = {
-            item["index"]: item["range"]
-            for item in fixture_term["sums"]
-        }
-        parsed = sympify(fixture_term["amplitude"], locals=local_symbols)
-        coefficient, remainder = parsed.as_coeff_Mul()
-        factors = []
-        for factor in Mul.make_args(remainder):
-            if isinstance(factor, Indexed):
-                label = str(factor.base.label)
-                indices = tuple(
-                    _fixture_index(str(index), sum_spaces)
-                    for index in factor.indices
-                )
-                if label == "C" and len(indices) == 2:
-                    factors.append(SINGLES_AMPLITUDE(*indices))
-                elif label == "C" and len(indices) == 4:
-                    factors.append(DOUBLES_AMPLITUDE(*indices))
-                elif label == "f":
-                    factors.append(FOCK(*indices))
-                elif label == "u":
-                    factors.append(TWO_ELECTRON(*indices))
-                else:
-                    raise ValueError(f"unknown fixture tensor {label!r}")
-            elif isinstance(factor, KroneckerDelta):
-                left, right = (
-                    _fixture_index(str(index), sum_spaces)
-                    for index in factor.args
-                )
-                factors.append(Delta(left, right))
-            elif factor == local_symbols["C0"]:
-                factors.append(REFERENCE_COEFFICIENT())
-            elif factor == local_symbols["Eref"]:
-                factors.append(REFERENCE_ENERGY())
-            else:
-                raise TypeError(f"unsupported fixture factor {factor!r}")
-        terms.append(
-            Term(
-                Fraction(int(coefficient.p), int(coefficient.q)),
-                tuple(factors),
-            )
-        )
-    return Expression.from_terms(terms)
-
-
-def _fixture_sigma(method: str) -> dict[int, Expression]:
-    data = json.loads((FIXTURES / f"hjo_{method}.json").read_text())
-    result = {}
-    for lhs, record in data["expressions"]["right_sigma"].items():
-        if lhs == r"\sigma_{0}":
-            rank = 0
-        elif "^{ab}" in lhs:
-            rank = 2
-        else:
-            rank = 1
-        result[rank] = _fixture_expression(record)
-    return result
+from tests.symbolic.closed_shell._fixture_parser import load_right_sigma
 
 
 def test_hjo_state_sectors_and_metrics() -> None:
@@ -190,7 +95,7 @@ def test_normal_ordered_hamiltonian_has_reference_energy_expectation() -> None:
 @pytest.mark.parametrize("method", ("cis", "cid", "cisd"))
 def test_generated_right_sigma_matches_expanded_drudge_fixture(method: str) -> None:
     generated = derive_right_sigma(method)
-    expected = _fixture_sigma(method)
+    expected = load_right_sigma(method)
 
     assert set(generated.ranks) == set(expected)
     for rank, expression in generated.components:

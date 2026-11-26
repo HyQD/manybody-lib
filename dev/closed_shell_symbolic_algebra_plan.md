@@ -1,6 +1,6 @@
 # Closed-shell symbolic algebra implementation plan
 
-**Status:** active; Milestones 0--3 completed
+**Status:** active; Milestones 0--4 completed
 
 **Date:** 2026-11-26
 
@@ -651,7 +651,7 @@ Completion record:
   pre-existing legacy CI docstring escape warnings remain outside this
   milestone's scope.
 
-### Milestone 4: CI norms and RDMs
+### Milestone 4: CI norms and RDMs (completed 2026-11-26)
 
 Deliverables:
 
@@ -665,6 +665,36 @@ Exit criteria:
 - particle-number and RDM contraction identities pass;
 - Hermiticity holds after the explicit Hermitian-bra substitution;
 - RDM and sigma evaluations give the same energy.
+
+Completion record:
+
+- independent left CIS, CID, and CISD states use separate `C0tilde`,
+  `Ctilde[i,a]`, and column-symmetric `Ctilde[i,j,a,b]` tensors together with
+  the HJO dual operators; no adjoint relation is assumed during derivation;
+- an explicit post-derivation substitution applies
+  `C0tilde = C0*`, `Ctilde[i,a] = 2 C[a,i]*`, and
+  `Ctilde[i,j,a,b] = (4 C[a,b,i,j] - 2 C[a,b,j,i])*` only when requested;
+- unnormalized norms and all nonzero unique 1-RDM and 2-RDM blocks are
+  generated for CIS, CID, and CISD, while arbitrary occupied/virtual blocks
+  remain available through block-level generator functions;
+- every generated norm and RDM term agrees exactly with the frozen expanded
+  Drudge fixtures after common canonicalization;
+- normalization remains absent by default and `normalize_by_norm` exposes an
+  explicit symbolic numerator/denominator object without modifying either
+  expression;
+- after the explicit Hermitian-bra substitution, norms are real and the
+  one- and two-body Hermiticity relations pass as exact symbolic identities;
+- random complex independent-left/right evaluations satisfy
+  `Tr(gamma) = N <L|R>` and the spatial RDM contraction
+  `sum_q Gamma[p,q,r,q] = (N - 1) gamma[p,r]` for all three truncations;
+- energies evaluated from `h`, `u`, 1-RDM, and 2-RDM agree with the
+  independent-left contraction of the generated right sigma vectors, both
+  before and after explicit division by the norm;
+- `symbolic_derivations/closed_shell/generate_rdms.py` prints complete
+  expanded or permutation-factored LaTeX `align` environments;
+- the complete repository suite passes with 90 tests.  The same three
+  pre-existing legacy CI docstring escape warnings remain outside this
+  milestone's scope.
 
 ### Milestone 5: Matthews CISDT
 

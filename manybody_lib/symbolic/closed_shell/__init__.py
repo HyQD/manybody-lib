@@ -7,9 +7,18 @@ from :mod:`manybody_lib.symbolic.closed_shell.sympy_bridge` when the optional
 
 from .canonicalize import canonicalize_expression, canonicalize_term
 from .commutators import atomic_commutator, commutator, multiply
+from .conjugation import conjugate_scalar_expression
 from .equations import (
+    CIRDMs,
+    RDMBlock,
     RightSigmaVector,
+    SymbolicQuotient,
+    derive_ci_rdms,
+    derive_one_rdm_block,
     derive_right_sigma,
+    derive_two_rdm_block,
+    normalize_by_norm,
+    rdms_to_latex,
     right_sigma_to_latex,
 )
 from .expressions import Expression, Term
@@ -31,13 +40,19 @@ from .indices import (
 )
 from .operators import OneBodyOperator, OperatorWord, TwoBodyOperator
 from .manifolds import (
+    CILeftState,
     CIState,
     CIStateSector,
     DOUBLES_AMPLITUDE,
+    LEFT_DOUBLES_AMPLITUDE,
+    LEFT_REFERENCE_COEFFICIENT,
+    LEFT_SINGLES_AMPLITUDE,
     REFERENCE_COEFFICIENT,
     SINGLES_AMPLITUDE,
     build_hjo_dual_projector,
+    build_hjo_left_state,
     build_hjo_right_state,
+    hermitian_bra_substitution,
     hjo_metric,
     right_excitation,
 )
@@ -66,6 +81,8 @@ from .tensors import (
 
 
 __all__ = [
+    "CILeftState",
+    "CIRDMs",
     "CIState",
     "CIStateSector",
     "ColumnPermutationPresentation",
@@ -77,6 +94,9 @@ __all__ = [
     "I",
     "Index",
     "IndexRole",
+    "LEFT_DOUBLES_AMPLITUDE",
+    "LEFT_REFERENCE_COEFFICIENT",
+    "LEFT_SINGLES_AMPLITUDE",
     "MINUS_ONE",
     "ONE",
     "OneBodyOperator",
@@ -86,8 +106,10 @@ __all__ = [
     "PermutationSymmetry",
     "REFERENCE_ENERGY",
     "REFERENCE_COEFFICIENT",
+    "RDMBlock",
     "RightSigmaVector",
     "SINGLES_AMPLITUDE",
+    "SymbolicQuotient",
     "Tensor",
     "TensorSymbol",
     "Term",
@@ -98,23 +120,31 @@ __all__ = [
     "atomic_commutator",
     "build_effective_bare_hamiltonian",
     "build_hjo_dual_projector",
+    "build_hjo_left_state",
     "build_hjo_right_state",
     "build_normal_ordered_hamiltonian",
     "canonicalize_expression",
     "canonicalize_term",
     "commutator",
+    "conjugate_scalar_expression",
+    "derive_ci_rdms",
+    "derive_one_rdm_block",
     "derive_right_sigma",
+    "derive_two_rdm_block",
     "expand_two_body_operators",
     "expression_to_latex",
     "factor_column_permutation",
     "general",
     "hjo_metric",
+    "hermitian_bra_substitution",
     "multiply",
+    "normalize_by_norm",
     "occupied",
     "permute_expression",
     "reference_expectation",
     "reference_expectation_cache_clear",
     "reference_expectation_cache_info",
+    "rdms_to_latex",
     "simultaneous_column_symmetries",
     "spin",
     "term_to_latex",
