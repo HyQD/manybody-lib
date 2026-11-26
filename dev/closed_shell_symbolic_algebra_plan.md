@@ -1,6 +1,6 @@
 # Closed-shell symbolic algebra implementation plan
 
-**Status:** active; Milestones 0--4 completed
+**Status:** active; Milestones 0--5 completed
 
 **Date:** 2026-11-26
 
@@ -713,6 +713,43 @@ Exit criteria:
 - remaining Drudge triples-sigma sectors are completed or checked against an
   independent explicit-spin derivation;
 - peak memory and runtime are recorded for every rank/block.
+
+Completion record:
+
+- Matthews reference, singles, doubles, and triples sectors use the redundant
+  factors `1`, `1`, `1/2`, and `1/6`, simultaneous excitation-column
+  symmetry, and independent covariant left coefficients;
+- the S1, S2, and S3 Gram matrices are constructed from closed-shell operator
+  overlaps, then checked against the analytic group-algebra matrices rather
+  than taking a stored inverse as their sole definition;
+- exact spectra, ranks, null projectors, physical projectors, and
+  Moore--Penrose inverses are exposed and satisfy both pseudoinverse
+  identities; the triples metric has rank five and the documented
+  one-dimensional trivial-S3 null space;
+- right and left triples null-gauge responses vanish identically for the norm,
+  every generated RDM block, and every sigma component, while the resolved
+  triples sigma is exactly null-free;
+- the unnormalized norm, all four 1-RDM blocks, and all ten independent 2-RDM
+  blocks agree term-for-term with the completed frozen Drudge results;
+- all four metric-resolved sigma components are complete, with canonical term
+  counts `(4, 16, 37, 294)`; in particular, this engine completes the rank-3
+  diagonal Hamiltonian pieces for which the earlier Drudge run was stopped;
+- every one of the 96 operator words entering the triples projection is
+  checked against independent explicit-alpha/beta evaluation for both
+  distinct-orbital and repeated-orbital assignments;
+- Matthews metric actions have a reversible presentation in terms of exact
+  occupied-index permutation sums; every displayed form is automatically
+  expanded and compared with the canonical resolved expression;
+- `symbolic_derivations/closed_shell/generate_matthews_cisdt.py` prints metric,
+  sigma, and RDM LaTeX separately or together and can write current profiling
+  data as JSON;
+- `dev/closed_shell_matthews_cisdt_profile.json` records cold-run wall time,
+  peak Python allocation, and final term count for every sigma rank, the norm,
+  and every RDM block on the development machine.  These observations are not
+  used as timing thresholds;
+- the complete repository suite passes with 96 tests.  The same three
+  pre-existing legacy CI docstring escape warnings remain outside this
+  milestone's scope.
 
 ### Milestone 6: connected BCH prototype
 

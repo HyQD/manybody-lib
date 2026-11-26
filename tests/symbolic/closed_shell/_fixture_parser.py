@@ -26,6 +26,14 @@ from manybody_lib.symbolic.closed_shell.manifolds.hjo import (
     REFERENCE_COEFFICIENT,
     SINGLES_AMPLITUDE,
 )
+from manybody_lib.symbolic.closed_shell.manifolds.matthews import (
+    MATTHEWS_DOUBLES,
+    MATTHEWS_LEFT_DOUBLES,
+    MATTHEWS_LEFT_SINGLES,
+    MATTHEWS_LEFT_TRIPLES,
+    MATTHEWS_SINGLES,
+    MATTHEWS_TRIPLES,
+)
 
 
 FIXTURES = Path(__file__).with_name("fixtures")
@@ -53,7 +61,18 @@ def fixture_expression(record: dict) -> Expression:
 
     indexed_bases = {
         name: IndexedBase(name)
-        for name in ("C", "Ctilde", "f", "u")
+        for name in (
+            "C",
+            "Ctilde",
+            "C1",
+            "C2",
+            "C3",
+            "Ctilde1",
+            "Ctilde2",
+            "Ctilde3",
+            "f",
+            "u",
+        )
     }
     local_symbols = {
         **indexed_bases,
@@ -86,6 +105,18 @@ def fixture_expression(record: dict) -> Expression:
                     factors.append(LEFT_SINGLES_AMPLITUDE(*indices))
                 elif label == "Ctilde" and len(indices) == 4:
                     factors.append(LEFT_DOUBLES_AMPLITUDE(*indices))
+                elif label == "C1":
+                    factors.append(MATTHEWS_SINGLES(*indices))
+                elif label == "C2":
+                    factors.append(MATTHEWS_DOUBLES(*indices))
+                elif label == "C3":
+                    factors.append(MATTHEWS_TRIPLES(*indices))
+                elif label == "Ctilde1":
+                    factors.append(MATTHEWS_LEFT_SINGLES(*indices))
+                elif label == "Ctilde2":
+                    factors.append(MATTHEWS_LEFT_DOUBLES(*indices))
+                elif label == "Ctilde3":
+                    factors.append(MATTHEWS_LEFT_TRIPLES(*indices))
                 elif label == "f":
                     factors.append(FOCK(*indices))
                 elif label == "u":
@@ -119,6 +150,16 @@ def load_fixture_section(method: str, section: str) -> dict[str, Expression]:
     """Load and translate one named HJO fixture section."""
 
     data = json.loads((FIXTURES / f"hjo_{method}.json").read_text())
+    return {
+        label: fixture_expression(record)
+        for label, record in data["expressions"][section].items()
+    }
+
+
+def load_fixture_file(filename: str, section: str) -> dict[str, Expression]:
+    """Load one expression section from an explicitly named fixture file."""
+
+    data = json.loads((FIXTURES / filename).read_text())
     return {
         label: fixture_expression(record)
         for label, record in data["expressions"][section].items()
