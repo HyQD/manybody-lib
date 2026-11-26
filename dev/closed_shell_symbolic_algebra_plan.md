@@ -1,6 +1,6 @@
 # Closed-shell symbolic algebra implementation plan
 
-**Status:** active; Milestones 0 and 1 completed
+**Status:** active; Milestones 0--2 completed
 
 **Date:** 2026-11-26
 
@@ -561,7 +561,7 @@ Completion record:
   pre-existing invalid escape sequences in legacy closed-shell CI docstrings
   remain outside this milestone's scope.
 
-### Milestone 2: commutators and reference contractions
+### Milestone 2: commutators and reference contractions (completed 2026-11-26)
 
 Deliverables:
 
@@ -576,6 +576,34 @@ Exit criteria:
 - all operator words required through CISD agree with the explicit-spin
   backend;
 - repeated evaluation hits the cache and returns deterministic results.
+
+Completion record:
+
+- the defining `[E, E]` and `[e, E]` rules are implemented with exact delta
+  factors, reverse-order antisymmetry, distributive expression products, and
+  both Leibniz rules for operator words; `[e, e]` remains an exact unreduced
+  word difference because no additional atomic rule is required;
+- reference contraction terminally expands `e` into its defining `E` products
+  and reduces the resulting words with closed-shell left/right termination
+  rules; unresolved general indices are rejected until a caller selects their
+  occupied/virtual blocks;
+- term-scoped dummy indices are protected across cached word contractions and
+  restored before whole-term canonicalization, while sums eliminated entirely
+  by a contraction produce the appropriate orbital-dimension factors;
+- terminal expansion, one-body word reduction, and complete operator-word
+  expectation values are independently memoized with public cache inspection
+  and reset helpers;
+- a dependency-free explicit-spin bit-string backend evaluates short `E`/`e`
+  words in exact integer arithmetic and is cross-checked against the frozen
+  independent determinant oracle;
+- antisymmetry, linearity, both Leibniz rules, a one-body Jacobi identity,
+  exact unreduced `[e, e]`, dummy-scope preservation, and cache reuse pass;
+- 3,276 reference/singles/doubles bra--ket words containing the identity, all
+  representative one-body blocks, and all representative two-body blocks
+  agree exactly with explicit alpha/beta evaluation;
+- the complete repository suite passes with 67 tests.  The same three
+  pre-existing legacy CI docstring escape warnings remain outside this
+  milestone's scope.
 
 ### Milestone 3: CIS, CID, and CISD sigma vectors
 
