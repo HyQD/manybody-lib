@@ -1,6 +1,6 @@
 # Closed-shell symbolic algebra implementation plan
 
-**Status:** active; Milestone 0 completed
+**Status:** active; Milestones 0 and 1 completed
 
 **Date:** 2026-11-26
 
@@ -519,7 +519,7 @@ Completion record:
   `e`, `[E,E]`, `[e,E]`, and the closed-shell reference termination rules;
 - the complete repository test suite passes with 34 tests.
 
-### Milestone 1: internal representation and canonicalization
+### Milestone 1: internal representation and canonicalization (completed 2026-11-26)
 
 Deliverables:
 
@@ -536,6 +536,30 @@ Exit criteria:
 - shuffled construction orders yield identical expressions;
 - incompatible domain deltas vanish;
 - complex conjugation is preserved rather than simplified implicitly.
+
+Completion record:
+
+- the dependency-free core under `manybody_lib/symbolic/closed_shell/`
+  provides immutable typed indices, exact Gaussian-rational coefficients,
+  scalar tensors, deltas, orbital dimensions, atomic `E` and `e` operators,
+  ordered operator words, terms, and collected expressions;
+- delta graphs are reduced with explicit orbital-domain validation, free-index
+  constraints are retained, and closed dummy-only components produce symbolic
+  orbital dimensions;
+- canonicalization jointly handles tensor symmetry orbits, commuting-factor
+  ordering, deterministic domain-specific dummy renaming, exact coefficient
+  collection, simultaneous excitation-column permutations, and
+  antisymmetry-induced zeros;
+- the optional `symbolic` dependency group exposes exact SymPy conversion,
+  including noncommuting operator products and unevaluated complex
+  conjugation, while direct deterministic LaTeX output uses stacked tensor
+  indices;
+- focused canonicalization, core-model, and presentation tests pass, including
+  idempotence, renamed/shuffled constructions, incompatible deltas, explicit
+  conjugation, and a permutation stress check;
+- the complete repository suite passes with 51 tests.  Three warnings from
+  pre-existing invalid escape sequences in legacy closed-shell CI docstrings
+  remain outside this milestone's scope.
 
 ### Milestone 2: commutators and reference contractions
 
