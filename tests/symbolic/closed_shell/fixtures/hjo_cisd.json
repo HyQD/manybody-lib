@@ -1,0 +1,1643 @@
+{
+  "conventions": "CONVENTIONS.md",
+  "expressions": {
+    "left_sigma": {
+      "\\widetilde{\\sigma}^{ij}_{ab}": {
+        "latex": "E_{\\mathrm{ref}} \\widetilde{C}^{ij}_{ab}  \\\\ - \\widetilde{C}^{i}_{b}  f^{j}_{a}  \\\\ - \\widetilde{C}^{j}_{a}  f^{i}_{b}  \\\\ -  2 \\widetilde{C}_{0} u^{ij}_{ba}  \\\\  + 2 \\widetilde{C}^{i}_{a}  f^{j}_{b}  \\\\  + 2 \\widetilde{C}^{j}_{b}  f^{i}_{a}  \\\\  + 4 \\widetilde{C}_{0} u^{ij}_{ab}  \\\\  + \\widetilde{C}^{kl}_{ab}  u^{ij}_{kl}  \\\\  + f^{c}_{a}  \\widetilde{C}^{ij}_{cb}  \\\\  + f^{c}_{b}  \\widetilde{C}^{ij}_{ac}  \\\\ - \\widetilde{C}^{i}_{c}  u^{cj}_{ba}  \\\\ - \\widetilde{C}^{j}_{c}  u^{ic}_{ba}  \\\\  + 2 \\widetilde{C}^{i}_{c}  u^{cj}_{ab}  \\\\  + 2 \\widetilde{C}^{j}_{c}  u^{ic}_{ab}  \\\\  + \\widetilde{C}^{ij}_{cd}  u^{cd}_{ab}  \\\\  + \\widetilde{C}^{k}_{a}  u^{ij}_{bk}  \\\\  + \\widetilde{C}^{k}_{b}  u^{ij}_{ka}  \\\\ - f^{i}_{k}  \\widetilde{C}^{kj}_{ab}  \\\\ - f^{j}_{k}  \\widetilde{C}^{ik}_{ab}  \\\\ - 2 \\widetilde{C}^{k}_{a}  u^{ij}_{kb}  \\\\ - 2 \\widetilde{C}^{k}_{b}  u^{ij}_{ak}  \\\\ - \\widetilde{C}^{ik}_{ac}  u^{cj}_{bk}  \\\\ - \\widetilde{C}^{ik}_{bc}  u^{cj}_{ka}  \\\\ - \\widetilde{C}^{ik}_{cb}  u^{cj}_{ak}  \\\\ - \\widetilde{C}^{kj}_{ac}  u^{ic}_{kb}  \\\\ - \\widetilde{C}^{kj}_{ca}  u^{ic}_{bk}  \\\\ - \\widetilde{C}^{kj}_{cb}  u^{ic}_{ka}  \\\\  + 2 \\widetilde{C}^{ik}_{ac}  u^{cj}_{kb}  \\\\  + 2 \\widetilde{C}^{kj}_{cb}  u^{ic}_{ak}",
+        "term_count": 29,
+        "terms": [
+          {
+            "amplitude": "-2*C0tilde*u[i, j, b, a]",
+            "sums": []
+          },
+          {
+            "amplitude": "-Ctilde[i, b]*f[j, a]",
+            "sums": []
+          },
+          {
+            "amplitude": "-Ctilde[j, a]*f[i, b]",
+            "sums": []
+          },
+          {
+            "amplitude": "2*Ctilde[i, a]*f[j, b]",
+            "sums": []
+          },
+          {
+            "amplitude": "2*Ctilde[j, b]*f[i, a]",
+            "sums": []
+          },
+          {
+            "amplitude": "4*C0tilde*u[i, j, a, b]",
+            "sums": []
+          },
+          {
+            "amplitude": "Eref*Ctilde[i, j, a, b]",
+            "sums": []
+          },
+          {
+            "amplitude": "-2*Ctilde[k, a]*u[i, j, k, b]",
+            "sums": [
+              {
+                "index": "k",
+                "range": "O"
+              }
+            ]
+          },
+          {
+            "amplitude": "-2*Ctilde[k, b]*u[i, j, a, k]",
+            "sums": [
+              {
+                "index": "k",
+                "range": "O"
+              }
+            ]
+          },
+          {
+            "amplitude": "-Ctilde[i, k, a, b]*f[j, k]",
+            "sums": [
+              {
+                "index": "k",
+                "range": "O"
+              }
+            ]
+          },
+          {
+            "amplitude": "-Ctilde[k, j, a, b]*f[i, k]",
+            "sums": [
+              {
+                "index": "k",
+                "range": "O"
+              }
+            ]
+          },
+          {
+            "amplitude": "Ctilde[k, a]*u[i, j, b, k]",
+            "sums": [
+              {
+                "index": "k",
+                "range": "O"
+              }
+            ]
+          },
+          {
+            "amplitude": "Ctilde[k, b]*u[i, j, k, a]",
+            "sums": [
+              {
+                "index": "k",
+                "range": "O"
+              }
+            ]
+          },
+          {
+            "amplitude": "Ctilde[k, l, a, b]*u[i, j, k, l]",
+            "sums": [
+              {
+                "index": "k",
+                "range": "O"
+              },
+              {
+                "index": "l",
+                "range": "O"
+              }
+            ]
+          },
+          {
+            "amplitude": "-Ctilde[i, k, a, c]*u[c, j, b, k]",
+            "sums": [
+              {
+                "index": "k",
+                "range": "O"
+              },
+              {
+                "index": "c",
+                "range": "V"
+              }
+            ]
+          },
+          {
+            "amplitude": "-Ctilde[i, k, b, c]*u[c, j, k, a]",
+            "sums": [
+              {
+                "index": "k",
+                "range": "O"
+              },
+              {
+                "index": "c",
+                "range": "V"
+              }
+            ]
+          },
+          {
+            "amplitude": "-Ctilde[i, k, c, b]*u[c, j, a, k]",
+            "sums": [
+              {
+                "index": "k",
+                "range": "O"
+              },
+              {
+                "index": "c",
+                "range": "V"
+              }
+            ]
+          },
+          {
+            "amplitude": "-Ctilde[k, j, a, c]*u[i, c, k, b]",
+            "sums": [
+              {
+                "index": "k",
+                "range": "O"
+              },
+              {
+                "index": "c",
+                "range": "V"
+              }
+            ]
+          },
+          {
+            "amplitude": "-Ctilde[k, j, c, a]*u[i, c, b, k]",
+            "sums": [
+              {
+                "index": "k",
+                "range": "O"
+              },
+              {
+                "index": "c",
+                "range": "V"
+              }
+            ]
+          },
+          {
+            "amplitude": "-Ctilde[k, j, c, b]*u[i, c, k, a]",
+            "sums": [
+              {
+                "index": "k",
+                "range": "O"
+              },
+              {
+                "index": "c",
+                "range": "V"
+              }
+            ]
+          },
+          {
+            "amplitude": "2*Ctilde[i, k, a, c]*u[c, j, k, b]",
+            "sums": [
+              {
+                "index": "k",
+                "range": "O"
+              },
+              {
+                "index": "c",
+                "range": "V"
+              }
+            ]
+          },
+          {
+            "amplitude": "2*Ctilde[k, j, c, b]*u[i, c, a, k]",
+            "sums": [
+              {
+                "index": "k",
+                "range": "O"
+              },
+              {
+                "index": "c",
+                "range": "V"
+              }
+            ]
+          },
+          {
+            "amplitude": "-Ctilde[i, c]*u[c, j, b, a]",
+            "sums": [
+              {
+                "index": "c",
+                "range": "V"
+              }
+            ]
+          },
+          {
+            "amplitude": "-Ctilde[j, c]*u[i, c, b, a]",
+            "sums": [
+              {
+                "index": "c",
+                "range": "V"
+              }
+            ]
+          },
+          {
+            "amplitude": "2*Ctilde[i, c]*u[c, j, a, b]",
+            "sums": [
+              {
+                "index": "c",
+                "range": "V"
+              }
+            ]
+          },
+          {
+            "amplitude": "2*Ctilde[j, c]*u[i, c, a, b]",
+            "sums": [
+              {
+                "index": "c",
+                "range": "V"
+              }
+            ]
+          },
+          {
+            "amplitude": "Ctilde[i, j, a, c]*f[c, b]",
+            "sums": [
+              {
+                "index": "c",
+                "range": "V"
+              }
+            ]
+          },
+          {
+            "amplitude": "Ctilde[i, j, c, b]*f[c, a]",
+            "sums": [
+              {
+                "index": "c",
+                "range": "V"
+              }
+            ]
+          },
+          {
+            "amplitude": "Ctilde[i, j, c, d]*u[c, d, a, b]",
+            "sums": [
+              {
+                "index": "c",
+                "range": "V"
+              },
+              {
+                "index": "d",
+                "range": "V"
+              }
+            ]
+          }
+        ]
+      },
+      "\\widetilde{\\sigma}^{i}_{a}": {
+        "latex": "E_{\\mathrm{ref}} \\widetilde{C}^{i}_{a}  \\\\  + 2 \\widetilde{C}_{0} f^{i}_{a}  \\\\  + \\widetilde{C}^{ij}_{bc}  u^{bc}_{aj}  \\\\  + \\widetilde{C}^{i}_{b}  f^{b}_{a}  \\\\  + f^{b}_{j}  \\widetilde{C}^{ij}_{ab}  \\\\ - \\widetilde{C}^{j}_{b}  u^{ib}_{ja}  \\\\  + 2 \\widetilde{C}^{j}_{b}  u^{ib}_{aj}  \\\\ - \\widetilde{C}^{j}_{a}  f^{i}_{j}  \\\\ - \\widetilde{C}^{jk}_{ab}  u^{ib}_{jk}",
+        "term_count": 9,
+        "terms": [
+          {
+            "amplitude": "2*C0tilde*f[i, a]",
+            "sums": []
+          },
+          {
+            "amplitude": "Eref*Ctilde[i, a]",
+            "sums": []
+          },
+          {
+            "amplitude": "-Ctilde[j, a]*f[i, j]",
+            "sums": [
+              {
+                "index": "j",
+                "range": "O"
+              }
+            ]
+          },
+          {
+            "amplitude": "-Ctilde[j, k, a, b]*u[i, b, j, k]",
+            "sums": [
+              {
+                "index": "j",
+                "range": "O"
+              },
+              {
+                "index": "k",
+                "range": "O"
+              },
+              {
+                "index": "b",
+                "range": "V"
+              }
+            ]
+          },
+          {
+            "amplitude": "-Ctilde[j, b]*u[i, b, j, a]",
+            "sums": [
+              {
+                "index": "j",
+                "range": "O"
+              },
+              {
+                "index": "b",
+                "range": "V"
+              }
+            ]
+          },
+          {
+            "amplitude": "2*Ctilde[j, b]*u[i, b, a, j]",
+            "sums": [
+              {
+                "index": "j",
+                "range": "O"
+              },
+              {
+                "index": "b",
+                "range": "V"
+              }
+            ]
+          },
+          {
+            "amplitude": "Ctilde[i, j, a, b]*f[b, j]",
+            "sums": [
+              {
+                "index": "j",
+                "range": "O"
+              },
+              {
+                "index": "b",
+                "range": "V"
+              }
+            ]
+          },
+          {
+            "amplitude": "Ctilde[i, j, b, c]*u[b, c, a, j]",
+            "sums": [
+              {
+                "index": "j",
+                "range": "O"
+              },
+              {
+                "index": "b",
+                "range": "V"
+              },
+              {
+                "index": "c",
+                "range": "V"
+              }
+            ]
+          },
+          {
+            "amplitude": "Ctilde[i, b]*f[b, a]",
+            "sums": [
+              {
+                "index": "b",
+                "range": "V"
+              }
+            ]
+          }
+        ]
+      },
+      "\\widetilde{\\sigma}_{0}": {
+        "latex": "\\widetilde{C}_{0} E_{\\mathrm{ref}}  \\\\  + \\frac{1}{2} \\widetilde{C}^{ij}_{ab}  u^{ab}_{ij}  \\\\  + \\widetilde{C}^{i}_{a}  f^{a}_{i}",
+        "term_count": 3,
+        "terms": [
+          {
+            "amplitude": "C0tilde*Eref",
+            "sums": []
+          },
+          {
+            "amplitude": "Ctilde[i, j, a, b]*u[a, b, i, j]/2",
+            "sums": [
+              {
+                "index": "i",
+                "range": "O"
+              },
+              {
+                "index": "j",
+                "range": "O"
+              },
+              {
+                "index": "a",
+                "range": "V"
+              },
+              {
+                "index": "b",
+                "range": "V"
+              }
+            ]
+          },
+          {
+            "amplitude": "Ctilde[i, a]*f[a, i]",
+            "sums": [
+              {
+                "index": "i",
+                "range": "O"
+              },
+              {
+                "index": "a",
+                "range": "V"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "norm": {
+      "\\langle\\widetilde{\\Psi}\\vert\\Psi\\rangle": {
+        "latex": "C_{0} \\widetilde{C}_{0}  \\\\  + \\frac{1}{2} C^{ab}_{ij}  \\widetilde{C}^{ij}_{ab}  \\\\  + C^{a}_{i}  \\widetilde{C}^{i}_{a}",
+        "term_count": 3,
+        "terms": [
+          {
+            "amplitude": "C0*C0tilde",
+            "sums": []
+          },
+          {
+            "amplitude": "C[a, b, i, j]*Ctilde[i, j, a, b]/2",
+            "sums": [
+              {
+                "index": "i",
+                "range": "O"
+              },
+              {
+                "index": "j",
+                "range": "O"
+              },
+              {
+                "index": "a",
+                "range": "V"
+              },
+              {
+                "index": "b",
+                "range": "V"
+              }
+            ]
+          },
+          {
+            "amplitude": "C[a, i]*Ctilde[i, a]",
+            "sums": [
+              {
+                "index": "i",
+                "range": "O"
+              },
+              {
+                "index": "a",
+                "range": "V"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "one_rdm": {
+      "\\gamma^{a}_{i}": {
+        "latex": "2 \\widetilde{C}_{0} C^{a}_{i}  \\\\ - \\widetilde{C}^{j}_{b}  C^{ab}_{ji}  \\\\  + 2 \\widetilde{C}^{j}_{b}  C^{ab}_{ij}",
+        "term_count": 3,
+        "terms": [
+          {
+            "amplitude": "2*C0tilde*C[a, i]",
+            "sums": []
+          },
+          {
+            "amplitude": "-C[a, b, j, i]*Ctilde[j, b]",
+            "sums": [
+              {
+                "index": "j",
+                "range": "O"
+              },
+              {
+                "index": "b",
+                "range": "V"
+              }
+            ]
+          },
+          {
+            "amplitude": "2*C[a, b, i, j]*Ctilde[j, b]",
+            "sums": [
+              {
+                "index": "j",
+                "range": "O"
+              },
+              {
+                "index": "b",
+                "range": "V"
+              }
+            ]
+          }
+        ]
+      },
+      "\\gamma^{b}_{a}": {
+        "latex": "C^{bc}_{ij}  \\widetilde{C}^{ij}_{ac}  \\\\  + C^{b}_{i}  \\widetilde{C}^{i}_{a}",
+        "term_count": 2,
+        "terms": [
+          {
+            "amplitude": "C[b, i]*Ctilde[i, a]",
+            "sums": [
+              {
+                "index": "i",
+                "range": "O"
+              }
+            ]
+          },
+          {
+            "amplitude": "C[b, c, i, j]*Ctilde[i, j, a, c]",
+            "sums": [
+              {
+                "index": "i",
+                "range": "O"
+              },
+              {
+                "index": "j",
+                "range": "O"
+              },
+              {
+                "index": "c",
+                "range": "V"
+              }
+            ]
+          }
+        ]
+      },
+      "\\gamma^{i}_{a}": {
+        "latex": "C_{0} \\widetilde{C}^{i}_{a}  \\\\  + C^{b}_{j}  \\widetilde{C}^{ij}_{ab}",
+        "term_count": 2,
+        "terms": [
+          {
+            "amplitude": "C0*Ctilde[i, a]",
+            "sums": []
+          },
+          {
+            "amplitude": "C[b, j]*Ctilde[i, j, a, b]",
+            "sums": [
+              {
+                "index": "j",
+                "range": "O"
+              },
+              {
+                "index": "b",
+                "range": "V"
+              }
+            ]
+          }
+        ]
+      },
+      "\\gamma^{j}_{i}": {
+        "latex": "2 C_{0} \\widetilde{C}_{0} \\delta_{i j}  \\\\  + 2 \\delta_{i j} C^{a}_{k}  \\widetilde{C}^{k}_{a}  \\\\ - C^{ab}_{ik}  \\widetilde{C}^{kj}_{ba}  \\\\  + \\delta_{i j} C^{ab}_{kl}  \\widetilde{C}^{kl}_{ab}  \\\\ - C^{a}_{i}  \\widetilde{C}^{j}_{a}",
+        "term_count": 5,
+        "terms": [
+          {
+            "amplitude": "2*C0*C0tilde*KroneckerDelta(i, j)",
+            "sums": []
+          },
+          {
+            "amplitude": "KroneckerDelta(i, j)*C[a, b, k, l]*Ctilde[k, l, a, b]",
+            "sums": [
+              {
+                "index": "k",
+                "range": "O"
+              },
+              {
+                "index": "l",
+                "range": "O"
+              },
+              {
+                "index": "a",
+                "range": "V"
+              },
+              {
+                "index": "b",
+                "range": "V"
+              }
+            ]
+          },
+          {
+            "amplitude": "2*KroneckerDelta(i, j)*C[a, k]*Ctilde[k, a]",
+            "sums": [
+              {
+                "index": "k",
+                "range": "O"
+              },
+              {
+                "index": "a",
+                "range": "V"
+              }
+            ]
+          },
+          {
+            "amplitude": "-C[a, b, i, k]*Ctilde[k, j, b, a]",
+            "sums": [
+              {
+                "index": "k",
+                "range": "O"
+              },
+              {
+                "index": "a",
+                "range": "V"
+              },
+              {
+                "index": "b",
+                "range": "V"
+              }
+            ]
+          },
+          {
+            "amplitude": "-C[a, i]*Ctilde[j, a]",
+            "sums": [
+              {
+                "index": "a",
+                "range": "V"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "right_sigma": {
+      "\\sigma^{ab}_{ij}": {
+        "latex": "C^{ab}_{kl}  u^{kl}_{ij}  \\\\  + C_{0} u^{ab}_{ij}  \\\\  + E_{\\mathrm{ref}} C^{ab}_{ij}  \\\\  + C^{a}_{i}  f^{b}_{j}  \\\\  + C^{b}_{j}  f^{a}_{i}  \\\\  + C^{c}_{i}  u^{ab}_{cj}  \\\\  + C^{c}_{j}  u^{ab}_{ic}  \\\\  + f^{a}_{c}  C^{bc}_{ji}  \\\\  + f^{b}_{c}  C^{ac}_{ij}  \\\\  + C^{cd}_{ij}  u^{ab}_{cd}  \\\\ - C^{a}_{k}  u^{bk}_{ji}  \\\\ - C^{b}_{k}  u^{ak}_{ij}  \\\\ - f^{k}_{i}  C^{ab}_{kj}  \\\\ - f^{k}_{j}  C^{ab}_{ik}  \\\\ - C^{ac}_{ik}  u^{bk}_{cj}  \\\\ - C^{ac}_{ki}  u^{bk}_{jc}  \\\\ - C^{ac}_{kj}  u^{bk}_{ci}  \\\\ - C^{bc}_{jk}  u^{ak}_{ci}  \\\\ - C^{bc}_{ki}  u^{ak}_{cj}  \\\\ - C^{bc}_{kj}  u^{ak}_{ic}  \\\\  + 2 C^{ac}_{ik}  u^{bk}_{jc}  \\\\  + 2 C^{bc}_{jk}  u^{ak}_{ic}",
+        "term_count": 22,
+        "terms": [
+          {
+            "amplitude": "C0*u[a, b, i, j]",
+            "sums": []
+          },
+          {
+            "amplitude": "C[a, i]*f[b, j]",
+            "sums": []
+          },
+          {
+            "amplitude": "C[b, j]*f[a, i]",
+            "sums": []
+          },
+          {
+            "amplitude": "Eref*C[a, b, i, j]",
+            "sums": []
+          },
+          {
+            "amplitude": "-C[a, b, i, k]*f[k, j]",
+            "sums": [
+              {
+                "index": "k",
+                "range": "O"
+              }
+            ]
+          },
+          {
+            "amplitude": "-C[a, b, k, j]*f[k, i]",
+            "sums": [
+              {
+                "index": "k",
+                "range": "O"
+              }
+            ]
+          },
+          {
+            "amplitude": "-C[a, k]*u[b, k, j, i]",
+            "sums": [
+              {
+                "index": "k",
+                "range": "O"
+              }
+            ]
+          },
+          {
+            "amplitude": "-C[b, k]*u[a, k, i, j]",
+            "sums": [
+              {
+                "index": "k",
+                "range": "O"
+              }
+            ]
+          },
+          {
+            "amplitude": "C[a, b, k, l]*u[k, l, i, j]",
+            "sums": [
+              {
+                "index": "k",
+                "range": "O"
+              },
+              {
+                "index": "l",
+                "range": "O"
+              }
+            ]
+          },
+          {
+            "amplitude": "-C[a, c, i, k]*u[b, k, c, j]",
+            "sums": [
+              {
+                "index": "k",
+                "range": "O"
+              },
+              {
+                "index": "c",
+                "range": "V"
+              }
+            ]
+          },
+          {
+            "amplitude": "-C[a, c, k, i]*u[b, k, j, c]",
+            "sums": [
+              {
+                "index": "k",
+                "range": "O"
+              },
+              {
+                "index": "c",
+                "range": "V"
+              }
+            ]
+          },
+          {
+            "amplitude": "-C[a, c, k, j]*u[b, k, c, i]",
+            "sums": [
+              {
+                "index": "k",
+                "range": "O"
+              },
+              {
+                "index": "c",
+                "range": "V"
+              }
+            ]
+          },
+          {
+            "amplitude": "-C[b, c, j, k]*u[a, k, c, i]",
+            "sums": [
+              {
+                "index": "k",
+                "range": "O"
+              },
+              {
+                "index": "c",
+                "range": "V"
+              }
+            ]
+          },
+          {
+            "amplitude": "-C[b, c, k, i]*u[a, k, c, j]",
+            "sums": [
+              {
+                "index": "k",
+                "range": "O"
+              },
+              {
+                "index": "c",
+                "range": "V"
+              }
+            ]
+          },
+          {
+            "amplitude": "-C[b, c, k, j]*u[a, k, i, c]",
+            "sums": [
+              {
+                "index": "k",
+                "range": "O"
+              },
+              {
+                "index": "c",
+                "range": "V"
+              }
+            ]
+          },
+          {
+            "amplitude": "2*C[a, c, i, k]*u[b, k, j, c]",
+            "sums": [
+              {
+                "index": "k",
+                "range": "O"
+              },
+              {
+                "index": "c",
+                "range": "V"
+              }
+            ]
+          },
+          {
+            "amplitude": "2*C[b, c, j, k]*u[a, k, i, c]",
+            "sums": [
+              {
+                "index": "k",
+                "range": "O"
+              },
+              {
+                "index": "c",
+                "range": "V"
+              }
+            ]
+          },
+          {
+            "amplitude": "C[a, c, i, j]*f[b, c]",
+            "sums": [
+              {
+                "index": "c",
+                "range": "V"
+              }
+            ]
+          },
+          {
+            "amplitude": "C[b, c, j, i]*f[a, c]",
+            "sums": [
+              {
+                "index": "c",
+                "range": "V"
+              }
+            ]
+          },
+          {
+            "amplitude": "C[c, i]*u[a, b, c, j]",
+            "sums": [
+              {
+                "index": "c",
+                "range": "V"
+              }
+            ]
+          },
+          {
+            "amplitude": "C[c, j]*u[a, b, i, c]",
+            "sums": [
+              {
+                "index": "c",
+                "range": "V"
+              }
+            ]
+          },
+          {
+            "amplitude": "C[c, d, i, j]*u[a, b, c, d]",
+            "sums": [
+              {
+                "index": "c",
+                "range": "V"
+              },
+              {
+                "index": "d",
+                "range": "V"
+              }
+            ]
+          }
+        ]
+      },
+      "\\sigma^{a}_{i}": {
+        "latex": "C_{0} f^{a}_{i}  \\\\  + E_{\\mathrm{ref}} C^{a}_{i}  \\\\ - C^{bc}_{ij}  u^{aj}_{cb}  \\\\  + 2 C^{bc}_{ij}  u^{aj}_{bc}  \\\\  + C^{b}_{i}  f^{a}_{b}  \\\\  + C^{ab}_{jk}  u^{kj}_{ib}  \\\\ - 2 C^{ab}_{jk}  u^{jk}_{ib}  \\\\ - C^{b}_{j}  u^{aj}_{bi}  \\\\ - f^{j}_{b}  C^{ab}_{ji}  \\\\  + 2 C^{b}_{j}  u^{aj}_{ib}  \\\\  + 2 f^{j}_{b}  C^{ab}_{ij}  \\\\ - C^{a}_{j}  f^{j}_{i}",
+        "term_count": 12,
+        "terms": [
+          {
+            "amplitude": "C0*f[a, i]",
+            "sums": []
+          },
+          {
+            "amplitude": "Eref*C[a, i]",
+            "sums": []
+          },
+          {
+            "amplitude": "-C[a, j]*f[j, i]",
+            "sums": [
+              {
+                "index": "j",
+                "range": "O"
+              }
+            ]
+          },
+          {
+            "amplitude": "-2*C[a, b, j, k]*u[j, k, i, b]",
+            "sums": [
+              {
+                "index": "j",
+                "range": "O"
+              },
+              {
+                "index": "k",
+                "range": "O"
+              },
+              {
+                "index": "b",
+                "range": "V"
+              }
+            ]
+          },
+          {
+            "amplitude": "C[a, b, j, k]*u[k, j, i, b]",
+            "sums": [
+              {
+                "index": "j",
+                "range": "O"
+              },
+              {
+                "index": "k",
+                "range": "O"
+              },
+              {
+                "index": "b",
+                "range": "V"
+              }
+            ]
+          },
+          {
+            "amplitude": "-C[a, b, j, i]*f[j, b]",
+            "sums": [
+              {
+                "index": "j",
+                "range": "O"
+              },
+              {
+                "index": "b",
+                "range": "V"
+              }
+            ]
+          },
+          {
+            "amplitude": "-C[b, j]*u[a, j, b, i]",
+            "sums": [
+              {
+                "index": "j",
+                "range": "O"
+              },
+              {
+                "index": "b",
+                "range": "V"
+              }
+            ]
+          },
+          {
+            "amplitude": "2*C[a, b, i, j]*f[j, b]",
+            "sums": [
+              {
+                "index": "j",
+                "range": "O"
+              },
+              {
+                "index": "b",
+                "range": "V"
+              }
+            ]
+          },
+          {
+            "amplitude": "2*C[b, j]*u[a, j, i, b]",
+            "sums": [
+              {
+                "index": "j",
+                "range": "O"
+              },
+              {
+                "index": "b",
+                "range": "V"
+              }
+            ]
+          },
+          {
+            "amplitude": "-C[b, c, i, j]*u[a, j, c, b]",
+            "sums": [
+              {
+                "index": "j",
+                "range": "O"
+              },
+              {
+                "index": "b",
+                "range": "V"
+              },
+              {
+                "index": "c",
+                "range": "V"
+              }
+            ]
+          },
+          {
+            "amplitude": "2*C[b, c, i, j]*u[a, j, b, c]",
+            "sums": [
+              {
+                "index": "j",
+                "range": "O"
+              },
+              {
+                "index": "b",
+                "range": "V"
+              },
+              {
+                "index": "c",
+                "range": "V"
+              }
+            ]
+          },
+          {
+            "amplitude": "C[b, i]*f[a, b]",
+            "sums": [
+              {
+                "index": "b",
+                "range": "V"
+              }
+            ]
+          }
+        ]
+      },
+      "\\sigma_{0}": {
+        "latex": "C_{0} E_{\\mathrm{ref}}  \\\\ - C^{ab}_{ij}  u^{ij}_{ba}  \\\\  + 2 C^{ab}_{ij}  u^{ij}_{ab}  \\\\  + 2 C^{a}_{i}  f^{i}_{a}",
+        "term_count": 4,
+        "terms": [
+          {
+            "amplitude": "C0*Eref",
+            "sums": []
+          },
+          {
+            "amplitude": "-C[a, b, i, j]*u[i, j, b, a]",
+            "sums": [
+              {
+                "index": "i",
+                "range": "O"
+              },
+              {
+                "index": "j",
+                "range": "O"
+              },
+              {
+                "index": "a",
+                "range": "V"
+              },
+              {
+                "index": "b",
+                "range": "V"
+              }
+            ]
+          },
+          {
+            "amplitude": "2*C[a, b, i, j]*u[i, j, a, b]",
+            "sums": [
+              {
+                "index": "i",
+                "range": "O"
+              },
+              {
+                "index": "j",
+                "range": "O"
+              },
+              {
+                "index": "a",
+                "range": "V"
+              },
+              {
+                "index": "b",
+                "range": "V"
+              }
+            ]
+          },
+          {
+            "amplitude": "2*C[a, i]*f[i, a]",
+            "sums": [
+              {
+                "index": "i",
+                "range": "O"
+              },
+              {
+                "index": "a",
+                "range": "V"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "two_rdm": {
+      "\\Gamma^{ab}_{ij}": {
+        "latex": "-  2 \\widetilde{C}_{0} C^{ab}_{ji}  \\\\  + 4 \\widetilde{C}_{0} C^{ab}_{ij}",
+        "term_count": 2,
+        "terms": [
+          {
+            "amplitude": "-2*C0tilde*C[a, b, j, i]",
+            "sums": []
+          },
+          {
+            "amplitude": "4*C0tilde*C[a, b, i, j]",
+            "sums": []
+          }
+        ]
+      },
+      "\\Gamma^{ak}_{ij}": {
+        "latex": "-  2 \\widetilde{C}_{0} \\delta_{i k} C^{a}_{j}  \\\\  + 4 \\widetilde{C}_{0} \\delta_{j k} C^{a}_{i}  \\\\  + \\delta_{i k} \\widetilde{C}^{l}_{b}  C^{ab}_{lj}  \\\\ -  2 \\delta_{i k} \\widetilde{C}^{l}_{b}  C^{ab}_{jl}  \\\\ -  2 \\delta_{j k} \\widetilde{C}^{l}_{b}  C^{ab}_{li}  \\\\  + 4 \\delta_{j k} \\widetilde{C}^{l}_{b}  C^{ab}_{il}  \\\\  + \\widetilde{C}^{k}_{b}  C^{ab}_{ji}  \\\\ - 2 \\widetilde{C}^{k}_{b}  C^{ab}_{ij}",
+        "term_count": 8,
+        "terms": [
+          {
+            "amplitude": "-2*C0tilde*KroneckerDelta(i, k)*C[a, j]",
+            "sums": []
+          },
+          {
+            "amplitude": "4*C0tilde*KroneckerDelta(j, k)*C[a, i]",
+            "sums": []
+          },
+          {
+            "amplitude": "-2*KroneckerDelta(i, k)*C[a, b, j, l]*Ctilde[l, b]",
+            "sums": [
+              {
+                "index": "l",
+                "range": "O"
+              },
+              {
+                "index": "b",
+                "range": "V"
+              }
+            ]
+          },
+          {
+            "amplitude": "-2*KroneckerDelta(j, k)*C[a, b, l, i]*Ctilde[l, b]",
+            "sums": [
+              {
+                "index": "l",
+                "range": "O"
+              },
+              {
+                "index": "b",
+                "range": "V"
+              }
+            ]
+          },
+          {
+            "amplitude": "4*KroneckerDelta(j, k)*C[a, b, i, l]*Ctilde[l, b]",
+            "sums": [
+              {
+                "index": "l",
+                "range": "O"
+              },
+              {
+                "index": "b",
+                "range": "V"
+              }
+            ]
+          },
+          {
+            "amplitude": "KroneckerDelta(i, k)*C[a, b, l, j]*Ctilde[l, b]",
+            "sums": [
+              {
+                "index": "l",
+                "range": "O"
+              },
+              {
+                "index": "b",
+                "range": "V"
+              }
+            ]
+          },
+          {
+            "amplitude": "-2*C[a, b, i, j]*Ctilde[k, b]",
+            "sums": [
+              {
+                "index": "b",
+                "range": "V"
+              }
+            ]
+          },
+          {
+            "amplitude": "C[a, b, j, i]*Ctilde[k, b]",
+            "sums": [
+              {
+                "index": "b",
+                "range": "V"
+              }
+            ]
+          }
+        ]
+      },
+      "\\Gamma^{bc}_{ai}": {
+        "latex": "- \\widetilde{C}^{j}_{a}  C^{bc}_{ij}  \\\\  + 2 \\widetilde{C}^{j}_{a}  C^{bc}_{ji}",
+        "term_count": 2,
+        "terms": [
+          {
+            "amplitude": "-C[b, c, i, j]*Ctilde[j, a]",
+            "sums": [
+              {
+                "index": "j",
+                "range": "O"
+              }
+            ]
+          },
+          {
+            "amplitude": "2*C[b, c, j, i]*Ctilde[j, a]",
+            "sums": [
+              {
+                "index": "j",
+                "range": "O"
+              }
+            ]
+          }
+        ]
+      },
+      "\\Gamma^{bj}_{ai}": {
+        "latex": "- C^{b}_{i}  \\widetilde{C}^{j}_{a}  \\\\  + 2 \\delta_{i j} C^{bc}_{kl}  \\widetilde{C}^{kl}_{ac}  \\\\  + 2 \\delta_{i j} C^{b}_{k}  \\widetilde{C}^{k}_{a}  \\\\ - C^{bc}_{ik}  \\widetilde{C}^{kj}_{ca}  \\\\ - C^{bc}_{ki}  \\widetilde{C}^{kj}_{ac}",
+        "term_count": 5,
+        "terms": [
+          {
+            "amplitude": "-C[b, i]*Ctilde[j, a]",
+            "sums": []
+          },
+          {
+            "amplitude": "2*KroneckerDelta(i, j)*C[b, k]*Ctilde[k, a]",
+            "sums": [
+              {
+                "index": "k",
+                "range": "O"
+              }
+            ]
+          },
+          {
+            "amplitude": "2*KroneckerDelta(i, j)*C[b, c, k, l]*Ctilde[k, l, a, c]",
+            "sums": [
+              {
+                "index": "k",
+                "range": "O"
+              },
+              {
+                "index": "l",
+                "range": "O"
+              },
+              {
+                "index": "c",
+                "range": "V"
+              }
+            ]
+          },
+          {
+            "amplitude": "-C[b, c, i, k]*Ctilde[k, j, c, a]",
+            "sums": [
+              {
+                "index": "k",
+                "range": "O"
+              },
+              {
+                "index": "c",
+                "range": "V"
+              }
+            ]
+          },
+          {
+            "amplitude": "-C[b, c, k, i]*Ctilde[k, j, a, c]",
+            "sums": [
+              {
+                "index": "k",
+                "range": "O"
+              },
+              {
+                "index": "c",
+                "range": "V"
+              }
+            ]
+          }
+        ]
+      },
+      "\\Gamma^{bj}_{ia}": {
+        "latex": "2 C^{b}_{i}  \\widetilde{C}^{j}_{a}  \\\\ -  \\delta_{i j} C^{bc}_{kl}  \\widetilde{C}^{kl}_{ac}  \\\\ -  \\delta_{i j} C^{b}_{k}  \\widetilde{C}^{k}_{a}  \\\\ - C^{bc}_{ki}  \\widetilde{C}^{kj}_{ca}  \\\\  + 2 C^{bc}_{ik}  \\widetilde{C}^{kj}_{ca}",
+        "term_count": 5,
+        "terms": [
+          {
+            "amplitude": "2*C[b, i]*Ctilde[j, a]",
+            "sums": []
+          },
+          {
+            "amplitude": "-KroneckerDelta(i, j)*C[b, k]*Ctilde[k, a]",
+            "sums": [
+              {
+                "index": "k",
+                "range": "O"
+              }
+            ]
+          },
+          {
+            "amplitude": "-KroneckerDelta(i, j)*C[b, c, k, l]*Ctilde[k, l, a, c]",
+            "sums": [
+              {
+                "index": "k",
+                "range": "O"
+              },
+              {
+                "index": "l",
+                "range": "O"
+              },
+              {
+                "index": "c",
+                "range": "V"
+              }
+            ]
+          },
+          {
+            "amplitude": "-C[b, c, k, i]*Ctilde[k, j, c, a]",
+            "sums": [
+              {
+                "index": "k",
+                "range": "O"
+              },
+              {
+                "index": "c",
+                "range": "V"
+              }
+            ]
+          },
+          {
+            "amplitude": "2*C[b, c, i, k]*Ctilde[k, j, c, a]",
+            "sums": [
+              {
+                "index": "k",
+                "range": "O"
+              },
+              {
+                "index": "c",
+                "range": "V"
+              }
+            ]
+          }
+        ]
+      },
+      "\\Gamma^{cd}_{ab}": {
+        "latex": "C^{cd}_{ij}  \\widetilde{C}^{ij}_{ab}",
+        "term_count": 1,
+        "terms": [
+          {
+            "amplitude": "C[c, d, i, j]*Ctilde[i, j, a, b]",
+            "sums": [
+              {
+                "index": "i",
+                "range": "O"
+              },
+              {
+                "index": "j",
+                "range": "O"
+              }
+            ]
+          }
+        ]
+      },
+      "\\Gamma^{ci}_{ab}": {
+        "latex": "C^{c}_{j}  \\widetilde{C}^{ij}_{ba}",
+        "term_count": 1,
+        "terms": [
+          {
+            "amplitude": "C[c, j]*Ctilde[i, j, b, a]",
+            "sums": [
+              {
+                "index": "j",
+                "range": "O"
+              }
+            ]
+          }
+        ]
+      },
+      "\\Gamma^{ij}_{ab}": {
+        "latex": "C_{0} \\widetilde{C}^{ij}_{ab}",
+        "term_count": 1,
+        "terms": [
+          {
+            "amplitude": "C0*Ctilde[i, j, a, b]",
+            "sums": []
+          }
+        ]
+      },
+      "\\Gamma^{jk}_{ai}": {
+        "latex": "-  \\delta_{i j} C^{b}_{l}  \\widetilde{C}^{lk}_{ba}  \\\\  + 2 \\delta_{i k} C^{b}_{l}  \\widetilde{C}^{lj}_{ba}  \\\\ -  C_{0} \\delta_{i j} \\widetilde{C}^{k}_{a}  \\\\  + 2 C_{0} \\delta_{i k} \\widetilde{C}^{j}_{a}  \\\\ - C^{b}_{i}  \\widetilde{C}^{jk}_{ab}",
+        "term_count": 5,
+        "terms": [
+          {
+            "amplitude": "-C0*KroneckerDelta(i, j)*Ctilde[k, a]",
+            "sums": []
+          },
+          {
+            "amplitude": "2*C0*KroneckerDelta(i, k)*Ctilde[j, a]",
+            "sums": []
+          },
+          {
+            "amplitude": "-KroneckerDelta(i, j)*C[b, l]*Ctilde[l, k, b, a]",
+            "sums": [
+              {
+                "index": "l",
+                "range": "O"
+              },
+              {
+                "index": "b",
+                "range": "V"
+              }
+            ]
+          },
+          {
+            "amplitude": "2*KroneckerDelta(i, k)*C[b, l]*Ctilde[l, j, b, a]",
+            "sums": [
+              {
+                "index": "l",
+                "range": "O"
+              },
+              {
+                "index": "b",
+                "range": "V"
+              }
+            ]
+          },
+          {
+            "amplitude": "-C[b, i]*Ctilde[j, k, a, b]",
+            "sums": [
+              {
+                "index": "b",
+                "range": "V"
+              }
+            ]
+          }
+        ]
+      },
+      "\\Gamma^{kl}_{ij}": {
+        "latex": "-  2 C_{0} \\widetilde{C}_{0} \\delta_{i l} \\delta_{j k}  \\\\  + 4 C_{0} \\widetilde{C}_{0} \\delta_{i k} \\delta_{j l}  \\\\ -  \\delta_{i l} \\delta_{j k} C^{ab}_{i_{0}i_{1}}  \\widetilde{C}^{i_{0}i_{1}}_{ab}  \\\\  + 2 \\delta_{i k} \\delta_{j l} C^{ab}_{i_{0}i_{1}}  \\widetilde{C}^{i_{0}i_{1}}_{ab}  \\\\  + \\delta_{j k} C^{ab}_{ii_{0}}  \\widetilde{C}^{i_{0}l}_{ba}  \\\\  + \\delta_{i l} C^{ab}_{i_{0}j}  \\widetilde{C}^{i_{0}k}_{ab}  \\\\ -  2 \\delta_{j l} C^{ab}_{ii_{0}}  \\widetilde{C}^{i_{0}k}_{ba}  \\\\ -  2 \\delta_{i k} C^{ab}_{i_{0}j}  \\widetilde{C}^{i_{0}l}_{ab}  \\\\  + \\delta_{j k} C^{a}_{i}  \\widetilde{C}^{l}_{a}  \\\\  + \\delta_{i l} C^{a}_{j}  \\widetilde{C}^{k}_{a}  \\\\ -  2 \\delta_{j l} C^{a}_{i}  \\widetilde{C}^{k}_{a}  \\\\ -  2 \\delta_{i k} C^{a}_{j}  \\widetilde{C}^{l}_{a}  \\\\  + C^{ab}_{ij}  \\widetilde{C}^{kl}_{ab}  \\\\ -  2 \\delta_{i l} \\delta_{j k} C^{a}_{i_{0}}  \\widetilde{C}^{i_{0}}_{a}  \\\\  + 4 \\delta_{i k} \\delta_{j l} C^{a}_{i_{0}}  \\widetilde{C}^{i_{0}}_{a}",
+        "term_count": 15,
+        "terms": [
+          {
+            "amplitude": "-2*C0*C0tilde*KroneckerDelta(i, l)*KroneckerDelta(j, k)",
+            "sums": []
+          },
+          {
+            "amplitude": "4*C0*C0tilde*KroneckerDelta(i, k)*KroneckerDelta(j, l)",
+            "sums": []
+          },
+          {
+            "amplitude": "-KroneckerDelta(i, l)*KroneckerDelta(j, k)*C[a, b, i0, i1]*Ctilde[i0, i1, a, b]",
+            "sums": [
+              {
+                "index": "i0",
+                "range": "O"
+              },
+              {
+                "index": "i1",
+                "range": "O"
+              },
+              {
+                "index": "a",
+                "range": "V"
+              },
+              {
+                "index": "b",
+                "range": "V"
+              }
+            ]
+          },
+          {
+            "amplitude": "2*KroneckerDelta(i, k)*KroneckerDelta(j, l)*C[a, b, i0, i1]*Ctilde[i0, i1, a, b]",
+            "sums": [
+              {
+                "index": "i0",
+                "range": "O"
+              },
+              {
+                "index": "i1",
+                "range": "O"
+              },
+              {
+                "index": "a",
+                "range": "V"
+              },
+              {
+                "index": "b",
+                "range": "V"
+              }
+            ]
+          },
+          {
+            "amplitude": "-2*KroneckerDelta(i, l)*KroneckerDelta(j, k)*C[a, i0]*Ctilde[i0, a]",
+            "sums": [
+              {
+                "index": "i0",
+                "range": "O"
+              },
+              {
+                "index": "a",
+                "range": "V"
+              }
+            ]
+          },
+          {
+            "amplitude": "4*KroneckerDelta(i, k)*KroneckerDelta(j, l)*C[a, i0]*Ctilde[i0, a]",
+            "sums": [
+              {
+                "index": "i0",
+                "range": "O"
+              },
+              {
+                "index": "a",
+                "range": "V"
+              }
+            ]
+          },
+          {
+            "amplitude": "-2*KroneckerDelta(i, k)*C[a, b, i0, j]*Ctilde[i0, l, a, b]",
+            "sums": [
+              {
+                "index": "i0",
+                "range": "O"
+              },
+              {
+                "index": "a",
+                "range": "V"
+              },
+              {
+                "index": "b",
+                "range": "V"
+              }
+            ]
+          },
+          {
+            "amplitude": "-2*KroneckerDelta(j, l)*C[a, b, i, i0]*Ctilde[i0, k, b, a]",
+            "sums": [
+              {
+                "index": "i0",
+                "range": "O"
+              },
+              {
+                "index": "a",
+                "range": "V"
+              },
+              {
+                "index": "b",
+                "range": "V"
+              }
+            ]
+          },
+          {
+            "amplitude": "KroneckerDelta(i, l)*C[a, b, i0, j]*Ctilde[i0, k, a, b]",
+            "sums": [
+              {
+                "index": "i0",
+                "range": "O"
+              },
+              {
+                "index": "a",
+                "range": "V"
+              },
+              {
+                "index": "b",
+                "range": "V"
+              }
+            ]
+          },
+          {
+            "amplitude": "KroneckerDelta(j, k)*C[a, b, i, i0]*Ctilde[i0, l, b, a]",
+            "sums": [
+              {
+                "index": "i0",
+                "range": "O"
+              },
+              {
+                "index": "a",
+                "range": "V"
+              },
+              {
+                "index": "b",
+                "range": "V"
+              }
+            ]
+          },
+          {
+            "amplitude": "-2*KroneckerDelta(i, k)*C[a, j]*Ctilde[l, a]",
+            "sums": [
+              {
+                "index": "a",
+                "range": "V"
+              }
+            ]
+          },
+          {
+            "amplitude": "-2*KroneckerDelta(j, l)*C[a, i]*Ctilde[k, a]",
+            "sums": [
+              {
+                "index": "a",
+                "range": "V"
+              }
+            ]
+          },
+          {
+            "amplitude": "KroneckerDelta(i, l)*C[a, j]*Ctilde[k, a]",
+            "sums": [
+              {
+                "index": "a",
+                "range": "V"
+              }
+            ]
+          },
+          {
+            "amplitude": "KroneckerDelta(j, k)*C[a, i]*Ctilde[l, a]",
+            "sums": [
+              {
+                "index": "a",
+                "range": "V"
+              }
+            ]
+          },
+          {
+            "amplitude": "C[a, b, i, j]*Ctilde[k, l, a, b]",
+            "sums": [
+              {
+                "index": "a",
+                "range": "V"
+              },
+              {
+                "index": "b",
+                "range": "V"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "family": "closed-shell-hjo",
+  "method": "CISD",
+  "normalization": "unnormalized-independent-left-right",
+  "provenance": {
+    "generator": "tests/symbolic/closed_shell/fixtures/generate_hjo_fixtures.py",
+    "packages": {
+      "drudge": "0.11.3",
+      "pyspark": "3.5.10",
+      "sympy": "1.14.0"
+    },
+    "sources": [
+      {
+        "path": "symbolic_derivations/Drudge/closed_shell/biorthogonal/cisd.py",
+        "sha256": "a2f8ba5688889a440a119512fc1099c297b4a0d257d388b01a07aaddc96b9037"
+      },
+      {
+        "path": "symbolic_derivations/Drudge/closed_shell/biorthogonal/permutation.py",
+        "sha256": "3aace15ef4115def1aa32546d9ed652dc89a5b0d6b342c46a276dcf707016b60"
+      }
+    ]
+  },
+  "representation": "canonical-expanded-drudge-terms",
+  "schema_version": 1
+}

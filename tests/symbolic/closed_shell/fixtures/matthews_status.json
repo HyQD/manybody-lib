@@ -1,0 +1,59 @@
+{
+  "completed": {
+    "metric": "exact S2/S3 identities validated",
+    "one_rdm_blocks": [
+      "\\gamma^j_i",
+      "\\gamma^a_i",
+      "\\gamma^i_a",
+      "\\gamma^b_a"
+    ],
+    "rank3_diagonal_hamiltonian_pieces": "1 through 9 of 14",
+    "rank3_off_diagonal_sectors": [
+      "singles-to-triples",
+      "doubles-to-triples"
+    ],
+    "sigma_ranks": [
+      0,
+      1,
+      2
+    ],
+    "two_rdm_blocks": [
+      "\\Gamma^{kl}_{ij}",
+      "\\Gamma^{ak}_{ij}",
+      "\\Gamma^{jk}_{ai}",
+      "\\Gamma^{ab}_{ij}",
+      "\\Gamma^{ij}_{ab}",
+      "\\Gamma^{bj}_{ai}",
+      "\\Gamma^{bj}_{ia}",
+      "\\Gamma^{bc}_{ai}",
+      "\\Gamma^{ci}_{ab}",
+      "\\Gamma^{cd}_{ab}"
+    ]
+  },
+  "conventions": "CONVENTIONS.md",
+  "family": "closed-shell-matthews-validation-status",
+  "incomplete": {
+    "rank3_diagonal_hamiltonian_pieces": "10 through 14 of 14",
+    "reason": "run stopped at the user-requested sector boundary"
+  },
+  "method": "CISDT",
+  "provenance": {
+    "generator": "tests/symbolic/closed_shell/fixtures/generate_matthews_fixtures.py",
+    "packages": {
+      "drudge": "0.11.3",
+      "pyspark": "3.5.10",
+      "sympy": "1.14.0"
+    },
+    "sources": [
+      {
+        "path": "symbolic_derivations/Drudge/closed_shell/matthews/common.py",
+          "sha256": "a64b82d38ef466307b1cbad885f16edd65018bb4dc11af49b0384a9f15895a8a"
+      },
+      {
+        "path": "symbolic_derivations/Drudge/closed_shell/matthews/README.md",
+        "sha256": "45e9d48509008519e99f9c9b831571b61b22d77ffc26c136de149928734d3630"
+      }
+    ]
+  },
+  "schema_version": 1
+}

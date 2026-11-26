@@ -1,0 +1,104 @@
+{
+  "conventions": "CONVENTIONS.md",
+  "expressions": {
+    "norm": {
+      "\\langle\\Psi|\\Psi\\rangle": {
+        "expression": "c0*conjugate(c0) + c(dummy_virtual_c, dummy_occupied_k)*conjugate(c(dummy_virtual_c, dummy_occupied_k))",
+        "latex": "c_{0} \\left(c_{0}\\right)^{*} + c_{k}^{c} \\left(c_{k}^{c}\\right)^{*}",
+        "srepr": "Add(Mul(Symbol('c0'), conjugate(Symbol('c0'))), Mul(Function('c')(Symbol('dummy_virtual_c', above_fermi=True), Symbol('dummy_occupied_k', below_fermi=True)), conjugate(Function('c')(Symbol('dummy_virtual_c', above_fermi=True), Symbol('dummy_occupied_k', below_fermi=True)))))",
+        "term_count": 2
+      }
+    },
+    "one_rdm": {
+      "\\gamma^{a}_{i}": {
+        "expression": "c(a, i)*conjugate(c0)",
+        "latex": "c_{i}^{a} \\left(c_{0}\\right)^{*}",
+        "srepr": "Mul(Function('c')(Symbol('a', above_fermi=True), Symbol('i', below_fermi=True)), conjugate(Symbol('c0')))",
+        "term_count": 1
+      },
+      "\\gamma^{b}_{a}": {
+        "expression": "c(b, dummy_occupied_k)*conjugate(c(a, dummy_occupied_k))",
+        "latex": "c_{k}^{b} \\left(c_{k}^{a}\\right)^{*}",
+        "srepr": "Mul(Function('c')(Symbol('b', above_fermi=True), Symbol('dummy_occupied_k', below_fermi=True)), conjugate(Function('c')(Symbol('a', above_fermi=True), Symbol('dummy_occupied_k', below_fermi=True))))",
+        "term_count": 1
+      },
+      "\\gamma^{i}_{a}": {
+        "expression": "c0*conjugate(c(a, i))",
+        "latex": "c_{0} \\left(c_{i}^{a}\\right)^{*}",
+        "srepr": "Mul(Symbol('c0'), conjugate(Function('c')(Symbol('a', above_fermi=True), Symbol('i', below_fermi=True))))",
+        "term_count": 1
+      },
+      "\\gamma^{j}_{i}": {
+        "expression": "c0*conjugate(c0)*KroneckerDelta(i, j) + c(dummy_virtual_c, dummy_occupied_k)*conjugate(c(dummy_virtual_c, dummy_occupied_k))*KroneckerDelta(i, j) - c(dummy_virtual_c, i)*conjugate(c(dummy_virtual_c, j))",
+        "latex": "c_{0} \\left(c_{0}\\right)^{*} \\delta_{ij} + c_{k}^{c} \\left(c_{k}^{c}\\right)^{*} \\delta_{ij} - c_{i}^{c} \\left(c_{j}^{c}\\right)^{*}",
+        "srepr": "Add(Mul(Symbol('c0'), conjugate(Symbol('c0')), KroneckerDelta(Symbol('i', below_fermi=True), Symbol('j', below_fermi=True))), Mul(Function('c')(Symbol('dummy_virtual_c', above_fermi=True), Symbol('dummy_occupied_k', below_fermi=True)), conjugate(Function('c')(Symbol('dummy_virtual_c', above_fermi=True), Symbol('dummy_occupied_k', below_fermi=True))), KroneckerDelta(Symbol('i', below_fermi=True), Symbol('j', below_fermi=True))), Mul(Integer(-1), Function('c')(Symbol('dummy_virtual_c', above_fermi=True), Symbol('i', below_fermi=True)), conjugate(Function('c')(Symbol('dummy_virtual_c', above_fermi=True), Symbol('j', below_fermi=True)))))",
+        "term_count": 3
+      }
+    },
+    "right_sigma": {
+      "\\sigma_0": {
+        "expression": "Eref*c0 + c(dummy_virtual_b, dummy_occupied_j)*f(dummy_occupied_j, dummy_virtual_b)",
+        "latex": "E_{\\mathrm{ref}} c_{0} + c_{j}^{b} f_{jb}",
+        "srepr": "Add(Mul(Symbol('Eref'), Symbol('c0')), Mul(Function('c')(Symbol('dummy_virtual_b', above_fermi=True), Symbol('dummy_occupied_j', below_fermi=True)), Function('f')(Symbol('dummy_occupied_j', below_fermi=True), Symbol('dummy_virtual_b', above_fermi=True))))",
+        "term_count": 2
+      },
+      "\\sigma_i^a": {
+        "expression": "Eref*c(a, i) + c0*f(a, i) - c(a, dummy_occupied_j_0)*f(dummy_occupied_j_0, i) + c(dummy_virtual_b_0, i)*f(a, dummy_virtual_b_0) - c(dummy_virtual_b_1, dummy_occupied_j_1)*AntiSymmetricTensor(u, (a, dummy_occupied_j_1), (dummy_virtual_b_1, i))",
+        "latex": "E_{\\mathrm{ref}} c_{i}^{a} + c_{0} f_{ai} + c_{i}^{b} f_{ab} + c_{j}^{b} u_{ajib} - c_{j}^{a} f_{ji}",
+        "srepr": "Add(Mul(Symbol('Eref'), Function('c')(Symbol('a', above_fermi=True), Symbol('i', below_fermi=True))), Mul(Symbol('c0'), Function('f')(Symbol('a', above_fermi=True), Symbol('i', below_fermi=True))), Mul(Integer(-1), Function('c')(Symbol('a', above_fermi=True), Symbol('dummy_occupied_j_0', below_fermi=True)), Function('f')(Symbol('dummy_occupied_j_0', below_fermi=True), Symbol('i', below_fermi=True))), Mul(Function('c')(Symbol('dummy_virtual_b_0', above_fermi=True), Symbol('i', below_fermi=True)), Function('f')(Symbol('a', above_fermi=True), Symbol('dummy_virtual_b_0', above_fermi=True))), Mul(Integer(-1), Function('c')(Symbol('dummy_virtual_b_1', above_fermi=True), Symbol('dummy_occupied_j_1', below_fermi=True)), AntiSymmetricTensor(Symbol('u'), Tuple(Symbol('a', above_fermi=True), Symbol('dummy_occupied_j_1', below_fermi=True)), Tuple(Symbol('dummy_virtual_b_1', above_fermi=True), Symbol('i', below_fermi=True)))))",
+        "term_count": 5
+      }
+    },
+    "two_rdm": {
+      "\\Gamma^{kc}_{ia}": {
+        "expression": "c(c, dummy_occupied_m)*conjugate(c(a, dummy_occupied_m))*KroneckerDelta(i, k) - c(c, i)*conjugate(c(a, k))",
+        "latex": "c_{m}^{c} \\left(c_{m}^{a}\\right)^{*} \\delta_{ik} - c_{i}^{c} \\left(c_{k}^{a}\\right)^{*}",
+        "srepr": "Add(Mul(Function('c')(Symbol('c', above_fermi=True), Symbol('dummy_occupied_m', below_fermi=True)), conjugate(Function('c')(Symbol('a', above_fermi=True), Symbol('dummy_occupied_m', below_fermi=True))), KroneckerDelta(Symbol('i', below_fermi=True), Symbol('k', below_fermi=True))), Mul(Integer(-1), Function('c')(Symbol('c', above_fermi=True), Symbol('i', below_fermi=True)), conjugate(Function('c')(Symbol('a', above_fermi=True), Symbol('k', below_fermi=True)))))",
+        "term_count": 2
+      },
+      "\\Gamma^{kc}_{ij}": {
+        "expression": "-c(c, i)*conjugate(c0)*KroneckerDelta(j, k) + c(c, j)*conjugate(c0)*KroneckerDelta(i, k)",
+        "latex": "- c_{i}^{c} \\left(c_{0}\\right)^{*} \\delta_{jk} + c_{j}^{c} \\left(c_{0}\\right)^{*} \\delta_{ik}",
+        "srepr": "Add(Mul(Integer(-1), Function('c')(Symbol('c', above_fermi=True), Symbol('i', below_fermi=True)), conjugate(Symbol('c0')), KroneckerDelta(Symbol('j', below_fermi=True), Symbol('k', below_fermi=True))), Mul(Function('c')(Symbol('c', above_fermi=True), Symbol('j', below_fermi=True)), conjugate(Symbol('c0')), KroneckerDelta(Symbol('i', below_fermi=True), Symbol('k', below_fermi=True))))",
+        "term_count": 2
+      },
+      "\\Gamma^{kl}_{ia}": {
+        "expression": "-c0*conjugate(c(a, k))*KroneckerDelta(i, l) + c0*conjugate(c(a, l))*KroneckerDelta(i, k)",
+        "latex": "- c_{0} \\left(c_{k}^{a}\\right)^{*} \\delta_{il} + c_{0} \\left(c_{l}^{a}\\right)^{*} \\delta_{ik}",
+        "srepr": "Add(Mul(Integer(-1), Symbol('c0'), conjugate(Function('c')(Symbol('a', above_fermi=True), Symbol('k', below_fermi=True))), KroneckerDelta(Symbol('i', below_fermi=True), Symbol('l', below_fermi=True))), Mul(Symbol('c0'), conjugate(Function('c')(Symbol('a', above_fermi=True), Symbol('l', below_fermi=True))), KroneckerDelta(Symbol('i', below_fermi=True), Symbol('k', below_fermi=True))))",
+        "term_count": 2
+      },
+      "\\Gamma^{kl}_{ij}": {
+        "expression": "c0*conjugate(c0)*KroneckerDelta(i, k)*KroneckerDelta(j, l) - c0*conjugate(c0)*KroneckerDelta(i, l)*KroneckerDelta(j, k) + c(dummy_virtual_e, dummy_occupied_m)*conjugate(c(dummy_virtual_e, dummy_occupied_m))*KroneckerDelta(i, k)*KroneckerDelta(j, l) - c(dummy_virtual_e, dummy_occupied_m)*conjugate(c(dummy_virtual_e, dummy_occupied_m))*KroneckerDelta(i, l)*KroneckerDelta(j, k) - c(dummy_virtual_e, i)*conjugate(c(dummy_virtual_e, k))*KroneckerDelta(j, l) + c(dummy_virtual_e, i)*conjugate(c(dummy_virtual_e, l))*KroneckerDelta(j, k) + c(dummy_virtual_e, j)*conjugate(c(dummy_virtual_e, k))*KroneckerDelta(i, l) - c(dummy_virtual_e, j)*conjugate(c(dummy_virtual_e, l))*KroneckerDelta(i, k)",
+        "latex": "c_{0} \\left(c_{0}\\right)^{*} \\delta_{ik} \\delta_{jl} - c_{0} \\left(c_{0}\\right)^{*} \\delta_{il} \\delta_{jk} + c_{m}^{e} \\left(c_{m}^{e}\\right)^{*} \\delta_{ik} \\delta_{jl} - c_{m}^{e} \\left(c_{m}^{e}\\right)^{*} \\delta_{il} \\delta_{jk} - c_{i}^{e} \\left(c_{k}^{e}\\right)^{*} \\delta_{jl} + c_{i}^{e} \\left(c_{l}^{e}\\right)^{*} \\delta_{jk} + c_{j}^{e} \\left(c_{k}^{e}\\right)^{*} \\delta_{il} - c_{j}^{e} \\left(c_{l}^{e}\\right)^{*} \\delta_{ik}",
+        "srepr": "Add(Mul(Symbol('c0'), conjugate(Symbol('c0')), KroneckerDelta(Symbol('i', below_fermi=True), Symbol('k', below_fermi=True)), KroneckerDelta(Symbol('j', below_fermi=True), Symbol('l', below_fermi=True))), Mul(Integer(-1), Symbol('c0'), conjugate(Symbol('c0')), KroneckerDelta(Symbol('i', below_fermi=True), Symbol('l', below_fermi=True)), KroneckerDelta(Symbol('j', below_fermi=True), Symbol('k', below_fermi=True))), Mul(Function('c')(Symbol('dummy_virtual_e', above_fermi=True), Symbol('dummy_occupied_m', below_fermi=True)), conjugate(Function('c')(Symbol('dummy_virtual_e', above_fermi=True), Symbol('dummy_occupied_m', below_fermi=True))), KroneckerDelta(Symbol('i', below_fermi=True), Symbol('k', below_fermi=True)), KroneckerDelta(Symbol('j', below_fermi=True), Symbol('l', below_fermi=True))), Mul(Integer(-1), Function('c')(Symbol('dummy_virtual_e', above_fermi=True), Symbol('dummy_occupied_m', below_fermi=True)), conjugate(Function('c')(Symbol('dummy_virtual_e', above_fermi=True), Symbol('dummy_occupied_m', below_fermi=True))), KroneckerDelta(Symbol('i', below_fermi=True), Symbol('l', below_fermi=True)), KroneckerDelta(Symbol('j', below_fermi=True), Symbol('k', below_fermi=True))), Mul(Integer(-1), Function('c')(Symbol('dummy_virtual_e', above_fermi=True), Symbol('i', below_fermi=True)), conjugate(Function('c')(Symbol('dummy_virtual_e', above_fermi=True), Symbol('k', below_fermi=True))), KroneckerDelta(Symbol('j', below_fermi=True), Symbol('l', below_fermi=True))), Mul(Function('c')(Symbol('dummy_virtual_e', above_fermi=True), Symbol('i', below_fermi=True)), conjugate(Function('c')(Symbol('dummy_virtual_e', above_fermi=True), Symbol('l', below_fermi=True))), KroneckerDelta(Symbol('j', below_fermi=True), Symbol('k', below_fermi=True))), Mul(Function('c')(Symbol('dummy_virtual_e', above_fermi=True), Symbol('j', below_fermi=True)), conjugate(Function('c')(Symbol('dummy_virtual_e', above_fermi=True), Symbol('k', below_fermi=True))), KroneckerDelta(Symbol('i', below_fermi=True), Symbol('l', below_fermi=True))), Mul(Integer(-1), Function('c')(Symbol('dummy_virtual_e', above_fermi=True), Symbol('j', below_fermi=True)), conjugate(Function('c')(Symbol('dummy_virtual_e', above_fermi=True), Symbol('l', below_fermi=True))), KroneckerDelta(Symbol('i', below_fermi=True), Symbol('k', below_fermi=True))))",
+        "term_count": 8
+      }
+    }
+  },
+  "family": "spin-orbital-sympy",
+  "method": "CIS",
+  "normalization": "unnormalized-hermitian-bra",
+  "provenance": {
+    "generator": "tests/symbolic/closed_shell/fixtures/generate_spin_orbital_fixtures.py",
+    "packages": {
+      "sympy": "1.14.0"
+    },
+    "sources": [
+      {
+        "path": "symbolic_derivations/SymPy/spin_orbital_cis_sigma.py",
+        "sha256": "104844dc0a728f95b6430e989be208c0349f39cff622a1c32a7f75191ca1964b"
+      },
+      {
+        "path": "symbolic_derivations/SymPy/spin_orbital_cis_1rdm.py",
+        "sha256": "b6dfd7c56b26e6d9eef9a21b06c25f37c7f7c6b97e4a8158f0ca21795ffaa349"
+      },
+      {
+        "path": "symbolic_derivations/SymPy/spin_orbital_cis_2rdm.py",
+        "sha256": "17cce16626337ad0756c35ecf35a68970ddc8965b31dc3fb924975e2dd63e6f8"
+      }
+    ]
+  },
+  "representation": "canonical-expanded-sympy",
+  "schema_version": 1
+}
