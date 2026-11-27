@@ -1,0 +1,37 @@
+{
+  "date": "2026-11-26",
+  "environment": {
+    "conda_environment": "scipy-1.18.0",
+    "cpu": "13th Gen Intel(R) Core(TM) i5-13420H",
+    "python": "3.14.7"
+  },
+  "measurement": {
+    "allocator": "tracemalloc peak Python allocation",
+    "cache_state": "one cold process per equation family; later ranks/blocks reuse reference-contraction caches",
+    "clock": "time.perf_counter wall time",
+    "notes": "Times are observations, not performance-test thresholds. OS and native-library allocations are outside tracemalloc."
+  },
+  "rdm": [
+    {"label": "norm", "peak_bytes": 798736, "seconds": 2.2662422000030347, "term_count": 7},
+    {"label": "gamma^j_i", "peak_bytes": 2310781, "seconds": 8.256684175998089, "term_count": 14},
+    {"label": "gamma^a_i", "peak_bytes": 607890, "seconds": 1.0998324319989479, "term_count": 7},
+    {"label": "gamma^i_a", "peak_bytes": 539674, "seconds": 0.9990602479992958, "term_count": 7},
+    {"label": "gamma^b_a", "peak_bytes": 1782307, "seconds": 5.865986856002564, "term_count": 7},
+    {"label": "Gamma^kl_ij", "peak_bytes": 10286914, "seconds": 42.03536531699865, "term_count": 50},
+    {"label": "Gamma^ak_ij", "peak_bytes": 2008468, "seconds": 4.485421599001711, "term_count": 22},
+    {"label": "Gamma^jk_ai", "peak_bytes": 1762964, "seconds": 3.731445329998678, "term_count": 22},
+    {"label": "Gamma^ab_ij", "peak_bytes": 664516, "seconds": 0.8497797919990262, "term_count": 8},
+    {"label": "Gamma^ij_ab", "peak_bytes": 555740, "seconds": 0.8180882449996716, "term_count": 8},
+    {"label": "Gamma^bj_ai", "peak_bytes": 6282727, "seconds": 22.785067724998953, "term_count": 22},
+    {"label": "Gamma^bj_ia", "peak_bytes": 9788431, "seconds": 29.341467005000595, "term_count": 22},
+    {"label": "Gamma^bc_ai", "peak_bytes": 1057376, "seconds": 2.141645129999233, "term_count": 8},
+    {"label": "Gamma^ci_ab", "peak_bytes": 1834520, "seconds": 3.0740469789998315, "term_count": 8},
+    {"label": "Gamma^cd_ab", "peak_bytes": 6918006, "seconds": 16.939590901001793, "term_count": 8}
+  ],
+  "sigma": [
+    {"label": "sigma_0", "peak_bytes": 494676, "seconds": 0.7164580550015671, "term_count": 4},
+    {"label": "sigma_1", "peak_bytes": 2981529, "seconds": 4.822986800001672, "term_count": 16},
+    {"label": "sigma_2", "peak_bytes": 16069124, "seconds": 29.971298209999077, "term_count": 37},
+    {"label": "sigma_3", "peak_bytes": 86562238, "seconds": 179.76258659100132, "term_count": 294}
+  ]
+}

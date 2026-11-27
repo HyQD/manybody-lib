@@ -1,0 +1,1 @@
+"""Symbolic many-body algebra."""

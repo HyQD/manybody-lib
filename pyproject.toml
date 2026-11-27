@@ -17,6 +17,10 @@ dependencies = [
 dev = [
     "pytest>=9.0,<10",
     "pyscf>=2.14,<3",
+    "sympy>=1.14,<1.15",
+]
+symbolic = [
+    "sympy>=1.14,<1.15",
 ]
 
 [tool.pytest.ini_options]
