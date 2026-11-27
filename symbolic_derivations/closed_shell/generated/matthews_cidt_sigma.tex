@@ -1,0 +1,18 @@
+% Matthews CIDT right sigma vector
+% Simultaneous triples-column permutation operators
+\begin{align}
+\widehat P_{ab}\widehat P_{ij}X^{abc}_{ijk} &= X^{bac}_{jik}, \\
+\widehat{\mathcal P}^{ab}_{ij} &= 1+\widehat P_{ab}\widehat P_{ij}, \\
+\widehat{\mathcal P}^{c/ab}_{k/ij} &= 1+\widehat P_{ac}\widehat P_{ik}+\widehat P_{bc}\widehat P_{jk}, \\
+\widehat{\mathcal S}^{abc}_{ijk}X^{abc}_{ijk} &= \sum_{\pi\in S_3}X^{\pi(abc)}_{\pi(ijk)}.
+\end{align}
+\begin{align}
+\sigma_{0} &= C_{0} E_{\mathrm{ref}} + 2 C^{ab}_{ij} u^{ij}_{ab} - C^{ab}_{ij} u^{ij}_{ba} \\
+\sigma^{ab}_{ij} &= C_{0} u^{ab}_{ij} + C^{ab}_{ij} E_{\mathrm{ref}} + C^{ab}_{kl} u^{kl}_{ij} + C^{cd}_{ij} u^{ab}_{cd} \\
+&\quad {}+ 2 C^{abc}_{ijk} f^{k}_{c} \\
+&\quad {}+ \widehat{\mathcal P}^{ab}_{ij}\left[\begin{aligned}& -C^{ab}_{ik} f^{k}_{j} + C^{ac}_{ij} f^{b}_{c} - C^{ac}_{ik} u^{kb}_{jc} + 2 C^{ac}_{ik} u^{kb}_{cj} \\ &\quad -C^{ac}_{ki} u^{kb}_{cj} - C^{ac}_{kj} u^{kb}_{ic} - C^{abc}_{ikj} f^{k}_{c} - 2 C^{abc}_{ikl} u^{kl}_{jc} \\ &\quad {}+ C^{abc}_{ikl} u^{kl}_{cj} + C^{abc}_{kli} u^{kl}_{cj} - C^{acd}_{ijk} u^{kb}_{cd} + 2 C^{acd}_{ijk} u^{kb}_{dc} \\ &\quad -C^{acd}_{kij} u^{kb}_{cd}\end{aligned}\right] \\
+\sigma^{abc}_{ijk} &= \frac{5}{6} C^{abc}_{ijk} E_{\mathrm{ref}} \\
+&\quad {}+ \widehat{\mathcal P}^{ab}_{ij}\left[ -\frac{1}{6} C^{abc}_{jki} E_{\mathrm{ref}} \right] \\
+&\quad {}+ \widehat{\mathcal P}^{c/ab}_{k/ij}\left[\begin{aligned}& \frac{5}{6} C^{ab}_{ij} f^{c}_{k} - \frac{1}{6} C^{ab}_{ji} f^{c}_{k} - \frac{5}{6} C^{abc}_{ijl} f^{l}_{k} - \frac{1}{6} C^{abc}_{jik} E_{\mathrm{ref}} \\ &\quad {}+ \frac{1}{6} C^{abc}_{jil} f^{l}_{k} + \frac{5}{6} C^{abc}_{lmk} u^{lm}_{ij} - \frac{1}{6} C^{abc}_{lmk} u^{lm}_{ji} + \frac{5}{6} C^{abd}_{ijk} f^{c}_{d} \\ &\quad -\frac{5}{6} C^{abd}_{ijl} u^{lc}_{kd} + \frac{5}{3} C^{abd}_{ijl} u^{lc}_{dk} - \frac{1}{6} C^{abd}_{jik} f^{c}_{d} + \frac{1}{6} C^{abd}_{jil} u^{lc}_{kd} \\ &\quad -\frac{1}{3} C^{abd}_{jil} u^{lc}_{dk} + \frac{5}{6} C^{cde}_{kij} u^{ab}_{de} - \frac{1}{6} C^{cde}_{kij} u^{ab}_{ed}\end{aligned}\right] \\
+&\quad {}+ \widehat{\mathcal S}^{abc}_{ijk}\left[\begin{aligned}& -\frac{1}{6} C^{ab}_{ik} f^{c}_{j} - \frac{5}{6} C^{ab}_{il} u^{lc}_{jk} + \frac{1}{6} C^{ab}_{il} u^{lc}_{kj} - \frac{1}{6} C^{ab}_{jk} f^{c}_{i} \\ &\quad {}+ \frac{1}{6} C^{ab}_{jl} u^{lc}_{ik} + \frac{1}{6} C^{ab}_{jl} u^{lc}_{ki} + \frac{1}{6} C^{ab}_{kl} u^{lc}_{ij} + \frac{1}{6} C^{ab}_{kl} u^{lc}_{ji} \\ &\quad -\frac{1}{6} C^{ad}_{ij} u^{bc}_{kd} + \frac{5}{6} C^{ad}_{ij} u^{bc}_{dk} - \frac{1}{6} C^{ad}_{ji} u^{bc}_{kd} - \frac{1}{6} C^{ad}_{ji} u^{bc}_{dk} \\ &\quad -\frac{1}{6} C^{ad}_{jk} u^{bc}_{id} - \frac{1}{6} C^{ad}_{jk} u^{bc}_{di} + \frac{1}{6} C^{abc}_{ikl} f^{l}_{j} + \frac{1}{6} C^{abc}_{jkl} f^{l}_{i} \\ &\quad -\frac{1}{6} C^{abc}_{jlm} u^{lm}_{ik} - \frac{1}{6} C^{abc}_{jlm} u^{lm}_{ki} - \frac{1}{6} C^{abd}_{ikj} f^{c}_{d} + \frac{1}{6} C^{abd}_{ikl} u^{lc}_{jd} \\ &\quad -\frac{1}{3} C^{abd}_{ikl} u^{lc}_{dj} + \frac{1}{6} C^{abd}_{ilj} u^{lc}_{kd} - \frac{5}{6} C^{abd}_{ilj} u^{lc}_{dk} - \frac{5}{6} C^{abd}_{ilk} u^{lc}_{jd} \\ &\quad {}+ \frac{1}{6} C^{abd}_{ilk} u^{lc}_{dj} - \frac{1}{6} C^{abd}_{jki} f^{c}_{d} + \frac{1}{6} C^{abd}_{jkl} u^{lc}_{id} - \frac{1}{3} C^{abd}_{jkl} u^{lc}_{di} \\ &\quad {}+ \frac{1}{6} C^{abd}_{jli} u^{lc}_{kd} + \frac{1}{6} C^{abd}_{jli} u^{lc}_{dk} + \frac{1}{6} C^{abd}_{jlk} u^{lc}_{id} + \frac{1}{6} C^{abd}_{jlk} u^{lc}_{di} \\ &\quad {}+ \frac{1}{6} C^{abd}_{kli} u^{lc}_{jd} + \frac{1}{6} C^{abd}_{kli} u^{lc}_{dj} + \frac{1}{6} C^{abd}_{klj} u^{lc}_{id} + \frac{1}{6} C^{abd}_{klj} u^{lc}_{di} \\ &\quad -\frac{1}{6} C^{ade}_{jik} u^{bc}_{de} - \frac{1}{6} C^{ade}_{jik} u^{bc}_{ed}\end{aligned}\right]
+\end{align}

@@ -3,9 +3,11 @@
 from __future__ import annotations
 
 from fractions import Fraction
+from itertools import count
+from typing import Iterable, Mapping
 
 from .expressions import Expression, Term
-from .indices import OrbitalSpace
+from .indices import Index, OrbitalSpace
 from .operators import OneBodyOperator, TwoBodyOperator
 from .scalars import ExactScalar
 from .tensors import Delta, OrbitalDimension, Tensor
@@ -32,11 +34,67 @@ def _scalar_latex(value: ExactScalar) -> str:
     return rf"\left({_fraction_latex(value.real)} {sign} {imag}\right)"
 
 
-def _tensor_latex(tensor: Tensor) -> str:
+_PRESENTATION_INDEX_BASES = {
+    OrbitalSpace.OCCUPIED: tuple("ijklmn"),
+    OrbitalSpace.VIRTUAL: tuple("abcdef"),
+    OrbitalSpace.GENERAL: tuple("pqrstu"),
+    OrbitalSpace.SPIN: (r"\sigma", r"\tau"),
+}
+
+
+def _primed_index_name(base: str, order: int) -> str:
+    if order == 0:
+        return base
+    primes = r"\prime" * order
+    return rf"{base}^{{{primes}}}"
+
+
+def _presentation_index_names(space: OrbitalSpace):
+    bases = _PRESENTATION_INDEX_BASES[space]
+    for prime_order in count():
+        for base in bases:
+            yield _primed_index_name(base, prime_order)
+
+
+def _readable_dummy_names(
+    term: Term,
+    reserved_indices: Iterable[Index],
+) -> dict[Index, str]:
+    """Choose conventional collision-free display names for one term."""
+
+    used = {space: set() for space in OrbitalSpace}
+    for index in (*tuple(reserved_indices), *term.indices):
+        if index.is_free:
+            used[index.space].add(index.name)
+
+    names = {}
+    for index in term.dummies:
+        candidates = _presentation_index_names(index.space)
+        name = next(
+            candidate
+            for candidate in candidates
+            if candidate not in used[index.space]
+        )
+        names[index] = name
+        used[index.space].add(name)
+    return names
+
+
+def _index_latex(index: Index, names: Mapping[Index, str]) -> str:
+    return names.get(index, index.name)
+
+
+def _tensor_latex(tensor: Tensor, names: Mapping[Index, str]) -> str:
     symbol = tensor.symbol
     label = symbol.latex_name or symbol.name
-    upper = "".join(index.name for index in tensor.indices[: symbol.upper_count])
-    lower = "".join(index.name for index in tensor.indices[symbol.upper_count :])
+    upper = "".join(
+        _index_latex(index, names)
+        for index in tensor.indices[: symbol.upper_count]
+    )
+    lower = "".join(
+        _index_latex(index, names)
+        for index in tensor.indices[symbol.upper_count :]
+    )
     if upper:
         rendered = rf"{label}^{{{upper}}}"
     else:
@@ -48,11 +106,13 @@ def _tensor_latex(tensor: Tensor) -> str:
     return rendered
 
 
-def _factor_latex(factor) -> str:
+def _factor_latex(factor, names: Mapping[Index, str]) -> str:
     if isinstance(factor, Tensor):
-        return _tensor_latex(factor)
+        return _tensor_latex(factor, names)
     if isinstance(factor, Delta):
-        return rf"\delta_{{{factor.left.name}{factor.right.name}}}"
+        left = _index_latex(factor.left, names)
+        right = _index_latex(factor.right, names)
+        return rf"\delta_{{{left}{right}}}"
     if isinstance(factor, OrbitalDimension):
         labels = {
             OrbitalSpace.OCCUPIED: r"n_{\mathrm{o}}",
@@ -64,8 +124,8 @@ def _factor_latex(factor) -> str:
     raise TypeError(f"cannot print {type(factor).__name__}")
 
 
-def _operator_latex(operator) -> str:
-    indices = "".join(index.name for index in operator.indices)
+def _operator_latex(operator, names: Mapping[Index, str]) -> str:
+    indices = "".join(_index_latex(index, names) for index in operator.indices)
     if isinstance(operator, OneBodyOperator):
         return rf"E_{{{indices}}}"
     if isinstance(operator, TwoBodyOperator):
@@ -73,32 +133,60 @@ def _operator_latex(operator) -> str:
     raise TypeError(f"cannot print {type(operator).__name__}")
 
 
-def _term_product_latex(term: Term, coefficient: ExactScalar) -> str:
-    pieces = [_factor_latex(factor) for factor in term.factors]
-    pieces.extend(_operator_latex(operator) for operator in term.operators.operators)
+def _term_product_latex(
+    term: Term,
+    coefficient: ExactScalar,
+    names: Mapping[Index, str],
+) -> str:
+    pieces = [_factor_latex(factor, names) for factor in term.factors]
+    pieces.extend(
+        _operator_latex(operator, names)
+        for operator in term.operators.operators
+    )
     if not pieces or not coefficient.is_one:
         pieces.insert(0, _scalar_latex(coefficient))
     return " ".join(pieces)
 
 
-def term_to_latex(term: Term) -> str:
+def term_to_latex(
+    term: Term,
+    *,
+    rename_dummies: bool = False,
+    reserved_indices: Iterable[Index] = (),
+) -> str:
     """Return standalone LaTeX for one term."""
 
-    return _term_product_latex(term, term.coefficient)
+    names = (
+        _readable_dummy_names(term, reserved_indices)
+        if rename_dummies
+        else {}
+    )
+    return _term_product_latex(term, term.coefficient, names)
 
 
-def expression_to_latex(expression: Expression) -> str:
+def expression_to_latex(
+    expression: Expression,
+    *,
+    rename_dummies: bool = False,
+    reserved_indices: Iterable[Index] = (),
+) -> str:
     """Return deterministic Einstein-summation LaTeX for an expression."""
 
     if not expression.terms:
         return "0"
+    reserved_indices = tuple(reserved_indices)
     rendered = []
     for position, term in enumerate(expression.terms):
+        names = (
+            _readable_dummy_names(term, reserved_indices)
+            if rename_dummies
+            else {}
+        )
         coefficient = term.coefficient
         if coefficient.is_real and coefficient.real < 0:
-            body = _term_product_latex(term, -coefficient)
+            body = _term_product_latex(term, -coefficient, names)
             rendered.append(("-" if position == 0 else " - ") + body)
         else:
-            body = _term_product_latex(term, coefficient)
+            body = _term_product_latex(term, coefficient, names)
             rendered.append(("" if position == 0 else " + ") + body)
     return "".join(rendered)

@@ -170,6 +170,7 @@ def test_complete_sigma_is_metric_resolved_null_free_and_profiled() -> None:
 
     factored = matthews_sigma_to_latex(sigma)
     expanded = matthews_sigma_to_latex(sigma, factor_permutations=False)
+    selected = matthews_sigma_to_latex(sigma, ranks=(0, 2, 3))
     triples_presentation = sigma.column_presentation(3)
     assert triples_presentation.expand() == sigma[3]
     assert triples_presentation.displayed_term_count == 59
@@ -177,6 +178,8 @@ def test_complete_sigma_is_metric_resolved_null_free_and_profiled() -> None:
     assert factored.endswith(r"\end{align}")
     assert r"\widehat{\mathcal S}^{abc}_{ijk}" in factored
     assert r"\widehat{\mathcal S}^{abc}_{ijk}" not in expanded
+    assert r"\sigma^{a}_{i}" not in selected
+    assert r"\sigma^{ab}_{ij}" in selected
     definitions = matthews_triples_permutation_definitions()
     assert r"\widehat{\mathcal P}^{c/ab}_{k/ij}" in definitions
 

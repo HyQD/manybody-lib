@@ -68,3 +68,37 @@ def test_latex_uses_stacked_indices_and_explicit_conjugation() -> None:
     assert expression_to_latex(expression) == (
         r"\left(C^{a}_{i}\right)^{*} - f^{a}_{i}"
     )
+
+
+def test_latex_can_use_conventional_collision_free_dummy_names() -> None:
+    c3 = TensorSymbol("C", rank=6, upper_count=3)
+    a = virtual("a")
+    i = occupied("i")
+    a0 = virtual("a0", dummy=True)
+    a1 = virtual("a1", dummy=True)
+    i0 = occupied("i0", dummy=True)
+    i1 = occupied("i1", dummy=True)
+    expression = Expression.from_terms(
+        (Term(factors=(c3(a, a0, a1, i, i0, i1),)),)
+    )
+
+    assert expression_to_latex(expression) == r"C^{aa0a1}_{ii0i1}"
+    assert expression_to_latex(
+        expression,
+        rename_dummies=True,
+        reserved_indices=(a, i),
+    ) == r"C^{abc}_{ijk}"
+
+
+def test_readable_dummy_names_use_primes_after_conventional_pool() -> None:
+    f = TensorSymbol("f", rank=2, upper_count=1)
+    a0 = virtual("a0", dummy=True)
+    i0 = occupied("i0", dummy=True)
+    expression = Expression.from_terms((Term(factors=(f(a0, i0),)),))
+    reserved = tuple(map(virtual, "abcdef")) + tuple(map(occupied, "ijklmn"))
+
+    assert expression_to_latex(
+        expression,
+        rename_dummies=True,
+        reserved_indices=reserved,
+    ) == r"f^{a^{\prime}}_{i^{\prime}}"

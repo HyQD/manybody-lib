@@ -1,0 +1,478 @@
+\documentclass[10pt]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage[margin=0.68in]{geometry}
+\usepackage{microtype}
+\usepackage{fancyhdr}
+\usepackage[hidelinks]{hyperref}
+
+\allowdisplaybreaks[4]
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.5em}
+\setlength{\headheight}{13pt}
+\setlength{\jot}{2pt}
+\setlength{\emergencystretch}{2em}
+\raggedbottom
+\numberwithin{equation}{section}
+
+\newcommand{\Eref}{E_{\mathrm{ref}}}
+\newcommand{\vac}{\Phi_0}
+\newcommand{\tC}{\widetilde{C}}
+\newcommand{\tPhi}{\widetilde{\Phi}}
+\newcommand{\tPsi}{\widetilde{\Psi}}
+\newcommand{\tsigma}{\widetilde{\sigma}}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{Closed-shell configuration interaction}
+\fancyhead[R]{\nouppercase{\leftmark}}
+\fancyfoot[C]{\thepage}
+
+\hypersetup{
+  pdftitle={Closed-Shell Configuration-Interaction Algebraic Expressions},
+  pdfauthor={manybody-lib}
+}
+
+\title{Closed-Shell Configuration-Interaction\\
+       Algebraic Expressions through Triples}
+\author{}
+\date{27 November 2026}
+
+\begin{document}
+
+\maketitle
+\begin{abstract}
+This document collects closed-shell CIS, CID, CISD, CIDT, and CISDT
+sigma-vector and reduced-density-matrix expressions.  Singles and doubles
+use the Helgaker--J\o rgensen--Olsen (HJO) biorthogonal formulation.  Methods
+containing triples use the redundant Matthews covariant manifold with exact
+metric resolution and an explicit treatment of its one-dimensional null
+space.  Left and right coefficients are algebraically independent, and no
+normalization denominator is applied to the density matrices.
+\end{abstract}
+
+\begingroup
+\small
+\setlength{\parskip}{0pt}
+\tableofcontents
+\endgroup
+
+\clearpage
+\section{Definitions and conventions}
+
+\subsection{Indices and summation convention}
+
+Indices $i,j,k,l,\ldots$ denote spatial orbitals that are doubly occupied in
+the closed-shell reference determinant $\lvert\vac\rangle$;
+$a,b,c,d,\ldots$ denote virtual spatial orbitals; and
+$p,q,r,s,\ldots$ denote general spatial orbitals.  Repeated internal indices
+are summed.  The orthonormal orbitals are not assumed to be canonical and may
+be complex.
+
+For presentation, dummy occupied indices are renamed term by term from
+$i,j,k,l,m,n$, and dummy virtual indices from $a,b,c,d,e,f$, while avoiding
+the free indices of the equation.  If all six labels in a space are already
+required, primed labels such as $i'$ or $a'$ are used.  These display-only
+renamings do not alter the canonical symbolic expressions.
+
+Spin labels are $\sigma,\tau\in\{\alpha,\beta\}$.  Normal ordering with
+respect to $\lvert\vac\rangle$ is denoted by braces.
+
+\subsection{Spin-free excitation operators}
+
+The unitary-group generator is
+\begin{equation}
+ E_{pq}=\sum_{\sigma}a_{p\sigma}^{\dagger}a_{q\sigma},
+\end{equation}
+with commutator
+\begin{equation}
+ [E_{pq},E_{rs}]=\delta_{qr}E_{ps}-\delta_{ps}E_{rq}.
+\end{equation}
+The spin-free two-electron excitation operator is
+\begin{align}
+ e_{pqrs}
+ &\equiv E_{pr}E_{qs}-\delta_{rq}E_{ps}
+ \\
+ &=\sum_{\sigma\tau}
+   a_{p\sigma}^{\dagger}a_{q\tau}^{\dagger}
+   a_{s\tau}a_{r\sigma},
+\end{align}
+and therefore $e_{pqrs}=e_{qpsr}$.  A useful mixed commutator is
+\begin{align}
+ [e_{pqrs},E_{tu}]
+ &=\delta_{rt}e_{pqus}+\delta_{st}e_{pqru}
+   -\delta_{pu}e_{tqrs}-\delta_{qu}e_{ptrs}.
+\end{align}
+
+\subsection{Integrals, Fock matrix, and Hamiltonian}
+
+The one-electron matrix elements are
+\begin{equation}
+ h^{p}_{q}
+ =\int\!\mathrm{d}\mathbf r\,
+   \phi_p^{*}(\mathbf r)\,\hat h\,\phi_q(\mathbf r).
+\end{equation}
+The non-antisymmetrized two-electron integrals use physicists' ordering,
+\begin{equation}
+ u^{pq}_{rs}
+ =\iint\!\mathrm{d}\mathbf r_1\,\mathrm{d}\mathbf r_2\,
+   \phi_p^{*}(\mathbf r_1)\phi_q^{*}(\mathbf r_2)
+   \hat w(1,2)
+   \phi_r(\mathbf r_1)\phi_s(\mathbf r_2),
+\end{equation}
+and satisfy
+\begin{equation}
+ u^{pq}_{rs}=u^{qp}_{sr},
+ \qquad
+ u^{pq}_{rs}=\bigl(u^{rs}_{pq}\bigr)^{*}.
+\end{equation}
+For the HJO equations it is convenient to define
+\begin{equation}
+ L^{pq}_{rs}\equiv 2u^{pq}_{rs}-u^{pq}_{sr}.
+\end{equation}
+The closed-shell reference Fock matrix and reference energy are
+\begin{align}
+ f^{p}_{q}
+ &=h^{p}_{q}+\sum_i\left(2u^{pi}_{qi}-u^{pi}_{iq}\right),
+ \\
+ \Eref
+ &=2\sum_i h^{i}_{i}
+   +2\sum_{ij}u^{ij}_{ij}
+   -\sum_{ij}u^{ij}_{ji}.
+\end{align}
+The Hamiltonian is
+\begin{align}
+ H
+ &=\sum_{pq}h^{p}_{q}E_{pq}
+   +\frac12\sum_{pqrs}u^{pq}_{rs}e_{pqrs}
+ \\
+ &=\Eref
+   +\sum_{pq}f^{p}_{q}\{E_{pq}\}
+   +\frac12\sum_{pqrs}u^{pq}_{rs}\{e_{pqrs}\}.
+\end{align}
+
+\subsection{HJO biorthogonal parametrization through doubles}
+
+The right excitation operators are
+\begin{equation}
+ X_i^a=E_{ai},
+ \qquad
+ X_{ij}^{ab}=E_{ai}E_{bj}.
+\end{equation}
+Their HJO biorthogonal duals are
+\begin{equation}
+ Y_a^i=\frac12E_{ia},
+ \qquad
+ Y_{ab}^{ij}=\frac13E_{jb}E_{ia}+\frac16E_{ib}E_{ja}.
+\end{equation}
+The redundant doubles coefficients obey the simultaneous-column symmetry
+\begin{equation}
+ C_{ij}^{ab}=C_{ji}^{ba},
+ \qquad
+ \tC_{ab}^{ij}=\tC_{ba}^{ji}.
+\end{equation}
+The unnormalized simultaneous-column symmetrizer is
+\begin{equation}
+ \mathcal P_{ij}^{ab}A_{ij}^{ab}
+ =A_{ij}^{ab}+A_{ji}^{ba}.
+\end{equation}
+It exchanges both upper and lower labels as one column pair; it is not an
+independent upper- or lower-index exchange.  No diagonal normalization factor
+is introduced.
+
+The general HJO states through doubles are
+\begin{align}
+ \lvert\Psi\rangle
+ &=\left(C_0+C_i^aX_i^a+\frac12C_{ij}^{ab}X_{ij}^{ab}\right)
+   \lvert\vac\rangle,
+ \\
+ \langle\tPsi\rvert
+ &=\langle\vac\rvert\left(
+   \tC_0+\tC_a^iY_a^i+\frac12\tC_{ab}^{ij}Y_{ab}^{ij}
+   \right).
+\end{align}
+The left coefficients remain independent.  For a Hermitian bra,
+\begin{align}
+ \tC_0&=C_0^{*},
+ &
+ \tC_a^i&=2(C_i^a)^{*},
+ \\
+ \tC_{ab}^{ij}
+ &=\left(4C_{ij}^{ab}-2C_{ji}^{ab}\right)^{*}.
+\end{align}
+
+\subsection{Matthews covariant parametrization through triples}
+\label{sec:matthews-cisdt-state}
+
+For methods containing triples, the right excitation operators are the
+ordered products
+\begin{equation}
+ X_{i_1\cdots i_n}^{a_1\cdots a_n}
+ =E_{a_1i_1}\cdots E_{a_ni_n},
+ \qquad n=1,2,3,
+\end{equation}
+and the covariant projectors are the unscaled adjoint products
+\begin{equation}
+ \overline X_{a_1\cdots a_n}^{i_1\cdots i_n}
+ =E_{i_1a_1}\cdots E_{i_na_n}.
+\end{equation}
+The right and independent left states are
+\begin{align}
+ \lvert\Psi\rangle
+ &=\left(
+ C_0+C_i^aE_{ai}
+ +\frac12C_{ij}^{ab}E_{ai}E_{bj}
+ +\frac16C_{ijk}^{abc}E_{ai}E_{bj}E_{ck}
+ \right)\lvert\vac\rangle,
+ \\
+ \langle\widetilde\Psi\rvert
+ &=\langle\vac\rvert\left(
+ \widetilde C_0+\widetilde C_a^iE_{ia}
+ +\frac12\widetilde C_{ab}^{ij}E_{ia}E_{jb}
+ +\frac16\widetilde C_{abc}^{ijk}E_{ia}E_{jb}E_{kc}
+ \right).
+\end{align}
+Both doubles and triples are invariant under simultaneous permutations of
+their excitation columns:
+\begin{align}
+ C_{ij}^{ab}&=C_{\pi(ij)}^{\pi(ab)},
+ \\
+ C_{ijk}^{abc}&=C_{\pi(ijk)}^{\pi(abc)},
+ \qquad \pi\in S_3,
+\end{align}
+with corresponding symmetries for the left coefficients.  For a Hermitian
+bra the Matthews coefficients are related by direct adjunction,
+\begin{equation}
+ \widetilde C_0=C_0^*,\qquad
+ \widetilde C_a^i=(C_i^a)^*,\qquad
+ \widetilde C_{ab}^{ij}=(C_{ij}^{ab})^*,\qquad
+ \widetilde C_{abc}^{ijk}=(C_{ijk}^{abc})^*.
+\end{equation}
+Unlike the HJO dual coefficients, no metric factor is absorbed into these
+left amplitudes.
+
+\subsection{Matthews metric, pseudoinverse, and triples gauge}
+
+Let $\rho_n$ denote the covariant projection of $H\lvert\Psi\rangle$ at
+rank $n$.  The coefficient-space sigma vector is obtained from
+\begin{equation}
+ \sigma_n=M_n^+\rho_n,
+\end{equation}
+where $M_n^+$ is the exact Moore--Penrose pseudoinverse of the covariant
+Gram matrix.  In the regular representation of $S_n$,
+\begin{equation}
+ M_n=\sum_{\pi\in S_n}(-1)^{n-c(\pi)}2^{c(\pi)}P_\pi,
+\end{equation}
+where $c(\pi)$ is the number of cycles of $\pi$.  Thus $M_1$ and $M_2$ are
+nonsingular, whereas $M_3$ has rank five and a one-dimensional null space.
+The exact ranks and pseudoinverses used below are
+
+\begingroup
+\small
+\input{generated/matthews_cisdt_metric.tex}
+\endgroup
+
+For a column-symmetric triples tensor, the wavefunction-null component is
+\begin{equation}
+ (\mathcal N C)_{ijk}^{abc}
+ =\frac16\sum_{\pi\in S_3}C_{\pi(ijk)}^{abc}.
+\end{equation}
+The numerical sigma vector uses the Moore--Penrose representative
+$C_{\mathrm{phys}}=(1-\mathcal N)C$.  Norms, RDMs, and all projected
+Hamiltonian matrix elements are invariant under independent null shifts of
+the left or right triples tensor.
+
+\subsection{Sigma vectors and reduced density matrices}
+
+Right sigma components are expansion coefficients of
+$H\lvert\Psi\rangle$.  In the HJO representation they are obtained with the
+biorthogonal projectors.  In the Matthews representation they are the
+metric-resolved components defined above.
+
+The spin-summed one- and two-body reduced density matrices are
+\begin{align}
+ \gamma_p^q
+ &\equiv\langle\widetilde\Psi\rvert E_{pq}\lvert\Psi\rangle,
+ \\
+ \Gamma_{pq}^{rs}
+ &\equiv\langle\widetilde\Psi\rvert e_{pqrs}\lvert\Psi\rangle.
+\end{align}
+All norms and RDMs below are unnormalized.  In particular, they are not
+divided by $\langle\widetilde\Psi\vert\Psi\rangle$, so norm drift remains
+visible in real-time applications.  Only independent nonzero RDM blocks are
+shown.
+
+\clearpage
+\section{Derived algebraic expressions}
+
+\subsection{Configuration-interaction singles (CIS)}
+
+CIS uses the HJO biorthogonal parametrization with
+\begin{align}
+ \lvert\Psi_{\mathrm{CIS}}\rangle
+ &=\left(C_0+C_i^aX_i^a\right)\lvert\vac\rangle,
+ \\
+ \langle\widetilde\Psi_{\mathrm{CIS}}\rvert
+ &=\langle\vac\rvert\left(\widetilde C_0+\widetilde C_a^iY_a^i\right).
+\end{align}
+
+\input{../Drudge/closed_shell/biorthogonal/generated/cis_equations.tex}
+
+\clearpage
+\subsection{Configuration-interaction doubles (CID)}
+
+CID uses the HJO biorthogonal parametrization with
+\begin{align}
+ \lvert\Psi_{\mathrm{CID}}\rangle
+ &=\left(C_0+\frac12C_{ij}^{ab}X_{ij}^{ab}\right)\lvert\vac\rangle,
+ \\
+ \langle\widetilde\Psi_{\mathrm{CID}}\rvert
+ &=\langle\vac\rvert\left(
+ \widetilde C_0+\frac12\widetilde C_{ab}^{ij}Y_{ab}^{ij}
+ \right).
+\end{align}
+
+\input{../Drudge/closed_shell/biorthogonal/generated/cid_equations.tex}
+
+\clearpage
+\subsection{Configuration-interaction singles and doubles (CISD)}
+
+CISD uses the complete HJO state through doubles:
+\begin{align}
+ \lvert\Psi_{\mathrm{CISD}}\rangle
+ &=\left(C_0+C_i^aX_i^a+\frac12C_{ij}^{ab}X_{ij}^{ab}\right)
+ \lvert\vac\rangle,
+ \\
+ \langle\widetilde\Psi_{\mathrm{CISD}}\rvert
+ &=\langle\vac\rvert\left(
+ \widetilde C_0+\widetilde C_a^iY_a^i
+ +\frac12\widetilde C_{ab}^{ij}Y_{ab}^{ij}
+ \right).
+\end{align}
+
+\begingroup
+\small
+\setlength{\jot}{1pt}
+\input{../Drudge/closed_shell/biorthogonal/generated/cisd_equations.tex}
+\endgroup
+
+\clearpage
+\subsection{Configuration-interaction doubles and triples (CIDT)}
+
+CIDT uses the Matthews manifold with singles deliberately omitted:
+\begin{align}
+ \lvert\Psi_{\mathrm{CIDT}}\rangle
+ &=\left(
+ C_0+\frac12C_{ij}^{ab}E_{ai}E_{bj}
+ +\frac16C_{ijk}^{abc}E_{ai}E_{bj}E_{ck}
+ \right)\lvert\vac\rangle,
+ \\
+ \langle\widetilde\Psi_{\mathrm{CIDT}}\rvert
+ &=\langle\vac\rvert\left(
+ \widetilde C_0+\frac12\widetilde C_{ab}^{ij}E_{ia}E_{jb}
+ +\frac16\widetilde C_{abc}^{ijk}E_{ia}E_{jb}E_{kc}
+ \right).
+\end{align}
+The equations in this subsection are obtained symbolically from the Matthews
+CISDT manifold by setting $C_i^a=\widetilde C_a^i=0$ before rendering.
+
+\subsubsection{Right sigma vector}
+\begingroup
+\scriptsize
+\setlength{\jot}{1pt}
+\input{generated/matthews_cidt_sigma.tex}
+\endgroup
+
+\subsubsection{Norm and one-body reduced density matrix}
+\begingroup
+\scriptsize
+\setlength{\jot}{1pt}
+\input{generated/matthews_cidt_one_rdm.tex}
+\endgroup
+
+\subsubsection{Two-body reduced density matrix}
+\begingroup
+\scriptsize
+\setlength{\jot}{1pt}
+\input{generated/matthews_cidt_two_rdm.tex}
+\endgroup
+
+\clearpage
+\subsection{Configuration-interaction singles, doubles, and triples (CISDT)}
+
+CISDT uses the complete Matthews state through triples as defined in
+Section~\ref{sec:matthews-cisdt-state}:
+\begin{align}
+ \lvert\Psi_{\mathrm{CISDT}}\rangle
+ &=\left(
+ C_0+C_i^aE_{ai}
+ +\frac12C_{ij}^{ab}E_{ai}E_{bj}
+ +\frac16C_{ijk}^{abc}E_{ai}E_{bj}E_{ck}
+ \right)\lvert\vac\rangle,
+ \\
+ \langle\widetilde\Psi_{\mathrm{CISDT}}\rvert
+ &=\langle\vac\rvert\left(
+ \widetilde C_0+\widetilde C_a^iE_{ia}
+ +\frac12\widetilde C_{ab}^{ij}E_{ia}E_{jb}
+ +\frac16\widetilde C_{abc}^{ijk}E_{ia}E_{jb}E_{kc}
+ \right).
+\end{align}
+
+\subsubsection{Right sigma vector}
+\begingroup
+\scriptsize
+\setlength{\jot}{1pt}
+\input{generated/matthews_cisdt_sigma.tex}
+\endgroup
+
+\subsubsection{Norm and one-body reduced density matrix}
+\begingroup
+\scriptsize
+\setlength{\jot}{1pt}
+\input{generated/matthews_cisdt_one_rdm.tex}
+\endgroup
+
+\subsubsection{Two-body reduced density matrix}
+\begingroup
+\scriptsize
+\setlength{\jot}{1pt}
+\input{generated/matthews_cisdt_two_rdm.tex}
+\endgroup
+
+\clearpage
+\appendix
+\section{Reproducibility}
+
+The HJO CIS, CID, and CISD fragments are generated from the validated Drudge
+reference scripts.  From
+\texttt{symbolic\_derivations/Drudge/closed\_shell/biorthogonal}, run
+\begin{verbatim}
+conda run --no-capture-output -n drudge python generate_latex_fragments.py
+\end{verbatim}
+
+The Matthews CIDT and CISDT fragments are generated by the native symbolic
+engine.  From the repository root, run
+\begin{verbatim}
+conda run --no-capture-output -n scipy-1.18.0 python \
+  symbolic_derivations/closed_shell/generate_matthews_cisdt.py \
+  --method cisdt --section all \
+  --output-dir symbolic_derivations/closed_shell/generated
+
+conda run --no-capture-output -n scipy-1.18.0 python \
+  symbolic_derivations/closed_shell/generate_matthews_cisdt.py \
+  --method cidt --section all \
+  --output-dir symbolic_derivations/closed_shell/generated
+\end{verbatim}
+Every compact permutation presentation is re-expanded and compared exactly
+with its canonical expression before it is emitted.
+
+Compile this unified document from
+\texttt{symbolic\_derivations/closed\_shell} with
+\begin{verbatim}
+latexmk -pdf -interaction=nonstopmode -halt-on-error \
+  closed_shell_ci_expressions.tex
+\end{verbatim}
+
+\end{document}

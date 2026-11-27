@@ -358,6 +358,7 @@ def _expression_latex_lines(
     expression: Expression,
     *,
     terms_per_line: int = 4,
+    reserved_indices: tuple[Index, ...] = (),
 ) -> list[str]:
     """Render a canonical expression as sign-preserving readable chunks."""
 
@@ -366,15 +367,26 @@ def _expression_latex_lines(
     lines = []
     for start in range(0, expression.term_count, terms_per_line):
         terms = expression.terms[start : start + terms_per_line]
-        rendered = expression_to_latex(Expression(terms))
+        rendered = expression_to_latex(
+            Expression(terms),
+            rename_dummies=True,
+            reserved_indices=reserved_indices,
+        )
         if start and not rendered.startswith("-"):
             rendered = "{}+ " + rendered
         lines.append(rendered)
     return lines
 
 
-def _operator_application_latex(operator: str, expression: Expression) -> str:
-    lines = _expression_latex_lines(expression)
+def _operator_application_latex(
+    operator: str,
+    expression: Expression,
+    reserved_indices: tuple[Index, ...],
+) -> str:
+    lines = _expression_latex_lines(
+        expression,
+        reserved_indices=reserved_indices,
+    )
     if len(lines) == 1:
         return rf"{operator}\left[ {lines[0]} \right]"
     body = r" \\ &\quad ".join(lines)
@@ -385,8 +397,14 @@ def _operator_application_latex(operator: str, expression: Expression) -> str:
     )
 
 
-def _presentation_latex_lines(presentation) -> list[str]:
-    lines = _expression_latex_lines(presentation.explicit)
+def _presentation_latex_lines(
+    presentation,
+    reserved_indices: tuple[Index, ...],
+) -> list[str]:
+    lines = _expression_latex_lines(
+        presentation.explicit,
+        reserved_indices=reserved_indices,
+    )
     if not presentation.explicit:
         lines = []
     if isinstance(presentation, ColumnPermutationPresentation):
@@ -406,7 +424,11 @@ def _presentation_latex_lines(presentation) -> list[str]:
     for operator, representatives in groups:
         if not representatives:
             continue
-        rendered = _operator_application_latex(operator, representatives)
+        rendered = _operator_application_latex(
+            operator,
+            representatives,
+            reserved_indices,
+        )
         if lines:
             rendered = "{}+ " + rendered
         lines.append(rendered)
@@ -430,35 +452,53 @@ def matthews_sigma_to_latex(
     sigma: MatthewsSigmaVector,
     *,
     factor_permutations: bool = True,
+    ranks: tuple[int, ...] = (0, 1, 2, 3),
 ) -> str:
     """Render metric-resolved CISDT sigma components as an align environment."""
 
-    labels = (
-        r"\sigma_{0}",
-        r"\sigma^{a}_{i}",
-        r"\sigma^{ab}_{ij}",
-        r"\sigma^{abc}_{ijk}",
-    )
+    labels = {
+        0: r"\sigma_{0}",
+        1: r"\sigma^{a}_{i}",
+        2: r"\sigma^{ab}_{ij}",
+        3: r"\sigma^{abc}_{ijk}",
+    }
+    external_indices = {
+        0: (),
+        1: (virtual("a"), occupied("i")),
+        2: (*tuple(map(virtual, "ab")), *tuple(map(occupied, "ij"))),
+        3: (*tuple(map(virtual, "abc")), *tuple(map(occupied, "ijk"))),
+    }
+    if any(rank not in labels for rank in ranks):
+        raise ValueError("Matthews sigma ranks must be selected from 0, 1, 2, 3")
     equations = []
-    for position, label in enumerate(labels):
+    for rank in ranks:
         presentation = (
-            sigma.column_presentation(position)
+            sigma.column_presentation(rank)
             if factor_permutations
             else None
         )
         bodies = (
-            _presentation_latex_lines(presentation)
+            _presentation_latex_lines(presentation, external_indices[rank])
             if presentation is not None
-            else _expression_latex_lines(sigma[position])
+            else _expression_latex_lines(
+                sigma[rank],
+                reserved_indices=external_indices[rank],
+            )
         )
-        equations.append((label, bodies))
+        equations.append((labels[rank], bodies))
     return _align_latex(equations)
 
 
 def _equations_to_latex(equations) -> str:
     rendered = [
-        (label, _expression_latex_lines(expression))
-        for label, expression in equations
+        (
+            label,
+            _expression_latex_lines(
+                expression,
+                reserved_indices=reserved_indices,
+            ),
+        )
+        for label, expression, reserved_indices in equations
     ]
     return _align_latex(rendered)
 
@@ -472,8 +512,13 @@ def matthews_one_rdms_to_latex(
 
     equations = []
     if include_norm:
-        equations.append((r"\langle\widetilde\Psi\vert\Psi\rangle", rdms.norm))
-    equations.extend((block.label, block.expression) for block in rdms.one_body)
+        equations.append(
+            (r"\langle\widetilde\Psi\vert\Psi\rangle", rdms.norm, ())
+        )
+    equations.extend(
+        (block.label, block.expression, block.indices)
+        for block in rdms.one_body
+    )
     return _equations_to_latex(equations)
 
 
@@ -481,7 +526,7 @@ def matthews_two_rdms_to_latex(rdms: MatthewsRDMs) -> str:
     """Render all independent nonzero Matthews 2-RDM blocks."""
 
     equations = [
-        (block.label, block.expression)
+        (block.label, block.expression, block.indices)
         for block in rdms.two_body
     ]
     return _equations_to_latex(equations)
@@ -490,9 +535,15 @@ def matthews_two_rdms_to_latex(rdms: MatthewsRDMs) -> str:
 def matthews_rdms_to_latex(rdms: MatthewsRDMs) -> str:
     """Render the Matthews norm and RDMs as an expanded align environment."""
 
-    equations = [(r"\langle\widetilde\Psi\vert\Psi\rangle", rdms.norm)]
-    equations.extend((block.label, block.expression) for block in rdms.one_body)
-    equations.extend((block.label, block.expression) for block in rdms.two_body)
+    equations = [(r"\langle\widetilde\Psi\vert\Psi\rangle", rdms.norm, ())]
+    equations.extend(
+        (block.label, block.expression, block.indices)
+        for block in rdms.one_body
+    )
+    equations.extend(
+        (block.label, block.expression, block.indices)
+        for block in rdms.two_body
+    )
     return _equations_to_latex(equations)
 
 

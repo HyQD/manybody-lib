@@ -13,6 +13,14 @@ if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
 from manybody_lib.symbolic.closed_shell import (
+    Expression,
+    MATTHEWS_LEFT_SINGLES,
+    MATTHEWS_SINGLES,
+    MatthewsRDMs,
+    MatthewsSigmaVector,
+    RDMBlock,
+    RightSigmaVector,
+    Tensor,
     derive_matthews_rdms,
     derive_matthews_sigma,
     matthews_metric,
@@ -26,7 +34,13 @@ from manybody_lib.symbolic.closed_shell import (
 
 def _parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
-        description="derive closed-shell Matthews CISDT equations",
+        description="derive closed-shell Matthews CIDT or CISDT equations",
+    )
+    parser.add_argument(
+        "--method",
+        choices=("cisdt", "cidt"),
+        default="cisdt",
+        help="Matthews CI truncation to render (default: cisdt)",
     )
     parser.add_argument(
         "--section",
@@ -50,6 +64,53 @@ def _parse_args() -> argparse.Namespace:
         help="write one self-contained .tex fragment per selected section",
     )
     return parser.parse_args()
+
+
+def _without_singles(expression: Expression) -> Expression:
+    singles = {MATTHEWS_SINGLES, MATTHEWS_LEFT_SINGLES}
+    return Expression.from_terms(
+        term
+        for term in expression
+        if not any(
+            isinstance(factor, Tensor) and factor.symbol in singles
+            for factor in term.factors
+        )
+    )
+
+
+def _restrict_sigma_to_cidt(sigma: MatthewsSigmaVector) -> MatthewsSigmaVector:
+    return MatthewsSigmaVector(
+        RightSigmaVector(
+            "cidt",
+            tuple(
+                (rank, _without_singles(expression))
+                for rank, expression in sigma.resolved.components
+            ),
+        ),
+        tuple(
+            (rank, _without_singles(expression))
+            for rank, expression in sigma.covariant
+        ),
+        (),
+    )
+
+
+def _restrict_rdms_to_cidt(rdms: MatthewsRDMs) -> MatthewsRDMs:
+    def restrict(block: RDMBlock) -> RDMBlock:
+        return RDMBlock(
+            block.rank,
+            block.label,
+            block.indices,
+            _without_singles(block.expression),
+        )
+
+    return MatthewsRDMs(
+        "cidt",
+        _without_singles(rdms.norm),
+        tuple(restrict(block) for block in rdms.one_body),
+        tuple(restrict(block) for block in rdms.two_body),
+        (),
+    )
 
 
 def _metric_latex() -> str:
@@ -84,6 +145,7 @@ def _measurement_record(measurement) -> dict[str, int | float | str]:
 
 def main() -> None:
     args = _parse_args()
+    method_label = args.method.upper()
     profile: dict[str, list[dict[str, int | float | str]]] = {}
     if args.section == "all":
         sections = ("metric", "sigma", "one-rdm", "two-rdm")
@@ -97,17 +159,20 @@ def main() -> None:
         if section == "metric":
             rendered[section] = "\n".join(
                 (
-                    "% Matthews CISDT exact Gram matrices and pseudoinverses",
+                    f"% Matthews {method_label} exact Gram matrices and pseudoinverses",
                     _metric_latex(),
                 )
             )
         elif section == "sigma":
             sigma = derive_matthews_sigma()
+            if args.method == "cidt":
+                sigma = _restrict_sigma_to_cidt(sigma)
             body = matthews_sigma_to_latex(
                 sigma,
                 factor_permutations=not args.expanded,
+                ranks=(0, 2, 3) if args.method == "cidt" else (0, 1, 2, 3),
             )
-            pieces = ["% Matthews CISDT right sigma vector"]
+            pieces = [f"% Matthews {method_label} right sigma vector"]
             if not args.expanded:
                 pieces.extend(
                     (
@@ -124,9 +189,11 @@ def main() -> None:
         elif section == "one-rdm":
             if rdms is None:
                 rdms = derive_matthews_rdms()
+                if args.method == "cidt":
+                    rdms = _restrict_rdms_to_cidt(rdms)
             rendered[section] = "\n".join(
                 (
-                    "% Matthews CISDT norm and one-body RDM",
+                    f"% Matthews {method_label} norm and one-body RDM",
                     matthews_one_rdms_to_latex(rdms),
                 )
             )
@@ -137,9 +204,11 @@ def main() -> None:
         elif section == "two-rdm":
             if rdms is None:
                 rdms = derive_matthews_rdms()
+                if args.method == "cidt":
+                    rdms = _restrict_rdms_to_cidt(rdms)
             rendered[section] = "\n".join(
                 (
-                    "% Matthews CISDT two-body RDM",
+                    f"% Matthews {method_label} two-body RDM",
                     matthews_two_rdms_to_latex(rdms),
                 )
             )
@@ -150,9 +219,11 @@ def main() -> None:
         else:
             if rdms is None:
                 rdms = derive_matthews_rdms()
+                if args.method == "cidt":
+                    rdms = _restrict_rdms_to_cidt(rdms)
             rendered[section] = "\n".join(
                 (
-                    "% Matthews CISDT norm, 1-RDM, and 2-RDM",
+                    f"% Matthews {method_label} norm, 1-RDM, and 2-RDM",
                     matthews_rdms_to_latex(rdms),
                 )
             )
@@ -169,11 +240,11 @@ def main() -> None:
     else:
         args.output_dir.mkdir(parents=True, exist_ok=True)
         filenames = {
-            "metric": "matthews_cisdt_metric.tex",
-            "sigma": "matthews_cisdt_sigma.tex",
-            "one-rdm": "matthews_cisdt_one_rdm.tex",
-            "two-rdm": "matthews_cisdt_two_rdm.tex",
-            "rdm": "matthews_cisdt_rdms.tex",
+            "metric": f"matthews_{args.method}_metric.tex",
+            "sigma": f"matthews_{args.method}_sigma.tex",
+            "one-rdm": f"matthews_{args.method}_one_rdm.tex",
+            "two-rdm": f"matthews_{args.method}_two_rdm.tex",
+            "rdm": f"matthews_{args.method}_rdms.tex",
         }
         for section in sections:
             destination = args.output_dir / filenames[section]
