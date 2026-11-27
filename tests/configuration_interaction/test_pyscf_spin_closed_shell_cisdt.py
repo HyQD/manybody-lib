@@ -17,6 +17,9 @@ from manybody_lib.configuration_interaction.closed_shell.cidt import (
     compute_sigma as closed_cidt_sigma,
 )
 from manybody_lib.configuration_interaction.closed_shell.cidt import (
+    compute_sigma_optimized as closed_cidt_sigma_optimized,
+)
+from manybody_lib.configuration_interaction.closed_shell.cidt import (
     compute_two_rdm as closed_cidt_two_rdm,
 )
 from manybody_lib.configuration_interaction.closed_shell.cisdt import (
@@ -27,6 +30,9 @@ from manybody_lib.configuration_interaction.closed_shell.cisdt import (
 )
 from manybody_lib.configuration_interaction.closed_shell.cisdt import (
     compute_sigma as closed_sigma,
+)
+from manybody_lib.configuration_interaction.closed_shell.cisdt import (
+    compute_sigma_optimized as closed_sigma_optimized,
 )
 from manybody_lib.configuration_interaction.closed_shell.cisdt import (
     compute_two_rdm as closed_two_rdm,
@@ -323,7 +329,7 @@ def test_bh_sto3g_spin_and_closed_shell_cisdt_agree(
     occupied_spin = slice(0, 2 * nocc)
     virtual_spin = slice(2 * nocc, 2 * norb)
 
-    closed_values = closed_sigma(
+    closed_args = (
         e_ref,
         closed_f,
         u,
@@ -334,6 +340,21 @@ def test_bh_sto3g_spin_and_closed_shell_cisdt_agree(
         occupied,
         virtual,
     )
+    closed_values = closed_sigma(*closed_args)
+    for combine_integrals, optimize_accumulation, use_gemm in (
+        (False, False, False), (True, False, False), (True, True, False),
+        (True, True, True),
+    ):
+        optimized_values = closed_sigma_optimized(
+            *closed_args,
+            assume_symmetry=True,
+            combine_integrals=combine_integrals,
+            optimize_accumulation=optimize_accumulation,
+            use_gemm=use_gemm,
+            gemm_block_size=1 if use_gemm else None,
+        )
+        for actual, expected in zip(optimized_values, closed_values, strict=True):
+            np.testing.assert_allclose(actual, expected, atol=1e-12, rtol=1e-12)
     spin_values = spin_sigma(
         spin_e_ref,
         spin_f,
@@ -400,7 +421,7 @@ def test_bh_sto3g_spin_and_closed_shell_cidt_agree(
     virtual = slice(nocc, norb)
     occupied_spin = slice(0, 2 * nocc)
     virtual_spin = slice(2 * nocc, 2 * norb)
-    closed_values = closed_cidt_sigma(
+    closed_args = (
         e_ref,
         closed_f,
         u,
@@ -410,6 +431,21 @@ def test_bh_sto3g_spin_and_closed_shell_cidt_agree(
         occupied,
         virtual,
     )
+    closed_values = closed_cidt_sigma(*closed_args)
+    for combine_integrals, optimize_accumulation, use_gemm in (
+        (False, False, False), (True, False, False), (True, True, False),
+        (True, True, True),
+    ):
+        optimized_values = closed_cidt_sigma_optimized(
+            *closed_args,
+            assume_symmetry=True,
+            combine_integrals=combine_integrals,
+            optimize_accumulation=optimize_accumulation,
+            use_gemm=use_gemm,
+            gemm_block_size=1 if use_gemm else None,
+        )
+        for actual, expected in zip(optimized_values, closed_values, strict=True):
+            np.testing.assert_allclose(actual, expected, atol=1e-12, rtol=1e-12)
     spin_values = spin_cidt_sigma(
         spin_e_ref,
         spin_f,
