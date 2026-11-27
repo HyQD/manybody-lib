@@ -20,6 +20,13 @@ from ..manifolds.matthews import (
 )
 from ..operators import OneBodyOperator, OperatorWord, TwoBodyOperator
 from ..printers import expression_to_latex
+from ..presentation import (
+    ColumnPermutationPresentation,
+    TriplesColumnPermutationPresentation,
+    factor_column_permutation,
+    factor_triples_column_permutations,
+    triples_column_permutation_definitions,
+)
 from ..reference import reference_expectation
 from .ci import RightSigmaVector
 from .rdm import RDMBlock
@@ -58,6 +65,26 @@ class MatthewsSigmaVector:
             covariant,
             occupied_indices,
         )
+
+    def column_presentation(self, rank: int):
+        """Return a verified external-column presentation where applicable."""
+
+        if rank == 2:
+            return factor_column_permutation(
+                self[rank],
+                first_upper=virtual("a"),
+                second_upper=virtual("b"),
+                first_lower=occupied("i"),
+                second_lower=occupied("j"),
+                operator_latex=r"\widehat{\mathcal P}^{ab}_{ij}",
+            )
+        if rank == 3:
+            return factor_triples_column_permutations(
+                self[rank],
+                upper_indices=tuple(map(virtual, "abc")),
+                lower_indices=tuple(map(occupied, "ijk")),
+            )
+        return None
 
 
 @dataclass(frozen=True, slots=True)
@@ -327,6 +354,78 @@ def derive_matthews_sigma() -> MatthewsSigmaVector:
     )
 
 
+def _expression_latex_lines(
+    expression: Expression,
+    *,
+    terms_per_line: int = 4,
+) -> list[str]:
+    """Render a canonical expression as sign-preserving readable chunks."""
+
+    if not expression:
+        return ["0"]
+    lines = []
+    for start in range(0, expression.term_count, terms_per_line):
+        terms = expression.terms[start : start + terms_per_line]
+        rendered = expression_to_latex(Expression(terms))
+        if start and not rendered.startswith("-"):
+            rendered = "{}+ " + rendered
+        lines.append(rendered)
+    return lines
+
+
+def _operator_application_latex(operator: str, expression: Expression) -> str:
+    lines = _expression_latex_lines(expression)
+    if len(lines) == 1:
+        return rf"{operator}\left[ {lines[0]} \right]"
+    body = r" \\ &\quad ".join(lines)
+    return (
+        rf"{operator}\left[\begin{{aligned}}"
+        rf"& {body}"
+        rf"\end{{aligned}}\right]"
+    )
+
+
+def _presentation_latex_lines(presentation) -> list[str]:
+    lines = _expression_latex_lines(presentation.explicit)
+    if not presentation.explicit:
+        lines = []
+    if isinstance(presentation, ColumnPermutationPresentation):
+        groups = (
+            (
+                presentation.operator_latex,
+                presentation.representative,
+            ),
+        )
+    elif isinstance(presentation, TriplesColumnPermutationPresentation):
+        groups = tuple(
+            (group.operator_latex, group.representatives)
+            for group in presentation.groups
+        )
+    else:
+        raise TypeError(type(presentation).__name__)
+    for operator, representatives in groups:
+        if not representatives:
+            continue
+        rendered = _operator_application_latex(operator, representatives)
+        if lines:
+            rendered = "{}+ " + rendered
+        lines.append(rendered)
+    return lines or ["0"]
+
+
+def _align_latex(equations: list[tuple[str, list[str]]]) -> str:
+    rows = []
+    for label, bodies in equations:
+        rows.append(rf"{label} &= {bodies[0]}")
+        rows.extend(rf"&\quad {body}" for body in bodies[1:])
+    lines = [r"\begin{align}"]
+    for position, row in enumerate(rows):
+        suffix = r" \\" if position + 1 < len(rows) else ""
+        lines.append(row + suffix)
+    lines.append(r"\end{align}")
+    return "\n".join(lines)
+
+
 def matthews_sigma_to_latex(
     sigma: MatthewsSigmaVector,
     *,
@@ -340,16 +439,52 @@ def matthews_sigma_to_latex(
         r"\sigma^{ab}_{ij}",
         r"\sigma^{abc}_{ijk}",
     )
-    lines = [r"\begin{align}"]
+    equations = []
     for position, label in enumerate(labels):
-        if factor_permutations:
-            body = sigma.presentation(position).to_latex()
-        else:
-            body = expression_to_latex(sigma[position])
-        suffix = r" \\" if position + 1 < len(labels) else ""
-        lines.append(rf"{label} &= {body}{suffix}")
-    lines.append(r"\end{align}")
-    return "\n".join(lines)
+        presentation = (
+            sigma.column_presentation(position)
+            if factor_permutations
+            else None
+        )
+        bodies = (
+            _presentation_latex_lines(presentation)
+            if presentation is not None
+            else _expression_latex_lines(sigma[position])
+        )
+        equations.append((label, bodies))
+    return _align_latex(equations)
+
+
+def _equations_to_latex(equations) -> str:
+    rendered = [
+        (label, _expression_latex_lines(expression))
+        for label, expression in equations
+    ]
+    return _align_latex(rendered)
+
+
+def matthews_one_rdms_to_latex(
+    rdms: MatthewsRDMs,
+    *,
+    include_norm: bool = True,
+) -> str:
+    """Render the Matthews norm and nonzero 1-RDM blocks."""
+
+    equations = []
+    if include_norm:
+        equations.append((r"\langle\widetilde\Psi\vert\Psi\rangle", rdms.norm))
+    equations.extend((block.label, block.expression) for block in rdms.one_body)
+    return _equations_to_latex(equations)
+
+
+def matthews_two_rdms_to_latex(rdms: MatthewsRDMs) -> str:
+    """Render all independent nonzero Matthews 2-RDM blocks."""
+
+    equations = [
+        (block.label, block.expression)
+        for block in rdms.two_body
+    ]
+    return _equations_to_latex(equations)
 
 
 def matthews_rdms_to_latex(rdms: MatthewsRDMs) -> str:
@@ -358,9 +493,13 @@ def matthews_rdms_to_latex(rdms: MatthewsRDMs) -> str:
     equations = [(r"\langle\widetilde\Psi\vert\Psi\rangle", rdms.norm)]
     equations.extend((block.label, block.expression) for block in rdms.one_body)
     equations.extend((block.label, block.expression) for block in rdms.two_body)
-    lines = [r"\begin{align}"]
-    for position, (label, expression) in enumerate(equations):
-        suffix = r" \\" if position + 1 < len(equations) else ""
-        lines.append(rf"{label} &= {expression_to_latex(expression)}{suffix}")
-    lines.append(r"\end{align}")
-    return "\n".join(lines)
+    return _equations_to_latex(equations)
+
+
+def matthews_triples_permutation_definitions() -> str:
+    """Render definitions used by the factored triples sigma presentation."""
+
+    return triples_column_permutation_definitions(
+        tuple(map(virtual, "abc")),
+        tuple(map(occupied, "ijk")),
+    )

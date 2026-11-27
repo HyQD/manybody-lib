@@ -22,38 +22,45 @@ from .hjo import (
 )
 
 
-MATTHEWS_SINGLES = TensorSymbol("C1", rank=2, upper_count=1)
+MATTHEWS_SINGLES = TensorSymbol(
+    "C1",
+    rank=2,
+    upper_count=1,
+    latex_name="C",
+)
 MATTHEWS_DOUBLES = TensorSymbol(
     "C2",
     rank=4,
     upper_count=2,
     symmetries=simultaneous_column_symmetries(2),
+    latex_name="C",
 )
 MATTHEWS_TRIPLES = TensorSymbol(
     "C3",
     rank=6,
     upper_count=3,
     symmetries=simultaneous_column_symmetries(3),
+    latex_name="C",
 )
 MATTHEWS_LEFT_SINGLES = TensorSymbol(
     "Ctilde1",
     rank=2,
     upper_count=1,
-    latex_name=r"\widetilde{C}_{1}",
+    latex_name=r"\widetilde{C}",
 )
 MATTHEWS_LEFT_DOUBLES = TensorSymbol(
     "Ctilde2",
     rank=4,
     upper_count=2,
     symmetries=simultaneous_column_symmetries(2),
-    latex_name=r"\widetilde{C}_{2}",
+    latex_name=r"\widetilde{C}",
 )
 MATTHEWS_LEFT_TRIPLES = TensorSymbol(
     "Ctilde3",
     rank=6,
     upper_count=3,
     symmetries=simultaneous_column_symmetries(3),
-    latex_name=r"\widetilde{C}_{3}",
+    latex_name=r"\widetilde{C}",
 )
 
 

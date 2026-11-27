@@ -20,8 +20,11 @@ from manybody_lib.symbolic.closed_shell import (
     matthews_metric,
     matthews_hermitian_bra_substitution,
     matthews_null_projector,
+    matthews_one_rdms_to_latex,
     matthews_sigma_to_latex,
     matthews_triples_gauge_component,
+    matthews_triples_permutation_definitions,
+    matthews_two_rdms_to_latex,
     occupied,
     virtual,
 )
@@ -117,6 +120,12 @@ def test_all_matthews_rdms_match_completed_drudge_fixtures() -> None:
     )
     assert gamma_ai == conjugate_scalar_expression(gamma_ia)
 
+    one_latex = matthews_one_rdms_to_latex(generated)
+    two_latex = matthews_two_rdms_to_latex(generated)
+    assert r"\langle\widetilde\Psi\vert\Psi\rangle" in one_latex
+    assert r"\gamma^{a}_{i}" in one_latex
+    assert r"\Gamma^{ab}_{ij}" in two_latex
+
 
 def test_rdm_results_are_invariant_under_both_triples_null_gauges() -> None:
     rdms = derive_matthews_rdms()
@@ -161,10 +170,15 @@ def test_complete_sigma_is_metric_resolved_null_free_and_profiled() -> None:
 
     factored = matthews_sigma_to_latex(sigma)
     expanded = matthews_sigma_to_latex(sigma, factor_permutations=False)
+    triples_presentation = sigma.column_presentation(3)
+    assert triples_presentation.expand() == sigma[3]
+    assert triples_presentation.displayed_term_count == 59
     assert factored.startswith(r"\begin{align}")
     assert factored.endswith(r"\end{align}")
-    assert r"P(ijk)" in factored
-    assert r"P(ijk)" not in expanded
+    assert r"\widehat{\mathcal S}^{abc}_{ijk}" in factored
+    assert r"\widehat{\mathcal S}^{abc}_{ijk}" not in expanded
+    definitions = matthews_triples_permutation_definitions()
+    assert r"\widehat{\mathcal P}^{c/ab}_{k/ij}" in definitions
 
 
 def _assignment(word: OperatorWord, *, repeated: bool):

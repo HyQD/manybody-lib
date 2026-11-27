@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import itertools
+
 from manybody_lib.symbolic.closed_shell import (
     Delta,
     Expression,
@@ -9,12 +11,15 @@ from manybody_lib.symbolic.closed_shell import (
     OperatorWord,
     OrbitalDimension,
     OrbitalSpace,
+    PermutationSymmetry,
     TensorSymbol,
     Term,
     antisymmetric_group_symmetries,
     canonicalize_term,
+    factor_triples_column_permutations,
     general,
     occupied,
+    permute_expression,
     simultaneous_column_symmetries,
     virtual,
 )
@@ -186,3 +191,56 @@ def test_expression_collects_and_cancels_exact_coefficients() -> None:
         term.scale(3),
     )
     assert not Expression.from_terms((term, term.scale(-1)))
+
+
+def test_triples_column_orbit_factoring_is_exact_for_all_stabilizers() -> None:
+    upper = tuple(map(virtual, "abc"))
+    lower = tuple(map(occupied, "ijk"))
+    symbols = (
+        TensorSymbol("X6", rank=6, upper_count=3),
+        TensorSymbol(
+            "X3",
+            rank=6,
+            upper_count=3,
+            symmetries=(PermutationSymmetry((1, 0, 2, 4, 3, 5)),),
+        ),
+        TensorSymbol(
+            "X2",
+            rank=6,
+            upper_count=3,
+            symmetries=(PermutationSymmetry((1, 2, 0, 4, 5, 3)),),
+        ),
+    )
+
+    for expected_size, symbol in zip((6, 3, 2), symbols, strict=True):
+        seed = Expression.from_terms(
+            (Term(factors=(symbol(*(upper + lower)),)),)
+        )
+        orbit_terms = []
+        for permutation in itertools.permutations(range(3)):
+            substitutions = {
+                upper[position]: upper[permutation[position]]
+                for position in range(3)
+            }
+            substitutions.update(
+                {
+                    lower[position]: lower[permutation[position]]
+                    for position in range(3)
+                }
+            )
+            orbit_terms.extend(permute_expression(seed, substitutions))
+        orbit = Expression.from_terms(orbit_terms)
+        presentation = factor_triples_column_permutations(
+            orbit,
+            upper_indices=upper,
+            lower_indices=lower,
+        )
+
+        assert orbit.term_count == expected_size
+        assert presentation.displayed_term_count == 1
+        assert presentation.expand() == orbit
+        assert factor_triples_column_permutations(
+            orbit,
+            upper_indices=upper,
+            lower_indices=lower,
+        ) is presentation

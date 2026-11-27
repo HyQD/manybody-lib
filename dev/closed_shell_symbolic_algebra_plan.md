@@ -740,14 +740,20 @@ Completion record:
 - Matthews metric actions have a reversible presentation in terms of exact
   occupied-index permutation sums; every displayed form is automatically
   expanded and compared with the canonical resolved expression;
+- the triples sigma additionally factors exact simultaneous excitation-column
+  orbits using two-column, three-coset, and full-S3 presentation operators,
+  reducing 294 expanded terms to 59 displayed representatives;
 - `symbolic_derivations/closed_shell/generate_matthews_cisdt.py` prints metric,
-  sigma, and RDM LaTeX separately or together and can write current profiling
-  data as JSON;
+  sigma, 1-RDM, and 2-RDM LaTeX separately or together, can write generated
+  fragments to a directory, and can write current profiling data as JSON;
+- the generated metric, sigma, 1-RDM, and 2-RDM fragments are stored under
+  `symbolic_derivations/closed_shell/generated/` and compile successfully
+  with `amsmath`;
 - `dev/closed_shell_matthews_cisdt_profile.json` records cold-run wall time,
   peak Python allocation, and final term count for every sigma rank, the norm,
   and every RDM block on the development machine.  These observations are not
   used as timing thresholds;
-- the complete repository suite passes with 96 tests.  The same three
+- the complete repository suite passes with 97 tests.  The same three
   pre-existing legacy CI docstring escape warnings remain outside this
   milestone's scope.
 

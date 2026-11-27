@@ -19,8 +19,11 @@ from .matthews import (
     derive_matthews_rdms,
     derive_matthews_sigma,
     derive_matthews_two_rdm_block,
+    matthews_one_rdms_to_latex,
     matthews_rdms_to_latex,
     matthews_sigma_to_latex,
+    matthews_triples_permutation_definitions,
+    matthews_two_rdms_to_latex,
 )
 
 
@@ -40,9 +43,12 @@ __all__ = [
     "derive_one_rdm_block",
     "derive_right_sigma",
     "derive_two_rdm_block",
+    "matthews_one_rdms_to_latex",
     "normalize_by_norm",
     "matthews_rdms_to_latex",
     "matthews_sigma_to_latex",
+    "matthews_triples_permutation_definitions",
+    "matthews_two_rdms_to_latex",
     "rdms_to_latex",
     "right_sigma_to_latex",
 ]
